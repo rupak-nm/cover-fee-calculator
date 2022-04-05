@@ -115,3 +115,35 @@ export const NeptuneLogoText = ({ ...props }) => (
     />
   </svg>
 );
+
+export const AddBtn = ({ ...props }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="12" cy="12" r="12" fill="currentColor" />
+    <path
+      d="M5.63599 12H18.3639M11.9999 5.63604V18.364"
+      stroke="#FEFEFF"
+      strokeWidth="2"
+    />
+  </svg>
+);
+
+export const RemoveBtn = ({ ...props }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="8" cy="8" r="8" fill="currentColor" />
+    <path d="M5 5L11 11M11 5L5 11" stroke="#FEFEFE" strokeWidth="1.5" />
+  </svg>
+);
