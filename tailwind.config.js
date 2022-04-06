@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       fontSize: {
         heading: ["28px", "40px"],
+        heading2: ["23px", "29px"],
       },
       colors: {
         "prim-blue": "#01052D",
@@ -20,6 +21,7 @@ module.exports = {
         "border-gray": "#D4DFEE",
         "divider-gray": "#B0C4DB",
         "prim-border": "#4289F2",
+        "light-blue": "#9FB8E7",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -33,7 +35,11 @@ module.exports = {
       },
       spacing: {
         15: "3.75rem",
+        18: "4.5rem",
         87: "21.75rem",
+        "btn-x": "22.5px",
+        "btn-y": "16.5px",
+        "75px": "75px",
       },
     },
   },

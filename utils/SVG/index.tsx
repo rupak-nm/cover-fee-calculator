@@ -144,6 +144,10 @@ export const RemoveBtn = ({ ...props }) => (
     {...props}
   >
     <circle cx="8" cy="8" r="8" fill="currentColor" />
-    <path d="M5 5L11 11M11 5L5 11" stroke="#FEFEFE" strokeWidth="1.5" />
+    <path
+      d="M5 5L11 11M11 5L5 11"
+      stroke={props.innerFill ?? "#FEFEFE"}
+      strokeWidth="1.5"
+    />
   </svg>
 );

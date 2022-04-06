@@ -9,6 +9,8 @@ interface MultiInputFieldProps {
   label: string;
   placeholder?: string;
   helpText?: string;
+  className?: string;
+  formInputProps?: Object;
 }
 
 const MultiInputField: FC<MultiInputFieldProps> = ({
@@ -17,6 +19,8 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
   label,
   placeholder = "",
   helpText = "",
+  className = "",
+  formInputProps = {},
 }) => {
   const handleInputChange = (val: string, i: number) => {
     let arr = value;
@@ -37,7 +41,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
   };
 
   return (
-    <div>
+    <div className={classNames("", className)}>
       {value.map((val, i) => (
         <FormInput
           key={i}
@@ -47,11 +51,12 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
           setValue={(val) => handleInputChange(val, i)}
           type="text"
           helpText={i === value.length - 1 ? helpText : ""}
+          {...formInputProps}
         >
           <div
             className={classNames(
-              i === 0 && value.length !== 1 ? "h-0" : "h-6",
-              "mt-1 flex justify-end gap-x-4",
+              // i === 0 && value.length !== 1 ? "h-0" : "h-6",
+              "h-6 mt-1 flex justify-end gap-x-4",
               i === value.length - 1 ? "absolute -bottom-2 right-0" : ""
             )}
           >

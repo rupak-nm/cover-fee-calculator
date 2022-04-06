@@ -13,13 +13,14 @@ interface FormInputProps {
   name?: string;
   prefix?: string;
   suffix?: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   inputProps?: Object;
   numberFormat?: boolean;
   allowNegative?: boolean;
   allowDecimals?: boolean;
   textfield?: boolean;
+  tokenName?: string;
   inputClass?: string;
   children?: ReactNode;
 }
@@ -32,7 +33,7 @@ const FormInput: FC<FormInputProps> = ({
   helpText = "",
   id,
   name,
-  placeholder,
+  placeholder = "",
   className = "",
   inputProps = {},
   prefix = "",
@@ -41,61 +42,73 @@ const FormInput: FC<FormInputProps> = ({
   allowNegative = false,
   allowDecimals = true,
   textfield = false,
+  tokenName = null,
   inputClass = "",
   children,
 }) => {
   const { decimal, thousand } = getNumberSeparators();
 
-  const inputfieldClass =
-    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray focus:ring-2 focus:ring-prim-border border-border-gray font-poppins";
+  const inputfieldClass = classNames(
+    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray focus:ring-2 focus:ring-prim-border border-border-gray font-poppins flex-grow min-w-0",
+    tokenName && "rounded-r-none"
+  );
   return (
     <div className={`flex flex-col font-poppins relative ${className}`}>
       {label && (
-        <label className="text-sm font-semibold uppercase text-prim-blue">
+        <label className="text-sm font-semibold uppercase font-poppins text-prim-blue">
           {label}
         </label>
       )}
-      {type === "number" ? (
-        <CurrencyInput
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          defaultValue={1000}
-          decimalsLimit={2}
-          prefix={prefix}
-          suffix={suffix}
-          value={value}
-          onValueChange={(value) => setValue(value ?? "")}
-          decimalSeparator={decimal}
-          groupSeparator={thousand}
-          disableGroupSeparators={!numberFormat}
-          className={classNames(inputfieldClass, inputClass)}
-          allowNegativeValue={allowNegative}
-          allowDecimals={allowDecimals}
-          {...inputProps}
-        />
-      ) : textfield ? (
-        <textarea
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => setValue(e.target.value ?? "")}
-          className={classNames(inputfieldClass, "h-40", inputClass)}
-          {...inputProps}
-        />
-      ) : (
-        <input
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => setValue(e.target.value ?? "")}
-          className={classNames(inputfieldClass, inputClass)}
-          {...inputProps}
-        />
+      <div className="flex">
+        {type === "number" ? (
+          <CurrencyInput
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            defaultValue={1000}
+            decimalsLimit={2}
+            prefix={prefix}
+            suffix={suffix}
+            value={value}
+            onValueChange={(value) => setValue(value ?? "")}
+            decimalSeparator={decimal}
+            groupSeparator={thousand}
+            disableGroupSeparators={!numberFormat}
+            className={classNames(inputfieldClass, inputClass)}
+            allowNegativeValue={allowNegative}
+            allowDecimals={allowDecimals}
+            {...inputProps}
+          />
+        ) : textfield ? (
+          <textarea
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => setValue(e.target.value ?? "")}
+            className={classNames(inputfieldClass, "h-40", inputClass)}
+            {...inputProps}
+          />
+        ) : (
+          <input
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            value={value}
+            onChange={(e) => setValue(e.target.value ?? "")}
+            className={classNames(inputfieldClass, inputClass)}
+            {...inputProps}
+          />
+        )}
+        {tokenName && (
+          <div className="px-6 py-4 mt-2 text-white rounded-r-lg bg-prim-blue">
+            {tokenName}
+          </div>
+        )}
+      </div>
+      {helpText && (
+        <p className="pt-1 text-xs font-poppins text-text-gray">{helpText}</p>
       )}
-      {helpText && <p className="pt-1 text-xs text-text-gray">{helpText}</p>}
       {children ?? <></>}
     </div>
   );
