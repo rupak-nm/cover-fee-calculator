@@ -6,6 +6,8 @@ import { RegularButton } from "@components/RegularButton";
 import { TagsInput } from "@components/TagsInput";
 import { TagsSelect } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
+import { Calculator } from "@svg";
+import Link from "next/link";
 import { FC, FormEvent, useState } from "react";
 
 interface FormData {
@@ -149,9 +151,16 @@ export const CreateCoverForm: FC = () => {
         <Divider className="mt-12" />
 
         <div className="mt-10">
-          <h2 className="font-semibold text-heading2 text-prim-blue">
-            Fine Tune the Premium Pricing
-          </h2>
+          <div className="flex items-center">
+            <h2 className="font-semibold text-heading2 text-prim-blue">
+              Fine Tune the Premium Pricing
+            </h2>
+            <Link href={"/calculator"} passHref>
+              <a target={"_blank"}>
+                <Calculator width="24" height="24" className="ml-2" />
+              </a>
+            </Link>
+          </div>
           <div className="grid gap-8 mt-6 md:grid-cols-2">
             <FormInput
               label="Floor Rate"
@@ -159,6 +168,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.floorRate}
               setValue={(val) => handleInputChange("floorRate", val)}
               helpText="Enter the policy floor rate."
+              numberFormat={false}
             />
             <FormInput
               label="Ceiling Rate"
@@ -166,6 +176,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.ceilingRate}
               setValue={(val) => handleInputChange("ceilingRate", val)}
               helpText="Enter the policy ceiling rate."
+              numberFormat={false}
             />
           </div>
         </div>
