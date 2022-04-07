@@ -1,6 +1,6 @@
 import { RemoveBtn } from "@svg";
 import { classNames } from "@utils/functions";
-import { ChangeEvent, FC, KeyboardEventHandler, useState } from "react";
+import { ChangeEvent, FC, KeyboardEventHandler, useRef, useState } from "react";
 
 interface TagsInputProps {
   label: string;
@@ -21,10 +21,13 @@ export const TagsInput: FC<TagsInputProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const removeTags = (index: number) => {
     const arr = value;
     arr.splice(index, 1);
     setValue(arr);
+    inputRef.current?.focus();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +89,7 @@ export const TagsInput: FC<TagsInputProps> = ({
             className={classNames(
               "text-h4 block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
             )}
+            ref={inputRef}
           />
         </ul>
       </div>

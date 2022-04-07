@@ -151,3 +151,16 @@ export const RemoveBtn = ({ ...props }) => (
     />
   </svg>
 );
+
+export const DownArrow = ({ ...props }) => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 9 5"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M1 0.5L4.5 3.5L8 0.5" stroke="currentColor" />
+  </svg>
+);

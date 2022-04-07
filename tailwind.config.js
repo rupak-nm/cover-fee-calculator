@@ -36,6 +36,9 @@ module.exports = {
       spacing: {
         15: "3.75rem",
         18: "4.5rem",
+        21: "5.25rem",
+        22: "5.5rem",
+        23: "5.75rem",
         87: "21.75rem",
         "btn-x": "22.5px",
         "btn-y": "16.5px",

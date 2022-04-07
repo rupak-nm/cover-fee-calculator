@@ -4,11 +4,42 @@ import FormInput from "@components/FormInput";
 import { MultiInputField } from "@components/MulitInputField";
 import { RegularButton } from "@components/RegularButton";
 import { TagsInput } from "@components/TagsInput";
+import { TagsSelect } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
 import { FC, FormEvent, useState } from "react";
 
+interface FormData {
+  coverName: string;
+  tags: string[];
+  coverDescription: string;
+  coverRules: string;
+  socialProfiles: string[];
+  networkList: string[];
+  floorRate: string;
+  ceilingRate: string;
+  reportingPeriod: string;
+  cooldownPeriod: string;
+  claimPeriod: string;
+  minimumStake: string;
+  resolutionResource: string[];
+  npmStake: string;
+  reassuranceAmount: string;
+}
+
+const BlockchainList = [
+  "Ethereum",
+  "IBM Blockchain",
+  "Hyperledger Fabric",
+  "Hyperledger Sawtooth",
+  "R3 Corda",
+  "Tezos",
+  "EOSIO",
+  "Stellar",
+  "ConsenSys Quorum",
+];
+
 export const CreateCoverForm: FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     coverName: "",
     tags: [],
     coverDescription: "",
@@ -37,7 +68,7 @@ export const CreateCoverForm: FC = () => {
   };
 
   const handleInputChange = (
-    fieldName: string,
+    fieldName: keyof FormData,
     fieldValue: string | string[]
   ) => {
     // console.log({ fieldName, fieldValue });
@@ -46,6 +77,17 @@ export const CreateCoverForm: FC = () => {
 
   const handleTokenApproval = (tokenName: string, approved: boolean) => {
     setTokensApproved((val) => ({ ...val, [tokenName]: approved }));
+  };
+
+  const period = {
+    reporting: parseInt(formData.reportingPeriod || "0"),
+    resolution:
+      parseInt(formData.reportingPeriod || "0") +
+      parseInt(formData.cooldownPeriod || "0"),
+    claim:
+      parseInt(formData.reportingPeriod || "0") +
+      parseInt(formData.cooldownPeriod || "0") +
+      parseInt(formData.claimPeriod || "0"),
   };
 
   return (
@@ -76,12 +118,12 @@ export const CreateCoverForm: FC = () => {
             textfield
           />
 
-          <TagsInput
+          <TagsSelect
+            itemList={BlockchainList}
             label="Blockchain Network List"
             value={formData.networkList}
             placeholder="Enter the list of blockchain networks your app supports."
             setValue={(val) => handleInputChange("networkList", val)}
-            helpText={"Enter a comma (,) after each item."}
           />
 
           <FormInput
@@ -176,19 +218,26 @@ export const CreateCoverForm: FC = () => {
           <VerticalTimeline
             items={[
               {
-                innerLabel: `Day ${formData.reportingPeriod || "0"}`,
-                name: "reporting",
+                innerLabel: "Day 0",
+                name: "Start",
+                periodInfo: "Reporting Period",
               },
               {
-                innerLabel: `Day ${formData.claimPeriod || "0"}`,
-                name: "claim",
+                innerLabel: `Day ${period.reporting}`,
+                name: "Reporting End",
+                periodInfo: "Cool down Period",
               },
               {
-                innerLabel: `Day ${formData.cooldownPeriod || "0"}`,
-                name: "resolution",
+                innerLabel: `Day ${period.resolution}`,
+                name: "Resolution End",
+                periodInfo: "Claim Period",
+              },
+              {
+                innerLabel: `Day ${period.claim}`,
+                name: "Claim End",
               },
             ]}
-            className="max-w-screen-sm mt-10"
+            className="max-w-screen-md mt-10"
           />
 
           <MultiInputField
@@ -196,7 +245,7 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("resolutionResource", val)}
             label="Resolution Resource"
             helpText="Press the (+) to add more."
-            className="mt-18"
+            className="mt-20"
             placeholder="https://example.com/docs/123"
           />
         </div>

@@ -3,7 +3,7 @@ import { FC, Fragment } from "react";
 
 interface VerticalTimelineProps {
   className?: string;
-  items: { name: string; innerLabel: string }[];
+  items: { name: string; innerLabel: string; periodInfo?: string }[];
 }
 
 export const VerticalTimeline: FC<VerticalTimelineProps> = ({
@@ -12,7 +12,7 @@ export const VerticalTimeline: FC<VerticalTimelineProps> = ({
 }) => {
   return (
     <div className={classNames("flex items-center justify-between", className)}>
-      {items.map(({ name, innerLabel }, idx) => (
+      {items.map(({ name, innerLabel, periodInfo }, idx) => (
         <Fragment key={idx}>
           <div className="relative">
             <div
@@ -27,13 +27,17 @@ export const VerticalTimeline: FC<VerticalTimelineProps> = ({
             >
               <span className="text-sm font-poppins">{innerLabel}</span>
             </div>
-            <span className="absolute w-full text-sm text-center -bottom-8 font-poppins text-text-prim">
+            <span className="absolute w-full text-sm text-center top-21 font-poppins text-text-prim">
               {name}
             </span>
           </div>
 
           {idx !== items.length - 1 && (
-            <div className="flex-grow h-1 bg-text-prim"></div>
+            <div className="flex-grow h-1 bg-text-prim relative">
+              <span className="absolute w-full text-center transform -translate-y-6 text-sm font-poppins text-blue-700 hidden sm:block">
+                {periodInfo ?? ""}
+              </span>
+            </div>
           )}
         </Fragment>
       ))}
