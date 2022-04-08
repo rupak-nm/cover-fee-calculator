@@ -13,6 +13,10 @@ module.exports = {
       fontSize: {
         heading: ["28px", "40px"],
         heading2: ["23px", "29px"],
+        xxs: ["10px", "8px"],
+      },
+      borderRadius: {
+        big: "0.625rem",
       },
       colors: {
         "prim-blue": "#01052D",
