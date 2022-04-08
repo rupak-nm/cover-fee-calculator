@@ -18,7 +18,10 @@
     "paths": {
       "@components/*": ["components/*"],
       "@svg": ["utils/SVG/index.tsx"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@wallet/*": ["lib/connect-wallet/*"],
+      "@modal/*": ["lib/modal/*"],
+      "@config/*": ["config/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

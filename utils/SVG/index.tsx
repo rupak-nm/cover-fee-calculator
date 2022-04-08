@@ -199,3 +199,56 @@ export const Calculator = ({ ...props }) => (
     </g>
   </svg>
 );
+
+export const AccountBalanceWalletIcon = (props: any) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    {...props}
+  >
+    <path d="M0 0h24v24H0V0z" fill="none" />
+    <path d="M21 7.28V5c0-1.1-.9-2-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-2.28A2 2 0 0 0 22 15V9a2 2 0 0 0-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z" />
+    <circle cx={16} cy={12} r={1.5} />
+  </svg>
+);
+
+export const CloseIcon = (props: any) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+    <path d="M0 0h24v24H0V0z" fill="none" />
+    <path
+      d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const CopyIcon = (props: any) => {
+  return (
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path
+        d="M10.6666 0.666992H2.66659C1.93325 0.666992 1.33325 1.26699 1.33325 2.00033V11.3337H2.66659V2.00033H10.6666V0.666992ZM12.6666 3.33366H5.33325C4.59992 3.33366 3.99992 3.93366 3.99992 4.66699V14.0003C3.99992 14.7337 4.59992 15.3337 5.33325 15.3337H12.6666C13.3999 15.3337 13.9999 14.7337 13.9999 14.0003V4.66699C13.9999 3.93366 13.3999 3.33366 12.6666 3.33366ZM12.6666 14.0003H5.33325V4.66699H12.6666V14.0003Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+};
+
+export const CheckCircleIcon = (props: any) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 24 24 "
+    {...props}
+  >
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M22 5.18 10.59 16.6l-4.24-4.24 1.41-1.41 2.83 2.83 10-10L22 5.18zm-2.21 5.04c.13.57.21 1.17.21 1.78 0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8c1.58 0 3.04.46 4.28 1.25l1.44-1.44A9.9 9.9 0 0 0 12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10c0-1.19-.22-2.33-.6-3.39l-1.61 1.61z" />
+  </svg>
+);
+
+export const OpenInNewIcon = (props: any) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
+    <path d="M0 0h24v24H0V0z" fill="none" />
+    <path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+  </svg>
+);

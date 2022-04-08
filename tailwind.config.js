@@ -2,6 +2,7 @@ module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     fontFamily: {
@@ -22,6 +23,7 @@ module.exports = {
         "divider-gray": "#B0C4DB",
         "prim-border": "#4289F2",
         "light-blue": "#9FB8E7",
+        "728FB2": "#728FB2",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
