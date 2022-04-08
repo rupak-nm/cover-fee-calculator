@@ -34,7 +34,7 @@ export const VerticalTimeline: FC<VerticalTimelineProps> = ({
 
           {idx !== items.length - 1 && (
             <div className="flex-grow h-1 bg-text-prim relative">
-              <span className="absolute w-full text-center transform -translate-y-6 text-sm font-poppins text-blue-700 hidden sm:block">
+              <span className="absolute w-full text-center transform -translate-y-6 text-sm font-poppins text-gray-600 italic hidden sm:block">
                 {periodInfo ?? ""}
               </span>
             </div>

@@ -30,14 +30,20 @@ interface FormData {
 
 const BlockchainList = [
   "Ethereum",
-  "IBM Blockchain",
-  "Hyperledger Fabric",
-  "Hyperledger Sawtooth",
-  "R3 Corda",
-  "Tezos",
-  "EOSIO",
+  "BNB",
+  "Solana",
+  "Terra",
+  "Cardano",
+  "Avalanche",
+  "Polkadot",
+  "NEAR Protocol",
+  "Polygon",
+  "Chainlink",
+  "TRON",
+  "Ethereum Classic",
+  "Algorand",
   "Stellar",
-  "ConsenSys Quorum",
+  "VeChain",
 ];
 
 export const CreateCoverForm: FC = () => {
