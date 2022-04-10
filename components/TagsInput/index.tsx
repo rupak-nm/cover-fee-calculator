@@ -35,7 +35,8 @@ export const TagsInput: FC<TagsInputProps> = ({
     const separatorRegex = new RegExp("^.+,\\s*$");
     if (val.match(separatorRegex)) {
       let newTag = val.trim();
-      newTag = newTag.substring(0, newTag.length - 1);
+      newTag = newTag.substring(0, newTag.length - 1).trim();
+      if (!newTag) return;
       const arr = [...value, newTag];
       setValue(arr);
       setInputValue("");

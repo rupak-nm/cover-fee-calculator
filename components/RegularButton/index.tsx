@@ -20,7 +20,7 @@ export const RegularButton: FC<ApproveButtonProps> = ({
     <button
       className={classNames(
         "bg-text-prim rounded-lg text-white px-btn-x py-btn-y font-poppins font-semibold uppercase",
-        disabled && "opacity-75",
+        disabled && "opacity-75 cursor-not-allowed",
         className
       )}
       onClick={onClick}

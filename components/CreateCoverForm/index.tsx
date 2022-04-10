@@ -7,8 +7,9 @@ import { TagsInput } from "@components/TagsInput";
 import { TagsSelect } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
 import { Calculator } from "@svg";
+import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
 import Link from "next/link";
-import { FC, FormEvent, useState } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 
 interface FormData {
   coverName: string;
@@ -70,6 +71,55 @@ export const CreateCoverForm: FC = () => {
     dai: false,
   });
   const [tosApproved, setTosApproved] = useState(false);
+
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  useEffect(() => {
+    const {
+      coverName,
+      tags,
+      coverDescription,
+      coverRules,
+      socialProfiles,
+      networkList,
+      floorRate,
+      ceilingRate,
+      reportingPeriod,
+      cooldownPeriod,
+      claimPeriod,
+      minimumStake,
+      resolutionResource,
+      npmStake,
+      reassuranceAmount,
+    } = formData;
+    if (
+      isEmptyVariable(
+        coverName,
+        coverDescription,
+        coverRules,
+        floorRate,
+        ceilingRate,
+        reportingPeriod,
+        cooldownPeriod,
+        claimPeriod,
+        minimumStake,
+        npmStake,
+        reassuranceAmount,
+        tosApproved
+      )
+    )
+      return setSubmitDisabled(true);
+
+    if (!tags.length || !networkList.length) return setSubmitDisabled(true);
+
+    if (
+      (socialProfiles.length && allNullItemsArray(socialProfiles)) ||
+      (resolutionResource.length && allNullItemsArray(resolutionResource))
+    )
+      return setSubmitDisabled(true);
+
+    setSubmitDisabled(false);
+  }, [formData, tosApproved]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -319,7 +369,12 @@ export const CreateCoverForm: FC = () => {
           </label>
         </div>
 
-        <RegularButton text="Create Cover" type="submit" className="mt-8" />
+        <RegularButton
+          text="Create Cover"
+          type="submit"
+          className="mt-8"
+          disabled={submitDisabled}
+        />
       </form>
     </div>
   );
