@@ -1,18 +1,19 @@
 import FormInput from "@components/FormInput";
 import { RegularButton } from "@components/RegularButton";
 import { classNames } from "@utils/functions";
-import { FC } from "react";
+import { FC, ReactChild } from "react";
 
 interface ApproveTokenInputProps {
   label: string;
   tokenName: string;
   value: string;
   setValue: (val: string) => any;
-  approved: boolean;
-  onApproved: (approved: boolean) => any;
+  handleCLick: Function;
+  disabled?: boolean;
   placeholer?: string;
-  helpText?: string;
+  helpText?: string | ReactChild;
   className?: string;
+  btnText?: string;
 }
 
 export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
@@ -20,11 +21,12 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
   tokenName,
   value,
   setValue,
-  approved,
-  onApproved,
+  handleCLick,
+  disabled = false,
   placeholer = "",
   helpText = "",
   className = "",
+  btnText,
 }) => {
   return (
     <div className={classNames(className)}>
@@ -37,9 +39,10 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
         tokenName={tokenName}
       />
       <RegularButton
-        text={"Approve " + tokenName}
+        text={btnText ?? "Approve " + tokenName}
         className="mt-6"
-        onClick={() => onApproved(true)}
+        onClick={(e) => handleCLick(e)}
+        disabled={disabled}
       />
     </div>
   );

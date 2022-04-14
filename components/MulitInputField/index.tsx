@@ -7,10 +7,11 @@ interface MultiInputFieldProps {
   value: string[];
   setValue: (values: string[]) => any;
   label: string;
-  placeholder?: string;
+  placeholder?: string[] | string;
   helpText?: string;
   className?: string;
   formInputProps?: Object;
+  maxFields?: number;
 }
 
 const MultiInputField: FC<MultiInputFieldProps> = ({
@@ -21,6 +22,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
   helpText = "",
   className = "",
   formInputProps = {},
+  maxFields = Infinity,
 }) => {
   const handleInputChange = (val: string, i: number) => {
     let arr = value;
@@ -46,7 +48,9 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
         <FormInput
           key={i}
           label={i === 0 ? label : ""}
-          placeholder={placeholder}
+          placeholder={
+            typeof placeholder === "string" ? placeholder : placeholder[i]
+          }
           value={val}
           setValue={(val) => handleInputChange(val, i)}
           type="text"
@@ -65,7 +69,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
                 <RemoveBtn className="text-red-600" />
               </button>
             )}
-            {i === value.length - 1 && (
+            {i === value.length - 1 && i < maxFields - 1 && (
               <button onClick={handleAddClick}>
                 <AddBtn className="text-prim-blue" />
               </button>

@@ -21,6 +21,7 @@
       "@utils/*": ["utils/*"],
       "@wallet/*": ["lib/connect-wallet/*"],
       "@modal/*": ["lib/modal/*"],
+      "@toast/*": ["lib/toast/*"],
       "@config/*": ["config/*"]
     }
   },

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactChild, ReactNode } from "react";
 import { getNumberSeparators } from "@utils/formatting";
 import CurrencyInput from "react-currency-input-field";
 import { classNames } from "@utils/functions";
@@ -8,7 +8,7 @@ interface FormInputProps {
   value: string;
   setValue: (val: string) => any;
   type?: string;
-  helpText?: string;
+  helpText?: string | ReactChild;
   id?: string;
   name?: string;
   prefix?: string;

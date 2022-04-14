@@ -7,7 +7,12 @@ import { TagsInput } from "@components/TagsInput";
 import { TagsSelect } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
 import { Calculator } from "@svg";
+import { useAppConstants } from "@utils/app-constants/context";
 import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
+import { convertFromUnits } from "@utils/functions/bn";
+import { useCreateCover } from "@utils/hooks/useCreateCover";
+import { useTokenSymbol } from "@utils/hooks/useTokenSymbol";
+import { formatCurrency } from "@utils/methods";
 import Link from "next/link";
 import { FC, FormEvent, useEffect, useState } from "react";
 
@@ -16,6 +21,7 @@ interface FormData {
   tags: string[];
   coverDescription: string;
   coverRules: string;
+  coverExclusions: string;
   socialProfiles: string[];
   networkList: string[];
   floorRate: string;
@@ -47,24 +53,27 @@ const BlockchainList = [
   "VeChain",
 ];
 
+const initialFormData = {
+  coverName: "",
+  tags: [],
+  coverDescription: "",
+  coverRules: "",
+  coverExclusions: "",
+  socialProfiles: [""],
+  networkList: [],
+  floorRate: "",
+  ceilingRate: "",
+  reportingPeriod: "",
+  cooldownPeriod: "",
+  claimPeriod: "",
+  minimumStake: "",
+  resolutionResource: [""],
+  npmStake: "",
+  reassuranceAmount: "",
+};
+
 export const CreateCoverForm: FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    coverName: "",
-    tags: [],
-    coverDescription: "",
-    coverRules: "",
-    socialProfiles: [""],
-    networkList: [],
-    floorRate: "",
-    ceilingRate: "",
-    reportingPeriod: "",
-    cooldownPeriod: "",
-    claimPeriod: "",
-    minimumStake: "",
-    resolutionResource: [""],
-    npmStake: "",
-    reassuranceAmount: "",
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   const [tokensApproved, setTokensApproved] = useState({
     npm: false,
@@ -73,6 +82,50 @@ export const CreateCoverForm: FC = () => {
   const [tosApproved, setTosApproved] = useState(false);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const {
+    npmApproving,
+    npmApproved,
+    npmBalance,
+    // npmBalanceLoading,
+
+    reApproving,
+    reApproved,
+    reTokenBalance,
+    // reTokenBalanceLoading,
+
+    coverMinStake,
+    error,
+
+    handleReTokenApprove,
+    handleNPMTokenApprove,
+  } = useCreateCover({
+    coverKey: "asds",
+    reValue: formData.reassuranceAmount,
+    npmValue: formData.npmStake,
+  });
+
+  const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
+  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+
+  const balance = {
+    npm: formatCurrency(
+      parseFloat(convertFromUnits(npmBalance).toString()),
+      npmTokenSymbol,
+      true
+    ).short,
+    dai: formatCurrency(
+      parseFloat(convertFromUnits(reTokenBalance).toString()),
+      liquidityTokenSymbol,
+      true
+    ).short,
+    minStake: formatCurrency(
+      parseFloat(convertFromUnits(coverMinStake).toString()),
+      npmTokenSymbol,
+      true
+    ).short,
+  };
 
   useEffect(() => {
     const {
@@ -105,7 +158,9 @@ export const CreateCoverForm: FC = () => {
         minimumStake,
         npmStake,
         reassuranceAmount,
-        tosApproved
+        tosApproved,
+        npmApproved,
+        reApproved
       )
     )
       return setSubmitDisabled(true);
@@ -119,7 +174,7 @@ export const CreateCoverForm: FC = () => {
       return setSubmitDisabled(true);
 
     setSubmitDisabled(false);
-  }, [formData, tosApproved]);
+  }, [formData, tosApproved, npmApproved, reApproved]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -131,10 +186,15 @@ export const CreateCoverForm: FC = () => {
   ) => {
     // console.log({ fieldName, fieldValue });
     setFormData((val) => ({ ...val, [fieldName]: fieldValue }));
-  };
 
-  const handleTokenApproval = (tokenName: string, approved: boolean) => {
-    setTokensApproved((val) => ({ ...val, [tokenName]: approved }));
+    enum ds {
+      a,
+      b,
+      c,
+      d,
+      e,
+    }
+    console.log({ ds });
   };
 
   const period = {
@@ -154,7 +214,7 @@ export const CreateCoverForm: FC = () => {
         <div className="flex flex-col gap-6">
           <FormInput
             label="Cover name"
-            placeholder="Enter your cover name"
+            placeholder="Enter your cover name" // max 31 characters
             value={formData.coverName}
             setValue={(val) => handleInputChange("coverName", val)}
             type="text"
@@ -193,6 +253,16 @@ export const CreateCoverForm: FC = () => {
             textfield
             inputClass="h-87"
           />
+
+          <FormInput
+            label="Cover Exclusions"
+            placeholder="Enter cover exclusions"
+            value={formData.coverExclusions}
+            setValue={(val) => handleInputChange("coverExclusions", val)}
+            type="text"
+            textfield
+            inputClass="h-87"
+          />
         </div>
 
         <MultiInputField
@@ -201,7 +271,19 @@ export const CreateCoverForm: FC = () => {
           label="Social Profiles"
           helpText="Press the (+) to add more."
           className="mt-12"
-          placeholder="https://twitter.com/profile_url"
+          placeholder={[
+            "Enter website link",
+            "Enter documentation link",
+            "Enter telegram link",
+            "Enter twitter link",
+            "Enter github link",
+            "Enter facebook link",
+            "Enter blog link",
+            "Enter discord link",
+            "Enter linkedin link",
+            "Enter slack link",
+          ]}
+          maxFields={10}
         />
 
         <Divider className="mt-12" />
@@ -326,24 +408,60 @@ export const CreateCoverForm: FC = () => {
           <ApproveTokenInput
             label="Npm Stake"
             placeholer="0.00"
-            helpText="Enter NPM token stake. 1,000 NPM Fee. Min: 5,000 NPM."
+            helpText={
+              <span className="text-sm">
+                Balance: {balance.npm}
+                <br />
+                Minimum Stake: {balance.minStake}
+                {error.npm && (
+                  <>
+                    <br />
+                    <span className="text-red-500">{error.npm}</span>
+                  </>
+                )}
+              </span>
+            }
             value={formData.npmStake}
             setValue={(val) => handleInputChange("npmStake", val)}
             tokenName="NPM"
-            approved={tokensApproved.npm}
-            onApproved={(isApproved) => handleTokenApproval("npm", isApproved)}
+            disabled={npmApproved || npmApproving || Boolean(error.npm)}
+            handleCLick={() => handleNPMTokenApprove()}
             className="mt-6"
+            btnText={
+              npmApproved
+                ? "Approved"
+                : npmApproving
+                ? "Approving NPM"
+                : undefined
+            }
           />
           <ApproveTokenInput
             label="Reassurance Amount"
             placeholer="0.00"
-            helpText="Enter NPM token stake. 1,000 NPM Fee. Min: 5,000 NPM."
+            helpText={
+              <span className="text-sm">
+                Balance: {balance.dai}
+                {error.dai && (
+                  <>
+                    <br />
+                    <span className="text-red-500">{error.dai}</span>
+                  </>
+                )}
+              </span>
+            }
             value={formData.reassuranceAmount}
             setValue={(val) => handleInputChange("reassuranceAmount", val)}
             tokenName="DAI"
-            approved={tokensApproved.dai}
-            onApproved={(isApproved) => handleTokenApproval("dai", isApproved)}
+            disabled={reApproved || reApproving || Boolean(error.dai)}
+            handleCLick={() => handleReTokenApprove()}
             className="mt-12"
+            btnText={
+              reApproved
+                ? "Approved"
+                : reApproving
+                ? "Approving DAI"
+                : undefined
+            }
           />
         </div>
 
