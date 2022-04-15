@@ -3,12 +3,14 @@ import { classNames } from "@utils/functions";
 import { useClickOutside } from "@utils/hooks/useClickOutside";
 import { ChangeEvent, FC, KeyboardEventHandler, useRef, useState } from "react";
 
+export type TagValue = { name: string; [key: string]: any };
+
 interface TagsSelectProps {
   label: string;
-  value: string[];
-  setValue: (val: string[]) => any;
+  value: TagValue[];
+  setValue: (val: TagValue[]) => any;
   className?: string;
-  itemList: string[];
+  itemList: TagValue[];
   placeholder?: string;
   helpText?: string;
 }
@@ -30,11 +32,20 @@ export const TagsSelect: FC<TagsSelectProps> = ({
   const divRef = useRef(null);
   useClickOutside(divRef, () => setOpen(false));
 
-  const filterList = (list: string[], query: string) => {
-    const filteredList: string[] = [];
+  const arrayIncludes = (arr: Array<any>, obj: any, key: string = "name") => {
+    return arr
+      .reduce((p, c) => {
+        p.push(c[key]);
+        return p;
+      }, [])
+      .includes(obj[key]);
+  };
+
+  const filterList = (list: TagValue[], query: string) => {
+    const filteredList: TagValue[] = [];
     if (query && list.length) {
       list.map((item) => {
-        if (item.toLowerCase().includes(query.toLowerCase()))
+        if (item.name.toLowerCase().includes(query.toLowerCase()))
           filteredList.push(item);
       });
     } else return list;
@@ -48,7 +59,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     inputRef.current?.focus();
   };
 
-  const addTag = (tag: string) => {
+  const addTag = (tag: { name: string; [key: string]: string }) => {
     const arr = value;
     arr.push(tag);
     setValue(arr);
@@ -71,8 +82,8 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     if (e.key === "ArrowDown" || e.code === "ArrowDown") setOpen(true);
   };
 
-  const handleItemSelect = (item: string) => {
-    if (!value.includes(item)) addTag(item);
+  const handleItemSelect = (item: TagValue) => {
+    if (!arrayIncludes(value, item)) addTag(item);
     inputRef?.current?.focus();
   };
 
@@ -94,7 +105,9 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                 key={index}
                 className="relative flex items-center justify-between max-w-full gap-2 p-2 py-1 overflow-hidden text-sm text-white rounded-full bg-prim-blue"
               >
-                <span className="overflow-hidden text-ellipsis">{tag}</span>
+                <span className="overflow-hidden text-ellipsis">
+                  {tag.name}
+                </span>
                 <span className="ml-2 bg-white rounded-lg cursor-pointer">
                   <RemoveBtn
                     onClick={() => removeTags(index)}
@@ -150,13 +163,13 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                     key={i}
                     className={classNames(
                       "p-2",
-                      value.includes(item)
+                      arrayIncludes(value, item, "name")
                         ? "bg-black bg-opacity-5"
                         : "bg-transparent cursor-pointer hover:bg-black hover:bg-opacity-10"
                     )}
                     onClick={() => handleItemSelect(item)}
                   >
-                    {item}
+                    {item.name}
                   </li>
                 ))}
               </>

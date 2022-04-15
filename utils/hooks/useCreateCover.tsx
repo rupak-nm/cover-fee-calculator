@@ -20,9 +20,9 @@ import { getCoverCreationFee } from "@utils/helpers/getCoverCreationFee";
 import { useERC20Balance } from "./useERC20Balance";
 
 import { convertFromUnits } from "@utils/functions/bn";
+import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
 
 export const useCreateCover = ({
-  coverKey,
   reValue,
   npmValue,
 }: {
@@ -32,6 +32,7 @@ export const useCreateCover = ({
 }) => {
   const [reApproving, setReApproving] = useState(false);
   const [npmApproving, setNPMApproving] = useState(false);
+  const [creating, setCreating] = useState(false);
   const [reApproved, setReApproved] = useState<{
     curr?: string;
     prev?: string;
@@ -219,9 +220,49 @@ export const useCreateCover = ({
     }
   };
 
-  // const handleCreateCover = (coverInfo) => {
+  const handleCreateCover = async (coverInfo: ICoverInfo) => {
+    setCreating(true);
 
-  // }
+    const cleanup = () => {
+      setCreating(false);
+    };
+    const handleError = (err: any) => {
+      notifyError(err, "create cover");
+    };
+
+    const onTransactionResult = async (tx: any) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Creating Cover",
+          success: "Created Cover Successfully",
+          failure: "Could not create cover",
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    try {
+      const signerOrProvider = getProviderOrSigner(
+        library,
+        account ?? undefined,
+        networkId
+      );
+
+      const tx = await cover.createCover(
+        networkId,
+        coverInfo,
+        signerOrProvider
+      );
+
+      onTransactionResult(tx.result);
+    } catch (err) {
+      cleanup();
+      handleError(err);
+    }
+  };
 
   return {
     npmApproving,
@@ -241,5 +282,6 @@ export const useCreateCover = ({
 
     handleReTokenApprove,
     handleNPMTokenApprove,
+    handleCreateCover,
   };
 };

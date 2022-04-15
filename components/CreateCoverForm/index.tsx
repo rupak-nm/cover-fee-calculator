@@ -4,8 +4,9 @@ import FormInput from "@components/FormInput";
 import { MultiInputField } from "@components/MulitInputField";
 import { RegularButton } from "@components/RegularButton";
 import { TagsInput } from "@components/TagsInput";
-import { TagsSelect } from "@components/TagsSelect";
+import { TagsSelect, TagValue } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
+import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
 import { Calculator } from "@svg";
 import { useAppConstants } from "@utils/app-constants/context";
 import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
@@ -18,12 +19,13 @@ import { FC, FormEvent, useEffect, useState } from "react";
 
 interface FormData {
   coverName: string;
+  projectName?: string;
   tags: string[];
   coverDescription: string;
   coverRules: string;
   coverExclusions: string;
   socialProfiles: string[];
-  networkList: string[];
+  networkList: { name: string; chainId?: number }[];
   floorRate: string;
   ceilingRate: string;
   reportingPeriod: string;
@@ -36,25 +38,26 @@ interface FormData {
 }
 
 const BlockchainList = [
-  "Ethereum",
-  "BNB",
-  "Solana",
-  "Terra",
-  "Cardano",
-  "Avalanche",
-  "Polkadot",
-  "NEAR Protocol",
-  "Polygon",
-  "Chainlink",
-  "TRON",
-  "Ethereum Classic",
-  "Algorand",
-  "Stellar",
-  "VeChain",
+  { name: "Ethereum", chainId: 1 },
+  { name: "BNB", chainId: 56 },
+  { name: "Solana" },
+  { name: "Terra" },
+  { name: "Cardano" },
+  { name: "Avalanche", chainId: 43114 },
+  { name: "Polkadot" },
+  { name: "NEAR Protocol" },
+  { name: "Polygon", chainId: 137 },
+  { name: "Chainlink" },
+  { name: "TRON" },
+  { name: "Ethereum Classic" },
+  { name: "Algorand" },
+  { name: "Stellar" },
+  { name: "VeChain" },
 ];
 
 const initialFormData = {
   coverName: "",
+  projectName: "",
   tags: [],
   coverDescription: "",
   coverRules: "",
@@ -75,10 +78,6 @@ const initialFormData = {
 export const CreateCoverForm: FC = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  const [tokensApproved, setTokensApproved] = useState({
-    npm: false,
-    dai: false,
-  });
   const [tosApproved, setTosApproved] = useState(false);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -99,6 +98,7 @@ export const CreateCoverForm: FC = () => {
 
     handleReTokenApprove,
     handleNPMTokenApprove,
+    handleCreateCover,
   } = useCreateCover({
     coverKey: "asds",
     reValue: formData.reassuranceAmount,
@@ -127,7 +127,47 @@ export const CreateCoverForm: FC = () => {
     ).short,
   };
 
+  const formatData = () => {
+    const _data: any = {};
+    _data.key = formData.coverName.trim().toLowerCase().split(" ").join("-");
+    _data.coverName = formData.coverName;
+    _data.projectName = formData.projectName;
+    _data.tags = formData.tags;
+    _data.about = formData.coverDescription;
+    _data.blockchains = formData.networkList;
+    _data.rules = formData.coverRules;
+
+    _data.links = {};
+    enum links {
+      "website",
+      "documentation",
+      "telegram",
+      "twitter",
+      "github",
+      "facebook",
+      "blog",
+      "discord",
+      "linkedin",
+      "slack",
+    }
+    formData.socialProfiles.map((item, i) => (_data.links[links[i]] = item));
+
+    _data.pricingFloor = formData.floorRate;
+    _data.pricingCeiling = formData.ceilingRate;
+    _data.reportingPeriod = formData.reportingPeriod;
+    _data.cooldownPeriod = formData.cooldownPeriod;
+    _data.claimPeriod = formData.claimPeriod;
+    _data.minReportingStake = formData.minimumStake;
+    _data.resolutionSources = formData.resolutionResource;
+    _data.stakeWithFees = formData.npmStake;
+    _data.reassurance = formData.reassuranceAmount;
+    _data.initialLiquidity = "";
+
+    console.log({ ..._data });
+  };
+
   useEffect(() => {
+    console.log(formatData());
     const {
       coverName,
       tags,
@@ -168,7 +208,7 @@ export const CreateCoverForm: FC = () => {
     if (!tags.length || !networkList.length) return setSubmitDisabled(true);
 
     if (
-      (socialProfiles.length && allNullItemsArray(socialProfiles)) ||
+      (socialProfiles.length && socialProfiles[0] === "") ||
       (resolutionResource.length && allNullItemsArray(resolutionResource))
     )
       return setSubmitDisabled(true);
@@ -182,19 +222,10 @@ export const CreateCoverForm: FC = () => {
 
   const handleInputChange = (
     fieldName: keyof FormData,
-    fieldValue: string | string[]
+    fieldValue: string | string[] | TagValue[]
   ) => {
     // console.log({ fieldName, fieldValue });
     setFormData((val) => ({ ...val, [fieldName]: fieldValue }));
-
-    enum ds {
-      a,
-      b,
-      c,
-      d,
-      e,
-    }
-    console.log({ ds });
   };
 
   const period = {
@@ -217,6 +248,14 @@ export const CreateCoverForm: FC = () => {
             placeholder="Enter your cover name" // max 31 characters
             value={formData.coverName}
             setValue={(val) => handleInputChange("coverName", val)}
+            type="text"
+          />
+
+          <FormInput
+            label="Project name"
+            placeholder="Enter your project name" // max 31 characters
+            value={formData.projectName || ""}
+            setValue={(val) => handleInputChange("projectName", val)}
             type="text"
           />
 
