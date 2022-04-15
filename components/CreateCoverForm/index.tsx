@@ -1,4 +1,5 @@
 import { ApproveTokenInput } from "@components/ApproveTokenInput";
+import { Checkbox } from "@components/Checkbox";
 import Divider from "@components/Divider";
 import FormInput from "@components/FormInput";
 import { MultiInputField } from "@components/MulitInputField";
@@ -222,7 +223,7 @@ export const CreateCoverForm: FC = () => {
 
   const handleInputChange = (
     fieldName: keyof FormData,
-    fieldValue: string | string[] | TagValue[]
+    fieldValue: string | string[] | TagValue[] | boolean
   ) => {
     // console.log({ fieldName, fieldValue });
     setFormData((val) => ({ ...val, [fieldName]: fieldValue }));
@@ -505,25 +506,25 @@ export const CreateCoverForm: FC = () => {
         </div>
 
         <div className="mt-18">
-          <input
-            type={"checkbox"}
-            className="transform scale-125"
+          <Checkbox
             id="tos-checkbox"
             checked={tosApproved}
-            onChange={(e) => setTosApproved(e.target.checked)}
+            onChange={(checked) => setTosApproved(checked)}
+            label={
+              <>
+                I have read, understood, and agree to{" "}
+                <a
+                  href="https://docs.neptunemutual.com/usage/terms-of-use"
+                  target={"_blank"}
+                  rel="noreferrer"
+                  className="underline"
+                >
+                  the terms of service
+                </a>
+                .
+              </>
+            }
           />
-          <label htmlFor="tos-checkbox" className="ml-2 font-poppins">
-            I have read, understood, and agree to{" "}
-            <a
-              href="https://docs.neptunemutual.com/usage/terms-of-use"
-              target={"_blank"}
-              rel="noreferrer"
-              className="underline"
-            >
-              the terms of service
-            </a>
-            .
-          </label>
         </div>
 
         <RegularButton
