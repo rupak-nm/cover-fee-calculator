@@ -1,0 +1,41 @@
+{
+  "name": "cf-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@binance-chain/bsc-connector": "^1.0.0",
+    "@ethersproject/providers": "^5.5.1",
+    "@fontsource/poppins": "4.5.5",
+    "@fontsource/sora": "4.5.5",
+    "@headlessui/react": "1.4.1",
+    "@neptunemutual/sdk": "^0.4.2-beta",
+    "@radix-ui/react-dialog": "0.1.6",
+    "@web3-react/core": "6.1.9",
+    "@web3-react/injected-connector": "6.0.7",
+    "bignumber.js": "^9.0.2",
+    "highcharts": "9.1.2",
+    "highcharts-react-official": "3.0.0",
+    "next": "12.1.2",
+    "react": "17.0.2",
+    "react-currency-input-field": "3.6.0",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/highcharts": "^7.0.0",
+    "@types/node": "17.0.23",
+    "@types/react": "17.0.43",
+    "@types/react-dom": "17.0.14",
+    "autoprefixer": "^10.4.4",
+    "eslint": "8.12.0",
+    "eslint-config-next": "12.1.2",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "typescript": "4.6.3"
+  }
+}
