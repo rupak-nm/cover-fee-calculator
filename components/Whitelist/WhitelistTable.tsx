@@ -9,9 +9,33 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNetwork } from "@/src/context/Network";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { TokenAmountSpan } from "@/components/TokenAmountSpan"; */
-import {TableWrapper} from "@/components/Table"
+import { Table, TableWrapper, TBody, THead } from "@components/Table";
+import { OpenInNewIcon } from "@svg";
+import { classNames } from "@utils/functions";
+import { useNetwork } from "@wallet/context/Network";
+import { useWeb3React } from "@web3-react/core";
+import { FC } from "react";
+import { fromNow } from "@utils/formatting/relative-time"
+import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
 
-const renderHeader = (col) => (
+interface RenderHeaderProps {
+  col: {
+    align: string,
+    name: string
+  }
+}
+interface RenderWhenProps {
+  row: {transaction: {timestamp: string;}}
+}
+interface RenderDetailsProps {
+  row: object;
+  extraData?: any;
+}
+interface RenderActionsProps {
+  row: object;
+}
+
+const renderHeader: FC<RenderHeaderProps> = (col) => (
   <th
     scope="col"
     className={classNames(
@@ -23,24 +47,23 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => (
+const renderWhen:FC<RenderWhenProps> = (row) => (
   <td
     className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
+    /* title={DateLib.toLongDateFormat(row.transaction.timestamp)} */
   >
     {fromNow(row.transaction.timestamp)}
   </td>
 );
 
-const renderDetails = (row, extraData) => (
-  <DetailsRenderer row={row} lpTokenSymbol={extraData.lpTokenSymbol} />
+
+
+const renderDetails: FC<RenderDetailsProps> = (row, extraData) => (
+  <DetailsRenderer row={row} />
 );
 
-const renderAmount = (row, extraData) => (
-  <BondAmountRenderer row={row} npmTokenSymbol={extraData.npmTokenSymbol} />
-);
 
-const renderActions = (row) => <ActionsRenderer row={row} />;
+const renderActions:FC<RenderActionsProps> = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
@@ -58,17 +81,13 @@ const columns = [
 ];
 
 export const WhitelistTable = () => {
-  const { info } = useBondInfo();
-  const { data, loading, hasMore, handleShowMore } = useBondTxs();
+  const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const { NPMTokenAddress } = useAppConstants();
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-  const lpTokenSymbol = useTokenSymbol(info.lpTokenAddress);
 
-  const { blockNumber, transactions } = data;
+  const { transactions } = data;
 
   return (
     <>
@@ -80,7 +99,6 @@ export const WhitelistTable = () => {
               isLoading={loading}
               columns={columns}
               data={transactions}
-              extraData={{ npmTokenSymbol, lpTokenSymbol }}
             ></TBody>
           ) : (
             <tbody>
@@ -109,29 +127,21 @@ export const WhitelistTable = () => {
   );
 };
 
-const DetailsRenderer = ({ row, lpTokenSymbol }) => {
+const DetailsRenderer:FC<RenderDetailsProps> = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
         <img src="/images/tokens/npm.svg" alt="npm" height={32} width={32} />
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type === "BondCreated" ? "Bonded " : "Claimed "}
-          <TokenAmountSpan
-            amountInUnits={
-              row.type === "BondCreated" ? row.lpTokenAmount : row.claimAmount
-            }
-            symbol={row.type === "BondCreated" ? lpTokenSymbol : "NPM"}
-          />
+          
+          here
         </span>
       </div>
     </td>
   );
 };
 
-const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
-  const { register } = useRegisterToken();
-  const { NPMTokenAddress } = useAppConstants();
-
+/* const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
   return (
     <td className="px-6 py-6 text-right">
       <div className="flex items-center justify-end whitespace-nowrap">
@@ -152,33 +162,17 @@ const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
       </div>
     </td>
   );
-};
+}; */
 
-const ActionsRenderer = ({ row }) => {
+const ActionsRenderer:FC<RenderActionsProps> = ({ row }) => {
   const { networkId } = useNetwork();
 
   return (
     <td className="px-6 py-6 min-w-120">
       <div className="flex items-center justify-end">
-        {/* Tooltip */}
-        <Tooltip.Root>
-          <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
-            <span className="sr-only">Timestamp</span>
-            <ClockIcon className="w-4 h-4" />
-          </Tooltip.Trigger>
-
-          <Tooltip.Content side="top">
-            <div className="max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl">
-              <p>
-                {DateLib.toLongDateFormat(row.transaction.timestamp, "UTC")}
-              </p>
-            </div>
-            <Tooltip.Arrow offset={16} className="fill-black" />
-          </Tooltip.Content>
-        </Tooltip.Root>
-
         <a
-          href={getTxLink(networkId, { hash: row.transaction.id })}
+          /* href={getTxLink(networkId, { hash: row.transaction.id })} */
+          href="#"
           target="_blank"
           rel="noreferrer noopener nofollow"
           className="p-1 text-black"

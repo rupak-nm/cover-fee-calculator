@@ -31,7 +31,7 @@ interface TBodyProps {
   data: any[],
   isLoading: boolean,
   extraData: object,
-  RowWrapper :FC,
+  RowWrapper : FC<any>,
 }
 
 /* interface callbackfunction {(...args: any[]) => any;} */
