@@ -23,7 +23,7 @@ interface TablePaginationProps {
 }
 
 interface THeadProps {
-  columns: any[]
+  columns: any[];
 }
 
 interface TBodyProps {
@@ -43,7 +43,7 @@ export const Table: FC<TableProps> = ({ children }) => {
 export const TableWrapper: FC<TableProps> = ({ children }) => {
   return (
     <>
-      <div className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden">
+      <div className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden px-8">
         {children}
       </div>
     </>
@@ -51,7 +51,7 @@ export const TableWrapper: FC<TableProps> = ({ children }) => {
 };
 
 export const TablePagination: FC<TablePaginationProps> = ({
-  skip = 5,
+  skip = 0,
   limit = 10,
   totalCount = 124,
   onNext,
@@ -69,7 +69,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
       <div className="flex items-center justify-end w-full p-4 border-t border-t-DAE2EB">
         <p className="p-2 opacity-40">Rows per page</p>
         <select
-          className="mx-4 rounded-lg"
+          className="mx-4 rounded-md border border-divider-gray text-xs w-12"
           value={limit.toString()}
           onChange={(ev) => updateRowCount(ev.target.value)}
         >
@@ -77,18 +77,18 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <option value="25">25</option>
           <option value="50">50</option>
         </select>
-        <p className="p-2 opacity-40">
+        <p className="p-2 opacity-40 text-sm">
           {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
         </p>
         <button
-          className="p-2 mx-2 disabled:opacity-25 disabled:cursor-not-allowed"
+          className="p-2 ml-2 disabled:opacity-25 disabled:cursor-not-allowed"
           onClick={onPrev}
           disabled={!hasPrev}
         >
           <ChevronLeftLgIcon width={16} height={16} />
         </button>
         <button
-          className="p-2 disabled:opacity-25 disabled:cursor-not-allowed"
+          className="p-2 cursor-pointer"
           onClick={onNext}
           disabled={!hasNext}
         >
@@ -101,12 +101,10 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
 export const THead: FC<THeadProps> = ({ columns }) => {
   return (
-    <thead className="text-white bg-black rounded-sm">
+    <thead className="text-text-gray bg-FEFEFF rounded-sm">
       <tr>
         {columns.map((col, idx) => {
-          return
-          <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
-          
+          return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;  
         })}
       </tr>
     </thead>

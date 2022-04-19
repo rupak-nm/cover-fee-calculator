@@ -28,6 +28,9 @@ module.exports = {
         "prim-border": "#4289F2",
         "light-blue": "#9FB8E7",
         "728FB2": "#728FB2",
+        FEFEFF: "#FEFEFF",
+        DAE2EB: "#DAE2EB",
+        EEEEEE: "#EEEEEE",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -49,6 +52,9 @@ module.exports = {
         "btn-x": "22.5px",
         "btn-y": "16.5px",
         "75px": "75px",
+      },
+      boxShadow: {
+        dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
       },
     },
   },

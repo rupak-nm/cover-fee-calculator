@@ -1,4 +1,3 @@
-
 /* import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -9,16 +8,25 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNetwork } from "@/src/context/Network";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { TokenAmountSpan } from "@/components/TokenAmountSpan"; */
-import { Table, TableWrapper, TBody, THead } from "@components/Table";
+import {
+  Table,
+  TablePagination,
+  TableWrapper,
+  TBody,
+  THead,
+} from "@components/Table";
 import { OpenInNewIcon } from "@svg";
 import { classNames } from "@utils/functions";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
-import { FC } from "react";
-import { fromNow } from "@utils/formatting/relative-time"
+import { FC, useState } from "react";
+import { fromNow } from "@utils/formatting/relative-time";
 import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
+import { Checkbox } from "@components/Checkbox";
+import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
+import DropDown, { BulkImportModal } from "@components/Dropdown";
 
-interface RenderHeaderProps {
+/* interface RenderHeaderProps {
   col: {
     align: string,
     name: string
@@ -33,13 +41,13 @@ interface RenderDetailsProps {
 }
 interface RenderActionsProps {
   row: object;
-}
+} */
 
-const renderHeader: FC<RenderHeaderProps> = (col) => (
+const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `px-6 py-6 font-bold text-sm uppercase`,
+      `py-6 font-bold text-sm uppercase border-b border-b-DAE2EB`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -47,25 +55,28 @@ const renderHeader: FC<RenderHeaderProps> = (col) => (
   </th>
 );
 
-const renderWhen:FC<RenderWhenProps> = (row) => (
+const renderWhen = (row) => (
   <td
-    className="px-6 py-6"
+    className="py-6"
     /* title={DateLib.toLongDateFormat(row.transaction.timestamp)} */
   >
-    {fromNow(row.transaction.timestamp)}
+    {row.transaction.timestamp}
   </td>
 );
 
+const renderDetails = (row, extraData) => <DetailsRenderer row={row} />;
 
+const renderActions = (row) => <ActionsRenderer row={row} />;
 
-const renderDetails: FC<RenderDetailsProps> = (row, extraData) => (
-  <DetailsRenderer row={row} />
-);
-
-
-const renderActions:FC<RenderActionsProps> = (row) => <ActionsRenderer row={row} />;
+const renderHeaderActions = (row) => <HeaderActionRenderer row={row} />;
 
 const columns = [
+  {
+    name: "",
+    align: "left",
+    renderHeader: () => renderHeaderActions(),
+    renderData: renderActions,
+  },
   {
     name: "added on",
     align: "left",
@@ -77,15 +88,16 @@ const columns = [
     align: "left",
     renderHeader,
     renderData: renderDetails,
-  }
+  },
 ];
 
 export const WhitelistTable = () => {
   const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
 
+  const [selectedRow, setSelectedRow] = useState([]);
+
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-
 
   const { transactions } = data;
 
@@ -110,77 +122,72 @@ export const WhitelistTable = () => {
             </tbody>
           )}
         </Table>
-        {hasMore && (
-          <button
-            disabled={loading}
-            className={classNames(
-              "block w-full p-5 border-t border-DAE2EB",
-              !loading && "hover:bg-F4F8FC"
-            )}
-            onClick={handleShowMore}
-          >
-            {loading && transactions.length > 0 ? "loading..." : "Show More"}
-          </button>
-        )}
+        <TablePagination />
       </TableWrapper>
     </>
   );
 };
 
-const DetailsRenderer:FC<RenderDetailsProps> = ({ row }) => {
+const DetailsRenderer = ({ row }) => {
   return (
-    <td className="px-6 py-6">
+    <td className=" py-6">
       <div className="flex items-center">
-        <img src="/images/tokens/npm.svg" alt="npm" height={32} width={32} />
-        <span className="pl-4 text-left whitespace-nowrap">
-          
-          here
+        <span className="text-left whitespace-nowrap">
+          {row.transaction.accounts}
         </span>
       </div>
     </td>
   );
 };
 
-/* const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
+const ActionsRenderer = ({ row }) => {
+  const [checkedRow, setCheckedRow] = useState(false);
+
   return (
-    <td className="px-6 py-6 text-right">
-      <div className="flex items-center justify-end whitespace-nowrap">
-        <TokenAmountSpan
-          className={row.type == "BondCreated" ? "text-404040" : "text-FA5C2F"}
-          amountInUnits={
-            row.type == "BondCreated" ? row.npmToVestAmount : row.claimAmount
-          }
-          symbol={npmTokenSymbol}
+    <td className="pr-2 py-6 min-w-120">
+      <div className="flex items-center py-1 px-2">
+        <Checkbox
+          id="table-data"
+          checked={checkedRow}
+          onChange={() => setCheckedRow((prev) => !prev)}
         />
-        <button
-          className="p-1 ml-3"
-          onClick={() => register(NPMTokenAddress, npmTokenSymbol)}
-        >
-          <span className="sr-only">Add to metamask</span>
-          <AddCircleIcon className="w-4 h-4" />
-        </button>
       </div>
     </td>
   );
-}; */
+};
+const HeaderActionRenderer = ({ row }) => {
+  const [checkedRow, setCheckedRow] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-const ActionsRenderer:FC<RenderActionsProps> = ({ row }) => {
-  const { networkId } = useNetwork();
+  const handleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <td className="px-6 py-6 min-w-120">
-      <div className="flex items-center justify-end">
-        <a
-          /* href={getTxLink(networkId, { hash: row.transaction.id })} */
-          href="#"
-          target="_blank"
-          rel="noreferrer noopener nofollow"
-          className="p-1 text-black"
-        >
-          <span className="sr-only">Open in explorer</span>
-          <OpenInNewIcon className="w-4 h-4" />
-        </a>
+    <th className="pr-2 py-6 min-w-120 border-b border-b-DAE2EB">
+      <div
+        className={classNames(
+          "flex items-center  w-fit py-1 px-2",
+          showDropdown && "bg-EEEEEE rounded-md "
+        )}
+      >
+        <Checkbox
+          id="table-data"
+          checked={checkedRow}
+          onChange={() => setCheckedRow((prev) => !prev)}
+        />
+        <div className="cursor-pointer relative" onClick={handleDropdown}>
+          <ChevronDownIcon width={10} height={6} />
+          {showDropdown && <DropDown setIsOpen={setIsOpen} />}
+        </div>
       </div>
-    </td>
+      <BulkImportModal isOpen={isOpen} onClose={onClose} />
+    </th>
   );
 };

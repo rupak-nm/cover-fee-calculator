@@ -24,26 +24,26 @@ export const useWhiteListInfo = () => {
     let whitelistedMockData = [
         {
             transaction: {
-                timestamp: "0012313132",
+                timestamp: "12/12/2021  12:00:00 UTC",
                 accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545"
             }
         },
         {
             transaction: {
-                timestamp: "0012313132",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545"
+                timestamp: "12/12/2021  12:00:00 UTC",
+                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3"
             }
         },
         {
             transaction: {
-                timestamp: "0012313132",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545"
+                timestamp: "12/12/2021  12:00:00 UTC",
+                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b3ex"
             }
         },
         {
             transaction: {
-                timestamp: "0012313132",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545"
+                timestamp: "12/12/2021  12:00:00 UTC",
+                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3"
             }
         },
     ]
