@@ -1,13 +1,3 @@
-/* import { classNames } from "@/utils/classnames";
-import { useWeb3React } from "@web3-react/core";
-import { fromNow } from "@/utils/formatter/relative-time";
-import DateLib from "@/lib/date/DateLib";
-import { useBondTxs } from "@/src/hooks/useBondTxs";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useNetwork } from "@/src/context/Network";
-import { useBondInfo } from "@/src/hooks/useBondInfo";
-import { TokenAmountSpan } from "@/components/TokenAmountSpan"; */
 import {
   Table,
   TablePagination,
@@ -25,6 +15,9 @@ import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
 import { Checkbox } from "@components/Checkbox";
 import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
 import DropDown, { BulkImportModal } from "@components/Dropdown";
+import DateLib from "@date/DateLib";
+import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
+import { SearchBar } from "@components/common/SearchBar";
 
 /* interface RenderHeaderProps {
   col: {
@@ -56,11 +49,20 @@ const renderHeader = (col) => (
 );
 
 const renderWhen = (row) => (
-  <td
-    className="py-6"
-    /* title={DateLib.toLongDateFormat(row.transaction.timestamp)} */
-  >
-    {row.transaction.timestamp}
+  <td className="py-6" title={DateLib.toLongDateFormat(row.createdAtTimestamp)}>
+    {DateLib.toDateFormat(
+      row.createdAtTimestamp,
+      {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        timeZoneName: "short",
+      },
+      "UTC"
+    )}
   </td>
 );
 
@@ -100,9 +102,22 @@ export const WhitelistTable = () => {
   const { account } = useWeb3React();
 
   const { transactions } = data;
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearch = (e) => {
+    console.log("search", e);
+    setSearchValue(e.target.value);
+  };
 
   return (
     <>
+      <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
+        <SearchBar
+          searchValue={searchValue}
+          onSearchChange={(e) => handleSearch(e)}
+        />
+      </div>
+
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
@@ -130,11 +145,9 @@ export const WhitelistTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   return (
-    <td className=" py-6">
+    <td className="py-6 ">
       <div className="flex items-center">
-        <span className="text-left whitespace-nowrap">
-          {row.transaction.accounts}
-        </span>
+        <span className="text-left whitespace-nowrap">{row.account}</span>
       </div>
     </td>
   );
@@ -144,8 +157,8 @@ const ActionsRenderer = ({ row }) => {
   const [checkedRow, setCheckedRow] = useState(false);
 
   return (
-    <td className="pr-2 py-6 min-w-120">
-      <div className="flex items-center py-1 px-2">
+    <td className="py-6 pr-2 min-w-120">
+      <div className="flex items-center px-2 py-1">
         <Checkbox
           id="table-data"
           checked={checkedRow}
@@ -156,33 +169,42 @@ const ActionsRenderer = ({ row }) => {
   );
 };
 const HeaderActionRenderer = ({ row }) => {
-  const [checkedRow, setCheckedRow] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const [checkedRows, setCheckedRows] = useState([false]);
+  const handleCheckedRow = (ev) => {
+    console.log("e", ev.target.id);
+    checkedRows.map((row, idx) => {
+      if (parseInt(ev.target.id.replace(/^\D+/g, "")) === idx) {
+        let newCheckedRows = [...checkedRows];
+        newCheckedRows[idx] = !newCheckedRows[idx];
+        setCheckedRows(newCheckedRows);
+      }
+    });
+  };
   const handleDropdown = () => {
     setShowDropdown((prev) => !prev);
   };
-
-  const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
     setIsOpen(false);
   };
 
   return (
-    <th className="pr-2 py-6 min-w-120 border-b border-b-DAE2EB">
+    <th className="py-6 pr-2 border-b min-w-120 border-b-DAE2EB">
       <div
         className={classNames(
           "flex items-center  w-fit py-1 px-2",
           showDropdown && "bg-EEEEEE rounded-md "
         )}
       >
-        <Checkbox
-          id="table-data"
-          checked={checkedRow}
-          onChange={() => setCheckedRow((prev) => !prev)}
+        <TableCheckBox
+          id="table-data-0"
+          checked={checkedRows[0]}
+          onChange={(ev) => handleCheckedRow(ev)}
         />
-        <div className="cursor-pointer relative" onClick={handleDropdown}>
+        <div className="relative cursor-pointer" onClick={handleDropdown}>
           <ChevronDownIcon width={10} height={6} />
           {showDropdown && <DropDown setIsOpen={setIsOpen} />}
         </div>

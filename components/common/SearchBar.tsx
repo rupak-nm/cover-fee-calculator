@@ -18,7 +18,7 @@ export const SearchBar:FC<SearchbarProps> = ({
   return (
     <div className={classNames("flex justify-between ", containerClass)}>
       <div className={classNames("flex items-center ", searchClass)}>
-        <div className="flex items-center justify-center text-9B9B9B z-10">
+        <div className="z-10 flex items-center justify-center text-9B9B9B">
           <SearchIcon width={24} height={24} stroke={"#9b9b9b"}/>
         </div>
         <input
@@ -27,7 +27,7 @@ export const SearchBar:FC<SearchbarProps> = ({
           }
           placeholder="Search"
           value={searchValue}
-          onChange={() => onSearchChange}
+          onChange={(e) => onSearchChange(e)}
         />
 
         

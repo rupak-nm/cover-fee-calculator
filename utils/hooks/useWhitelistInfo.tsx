@@ -1,12 +1,30 @@
+import { getGraphURL } from "@config/environment";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 
 const ROWS_PER_PAGE = 50;
 
-export const useWhiteListInfo = () => {
+const getQuery = (account:any, limit:number, skip:number) => {
+    return `
+        {
+            coverUserWhitelistUpdatedEvents {
+            id
+            key
+            status
+            account
+            createdAtTimestamp
+            }
+        }
+    `
+}
 
-    const [data, setData] = useState({
+export const useWhiteListInfo = () => {
+    interface stateData{
+        whitelisted: any[]
+    }
+
+    const [data, setData] = useState<stateData>({
         whitelisted: [],
       });
 
@@ -21,43 +39,60 @@ export const useWhiteListInfo = () => {
         setItemsToSkip(0);
       }, [account]);
     
-    let whitelistedMockData = [
-        {
-            transaction: {
-                timestamp: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545"
-            }
-        },
-        {
-            transaction: {
-                timestamp: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3"
-            }
-        },
-        {
-            transaction: {
-                timestamp: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b3ex"
-            }
-        },
-        {
-            transaction: {
-                timestamp: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3"
-            }
-        },
-    ]
+    useEffect(() => {
+        if(!networkId || !account){
+            return;
+        }
 
+        const graphURL = getGraphURL(networkId);
+
+        if(!graphURL) {
+            return
+        }
+
+        setLoading(true);
+
+        fetch(graphURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+              body: JSON.stringify({
+                  query: getQuery(account, ROWS_PER_PAGE, itemsToSkip),
+              })
+        }).then((r) => r.json())
+        .then((res)=> {
+            if(res.errors || !res.data){
+                return;
+            }
+
+            const isLastPage = res.data.coverUserWhitelistUpdatedEvents.length === 0 ||
+            res.data.coverUserWhitelistUpdatedEvents.length < ROWS_PER_PAGE;
+            console.log(res.data)
+            if (isLastPage) {
+                setHasMore(false);
+              }
+            
+              setData((prev) => ({
+                  whitelisted:[
+                      ...res.data.coverUserWhitelistUpdatedEvents
+                  ]
+              }))
+        }).catch((err) => console.error(err))
+        .finally(() => setLoading(false));
+    }, [account,networkId,itemsToSkip])
+    
     const handleShowMore = () => {
         setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
-      };
+    };
 
     return {
         handleShowMore,
         hasMore,
         data: {
-          transactions: whitelistedMockData,
-          totalCount: whitelistedMockData.length,
+          transactions: data?.whitelisted,
+          totalCount: data?.whitelisted.length,
         },
         loading,
       };

@@ -16,8 +16,8 @@ const DropDown = ({setIsOpen}: {setIsOpen:Function}) => {
     }
     return (
       <>
-        <div className="rounded-lg shadow-dropdown p-5 absolute bg-FEFEFF top-4 -left-6 z-10 w-max text-prim-blue text-xs font-bold">
-            <div className="flex items-cente mb-3" onClick={handleBulkImport}><div className="mr-2"><BulkImportIcon /></div>BULK IMPORT</div>
+        <div className="absolute z-10 p-5 text-xs font-bold rounded-lg shadow-dropdown bg-FEFEFF top-4 -left-6 w-max text-prim-blue">
+            <div className="flex mb-3 items-cente" onClick={handleBulkImport}><div className="mr-2"><BulkImportIcon /></div>BULK IMPORT</div>
             <div className="flex items-center"><div className="mr-2"><DeleteIcon /></div>DELETE</div>
         </div>
       </>
@@ -36,7 +36,7 @@ export const BulkImportModal = ({isOpen, onClose}:{isOpen: boolean, onClose: Fun
   }
 
   const handleImportClick = () => {
-    console.log("import ")
+    console.log(listOfAddresses.split(","))
   }
 
   return (
@@ -69,7 +69,11 @@ export const BulkImportModal = ({isOpen, onClose}:{isOpen: boolean, onClose: Fun
           />
 
           <div className="flex justify-end">
-            <button className="mt-6 mr-4 bg-transparent rounded-lg text-text-prim px-btn-x py-btn-y font-poppins font-semibold uppercase border border-text-prim">Cancel</button>
+            <button
+              className="mt-6 mr-4 font-semibold uppercase bg-transparent border rounded-lg text-text-prim px-btn-x py-btn-y font-poppins border-text-prim"
+              onClick={() => onClose()}  
+            >Cancel
+            </button>
             <RegularButton
               text={"Import"}
               className="mt-6"
