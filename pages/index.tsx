@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       <Header title="Neptune Mutual - Create New Cover" />
       <main>
         {showFormPage ? (
-          <CreateCover />
+          <CreateCover gotoHome={() => setShowFormPage(false)} />
         ) : (
           <>
             {data.length ? (
