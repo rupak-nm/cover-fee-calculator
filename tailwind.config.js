@@ -50,6 +50,12 @@ module.exports = {
         "btn-y": "16.5px",
         "75px": "75px",
       },
+      boxShadow: {
+        dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
+      },
+      zIndex: {
+        60: "60",
+      },
     },
   },
   plugins: [],

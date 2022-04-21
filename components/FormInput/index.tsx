@@ -23,6 +23,7 @@ interface FormInputProps {
   tokenName?: string;
   inputClass?: string;
   children?: ReactNode;
+  disabled?: boolean;
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -44,13 +45,16 @@ const FormInput: FC<FormInputProps> = ({
   textfield = false,
   tokenName = null,
   inputClass = "",
+  disabled = false,
   children,
 }) => {
   const { decimal, thousand } = getNumberSeparators();
 
   const inputfieldClass = classNames(
-    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray focus:ring-2 focus:ring-prim-border border-border-gray font-poppins flex-grow min-w-0",
-    tokenName && "rounded-r-none"
+    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray border-border-gray font-poppins flex-grow min-w-0",
+    tokenName
+      ? "rounded-r-none focus:ring-2 ring-inset focus:ring-prim-border"
+      : "focus:ring-2 focus:ring-prim-border"
   );
   return (
     <div className={`flex flex-col font-poppins relative ${className}`}>
@@ -77,6 +81,7 @@ const FormInput: FC<FormInputProps> = ({
             className={classNames(inputfieldClass, inputClass)}
             allowNegativeValue={allowNegative}
             allowDecimals={allowDecimals}
+            disabled={disabled}
             {...inputProps}
           />
         ) : textfield ? (
@@ -87,6 +92,7 @@ const FormInput: FC<FormInputProps> = ({
             value={value}
             onChange={(e) => setValue(e.target.value ?? "")}
             className={classNames(inputfieldClass, "h-40", inputClass)}
+            disabled={disabled}
             {...inputProps}
           />
         ) : (
@@ -97,6 +103,7 @@ const FormInput: FC<FormInputProps> = ({
             value={value}
             onChange={(e) => setValue(e.target.value ?? "")}
             className={classNames(inputfieldClass, inputClass)}
+            disabled={disabled}
             {...inputProps}
           />
         )}

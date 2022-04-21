@@ -17,7 +17,7 @@ export const Checkbox: FC<CheckboxProps> = ({
     <div>
       <input
         type={"checkbox"}
-        className="transform scale-125"
+        className="transform origin-left scale-125 outline-none focus:ring-2"
         id={id}
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}

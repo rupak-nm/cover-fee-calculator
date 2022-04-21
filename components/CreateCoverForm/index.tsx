@@ -167,8 +167,14 @@ export const CreateCoverForm: FC = () => {
     console.log({ ..._data });
   };
 
+  const isEmpty = {
+    npm: !formData.npmStake || parseFloat(formData.npmStake) === 0,
+    re:
+      !formData.reassuranceAmount ||
+      parseFloat(formData.reassuranceAmount) === 0,
+  };
+
   useEffect(() => {
-    console.log(formatData());
     const {
       coverName,
       tags,
@@ -215,6 +221,7 @@ export const CreateCoverForm: FC = () => {
       return setSubmitDisabled(true);
 
     setSubmitDisabled(false);
+    formatData();
   }, [formData, tosApproved, npmApproved, reApproved]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -334,8 +341,11 @@ export const CreateCoverForm: FC = () => {
               Fine Tune the Premium Pricing
             </h2>
             <Link href={"/calculator"} passHref>
-              <a target={"_blank"}>
-                <Calculator width="24" height="24" className="ml-2" />
+              <a
+                target={""}
+                className="outline-none ml-2 focus:ring-2 focus:ring-prim-border"
+              >
+                <Calculator width="24" height="24" className="" />
               </a>
             </Link>
           </div>
@@ -414,7 +424,7 @@ export const CreateCoverForm: FC = () => {
               {
                 innerLabel: `Day ${period.reporting}`,
                 name: "Reporting End",
-                periodInfo: "Cool down Period",
+                periodInfo: "Cooldown Period",
               },
               {
                 innerLabel: `Day ${period.resolution}`,
@@ -464,7 +474,8 @@ export const CreateCoverForm: FC = () => {
             value={formData.npmStake}
             setValue={(val) => handleInputChange("npmStake", val)}
             tokenName="NPM"
-            disabled={npmApproved || npmApproving || Boolean(error.npm)}
+            disabled={npmApproving}
+            disabledBtn={npmApproved || isEmpty.npm || Boolean(error.npm)}
             handleCLick={() => handleNPMTokenApprove()}
             className="mt-6"
             btnText={
@@ -492,7 +503,8 @@ export const CreateCoverForm: FC = () => {
             value={formData.reassuranceAmount}
             setValue={(val) => handleInputChange("reassuranceAmount", val)}
             tokenName="DAI"
-            disabled={reApproved || reApproving || Boolean(error.dai)}
+            disabled={reApproving}
+            disabledBtn={isEmpty.re || reApproved || Boolean(error.dai)}
             handleCLick={() => handleReTokenApprove()}
             className="mt-12"
             btnText={
