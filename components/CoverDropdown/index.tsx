@@ -42,7 +42,7 @@ export const CoverDropdown:FC<CoverDropdownProps> = ({
             {prefix}
             {getParsedKey(selected?.key)} cover
           </span>
-          <span className="absolute inset-y-0 right-0 flex items-center pl-3 pr-2 pointer-events-none text-9B9B9B">
+          <span className="absolute inset-y-0 right-0 flex items-center pl-3 pr-2 pt-4 pointer-events-none text-9B9B9B">
             <ChevronDownIcon className="w-6 h-6" aria-hidden="true" />
           </span>
         </Listbox.Button>

@@ -93,13 +93,9 @@ export const PayoutsTable = () => {
   const [selectedRow, setSelectedRow] = useState([]);
 
   let router = useRouter();
-  let { pathname, query } = router;
+  let { query } = router;
 
-  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(
-    query.key
-      ? query.key
-      : "0x616e696d617465642d6272616e64730000000000000000000000000000000000"
-  );
+  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(query.key);
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
@@ -107,19 +103,12 @@ export const PayoutsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [selected, setSelected] = useState();
 
-  /* useEffect(() => {
-    if (!selected) {
-      return;
-    }
-    let coverkey = selected.key;
-    router.push({
-      pathname,
-      query: { key: coverkey },
-    });
-  }, [selected]); */
-
   useEffect(() => {
     setSelected(coverData?.covers[0]);
+    router.push({
+      pathname: router.asPath.split("?")[0],
+      query: { key: coverData?.covers[0].key },
+    });
   }, [coverData]);
 
   if (!coverData) {
