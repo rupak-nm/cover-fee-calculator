@@ -1,14 +1,40 @@
+import { getGraphURL } from "@config/environment";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 
 const ROWS_PER_PAGE = 50;
 
-export const usePayoutsInfo = () => {
+const getQuery = (coverKey:any, limit:number, skip:number) => {
+    return `
+        {
+            claimedEvents (
+                where: {
+                    key: "${coverKey}"
+                }
+                skip:${skip}
+                first:${limit}
+            )
+            {
+                id
+                incidentDate
+                account
+                amount
+                claimed
+                createdAtTimestamp
+            }
+        }
+    `
+}
 
-    const [data, setData] = useState({
-        whitelisted: [],
-      });
+export const usePayoutsInfo = (coverKey: {coverKey: string}) => {
+    interface stateData{
+        payouts: any[]
+    }
+
+    const [data, setData] = useState<stateData>({
+        payouts: [],
+    });
 
     const [itemsToSkip, setItemsToSkip] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -19,42 +45,51 @@ export const usePayoutsInfo = () => {
 
     useEffect(() => {
         setItemsToSkip(0);
-      }, [account]);
-    
-    let payoutsMockData = [
-        {
-            transaction: {
-                incidentDate: "12/12/2021  12:00:00 UTC",
-                claimedDate: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b545",
-                amount: "14000 DAI",
+    }, [account]);
+
+    useEffect(() => {
+        if(!networkId || !account){
+            return;
+        }
+
+        const graphURL = getGraphURL(networkId);
+
+        if(!graphURL) {
+            return
+        }
+
+        setLoading(true);
+
+        fetch(graphURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+              body: JSON.stringify({
+                  query: getQuery(coverKey, ROWS_PER_PAGE, itemsToSkip),
+              })
+        }).then((r) => r.json())
+        .then((res)=> {
+            if(res.errors || !res.data){
+                return;
             }
-        },
-        {
-            transaction: {
-                incidentDate: "12/12/2021  12:00:00 UTC",
-                claimedDate: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3",
-                amount: "10000 DAI",
-            }
-        },
-        {
-            transaction: {
-                incidentDate: "12/12/2021  12:00:00 UTC",
-                claimedDate: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b3ex",
-                amount: "140000 DAI",
-            }
-        },
-        {
-            transaction: {
-                incidentDate: "12/12/2021  12:00:00 UTC",
-                claimedDate: "12/12/2021  12:00:00 UTC",
-                accounts: "0xeC73559994D5E4Ca5a16a90a14203A2dae50b1x3",
-                amount: "12000 DAI",
-            }
-        },
-    ]
+
+            const isLastPage = res.data.claimedEvents.length === 0 ||
+            res.data.claimedEvents.length < ROWS_PER_PAGE;
+            console.log("res.data", res.data)
+            if (isLastPage) {
+                setHasMore(false);
+              }
+            
+              setData((prev) => ({
+                  payouts:[
+                      ...res.data.claimedEvents
+                  ]
+              }))
+        }).catch((err) => console.error(err))
+        .finally(() => setLoading(false));
+    }, [coverKey, networkId, itemsToSkip, account])
 
     const handleShowMore = () => {
         setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
@@ -64,8 +99,8 @@ export const usePayoutsInfo = () => {
         handleShowMore,
         hasMore,
         data: {
-          transactions: payoutsMockData,
-          totalCount: payoutsMockData.length,
+          transactions: data?.payouts,
+          totalCount: data?.payouts.length,
         },
         loading,
       };

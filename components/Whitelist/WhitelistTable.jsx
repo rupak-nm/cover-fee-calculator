@@ -49,7 +49,10 @@ const renderHeader = (col) => (
 );
 
 const renderWhen = (row) => (
-  <td className="py-6" title={DateLib.toLongDateFormat(row.createdAtTimestamp)}>
+  <td
+    className="py-6"
+    title={DateLib.toLongDateFormat(row?.createdAtTimestamp)}
+  >
     {DateLib.toDateFormat(
       row.createdAtTimestamp,
       {
@@ -97,6 +100,16 @@ export const WhitelistTable = () => {
   const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
 
   const [selectedRow, setSelectedRow] = useState([]);
+  const handleCheckedRow = (ev) => {
+    console.log("e", ev.target.id);
+    checkedRows.map((row, idx) => {
+      if (parseInt(ev.target.id.replace(/^\D+/g, "")) === idx) {
+        let newCheckedRows = [...checkedRows];
+        newCheckedRows[idx] = !newCheckedRows[idx];
+        setCheckedRows(newCheckedRows);
+      }
+    });
+  };
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
@@ -105,7 +118,6 @@ export const WhitelistTable = () => {
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearch = (e) => {
-    console.log("search", e);
     setSearchValue(e.target.value);
   };
 

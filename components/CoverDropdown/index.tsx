@@ -2,6 +2,8 @@ import { FC, Fragment, ReactNode } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
 import { classNames } from "@utils/functions";
+import { getParsedKey } from "@utils/helpers/cover";
+import { useRouter } from "next/router";
 
 
 /* import { getCoverImgSrc } from "@/src/helpers/cover"; */
@@ -9,7 +11,10 @@ import { classNames } from "@utils/functions";
 interface CoverDropdownProps {
     prefix?: string | ReactNode;
     options: any[];
-    selected?: {projectName: string};
+    selected: {
+      id: string,
+      key: string
+    };
     setSelected: (val: any) => any;
 } 
 
@@ -19,13 +24,23 @@ export const CoverDropdown:FC<CoverDropdownProps> = ({
   selected,
   setSelected,
 }) => {
+
+  const router = useRouter()
+
+  const handleOptionClick = (option: {id:string, key: string}) => {
+    router.push({
+      pathname: router.asPath.split("?")[0],
+      query: {key: option.key}
+    })
+  }
+  
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative w-fit">
-        <Listbox.Button className="w-full relative  py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-          <span className="flex items-center truncate text-text-gray pr-3 capitalize">
+        <Listbox.Button className="relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+          <span className="flex items-center pr-3 capitalize truncate text-text-gray">
             {prefix}
-            {selected?.projectName} cover
+            {getParsedKey(selected?.key)} cover
           </span>
           <span className="absolute inset-y-0 right-0 flex items-center pl-3 pr-2 pointer-events-none text-9B9B9B">
             <ChevronDownIcon className="w-6 h-6" aria-hidden="true" />
@@ -37,7 +52,7 @@ export const CoverDropdown:FC<CoverDropdownProps> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
             {options.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
@@ -58,9 +73,10 @@ export const CoverDropdown:FC<CoverDropdownProps> = ({
                         _selected ? "font-medium" : "font-normal",
                         active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                       )}
+                      onClick={() => handleOptionClick(option)}
                     >
 
-                      {option.projectName} cover
+                      {getParsedKey(option.key)} cover
                     </span>
                   </>
                 )}

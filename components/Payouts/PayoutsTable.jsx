@@ -8,12 +8,19 @@ import {
 import { classNames } from "@utils/functions";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { fromNow } from "@utils/formatting/relative-time";
 import { usePayoutsInfo } from "@utils/hooks/usePayoutsInfo";
 import { Checkbox } from "@components/Checkbox";
 import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
 import DropDown from "@components/Dropdown";
+import { SearchBar } from "@components/common/SearchBar";
+import { CoverDropdown } from "@components/CoverDropdown";
+import { useCoversInfo } from "@utils/hooks/useCoversInfo";
+import { useRouter } from "next/router";
+import DateLib from "@date/DateLib";
+import { formatCurrency } from "@utils/methods";
+import { convertFromUnits } from "@utils/functions/bn";
 
 const renderHeader = (col) => (
   <th
@@ -28,11 +35,20 @@ const renderHeader = (col) => (
 );
 
 const renderClaimed = (row) => (
-  <td
-    className="py-6"
-    /* title={DateLib.toLongDateFormat(row.transaction.timestamp)} */
-  >
-    {row.transaction.claimedDate}
+  <td className="py-6" title={DateLib.toLongDateFormat(row.createdAtTimestamp)}>
+    {DateLib.toDateFormat(
+      row.createdAtTimestamp,
+      {
+        month: "numeric",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        timeZoneName: "short",
+      },
+      "UTC"
+    )}
   </td>
 );
 
@@ -72,17 +88,58 @@ const columns = [
 ];
 
 export const PayoutsTable = () => {
-  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo();
+  const { data: coverData, loading: coverDataLoading } = useCoversInfo();
 
   const [selectedRow, setSelectedRow] = useState([]);
 
+  let router = useRouter();
+  let { pathname, query } = router;
+
+  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(
+    query.key
+      ? query.key
+      : "0x616e696d617465642d6272616e64730000000000000000000000000000000000"
+  );
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
   const { transactions } = data;
+  const [searchValue, setSearchValue] = useState("");
+  const [selected, setSelected] = useState();
+
+  /* useEffect(() => {
+    if (!selected) {
+      return;
+    }
+    let coverkey = selected.key;
+    router.push({
+      pathname,
+      query: { key: coverkey },
+    });
+  }, [selected]); */
+
+  useEffect(() => {
+    setSelected(coverData?.covers[0]);
+  }, [coverData]);
+
+  if (!coverData) {
+    return null;
+  }
 
   return (
     <>
+      <div className="flex py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
+        <SearchBar
+          containerClass="w-full"
+          searchValue={searchValue}
+          onSearchChange={(e) => setSearchValue(e.target.value)}
+        />
+        <CoverDropdown
+          options={coverData.covers}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      </div>
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
@@ -110,11 +167,9 @@ export const PayoutsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   return (
-    <td className=" py-6">
+    <td className="py-6 ">
       <div className="flex items-center">
-        <span className="text-left whitespace-nowrap">
-          {row.transaction.accounts}
-        </span>
+        <span className="text-left whitespace-nowrap">{row.account}</span>
       </div>
     </td>
   );
@@ -122,10 +177,25 @@ const DetailsRenderer = ({ row }) => {
 
 const IncidentRenderer = ({ row }) => {
   return (
-    <td className=" py-6">
+    <td className="py-6 ">
       <div className="flex items-center">
-        <span className="text-left whitespace-nowrap">
-          {row.transaction.incidentDate}
+        <span
+          className="text-left whitespace-nowrap"
+          title={DateLib.toLongDateFormat(row.incidentDate)}
+        >
+          {DateLib.toDateFormat(
+            row.incidentDate,
+            {
+              month: "numeric",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+              timeZoneName: "short",
+            },
+            "UTC"
+          )}
         </span>
       </div>
     </td>
@@ -134,9 +204,19 @@ const IncidentRenderer = ({ row }) => {
 
 const AmountRenderer = ({ row }) => {
   return (
-    <td className="pl-6 py-6 text-right text-text-prim">
+    <td className="py-6 pl-6 text-right text-text-prim">
       <div className="flex items-center justify-end whitespace-nowrap">
-        {row.transaction.amount}
+        <span
+          title={`${
+            formatCurrency(convertFromUnits(row.amount).toString(), "DAI", true)
+              .long
+          }`}
+        >
+          {
+            formatCurrency(convertFromUnits(row.amount).toString(), "DAI", true)
+              .short
+          }
+        </span>
       </div>
     </td>
   );
