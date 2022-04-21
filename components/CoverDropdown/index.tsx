@@ -30,7 +30,7 @@ export const CoverDropdown:FC<CoverDropdownProps> = ({
   const handleOptionClick = (option: {id:string, key: string}) => {
     router.push({
       pathname: router.asPath.split("?")[0],
-      query: {key: option.key}
+      query: {cover: getParsedKey(option.key)}
     })
   }
   

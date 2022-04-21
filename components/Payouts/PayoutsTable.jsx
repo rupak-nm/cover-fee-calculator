@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import DateLib from "@date/DateLib";
 import { formatCurrency } from "@utils/methods";
 import { convertFromUnits } from "@utils/functions/bn";
+import { getParsedKey, toBytes32 } from "@utils/helpers/cover";
 
 const renderHeader = (col) => (
   <th
@@ -94,8 +95,9 @@ export const PayoutsTable = () => {
 
   let router = useRouter();
   let { query } = router;
+  let coverKey = toBytes32(query.cover);
 
-  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(query.key);
+  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(coverKey);
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
@@ -107,7 +109,7 @@ export const PayoutsTable = () => {
     setSelected(coverData?.covers[0]);
     router.push({
       pathname: router.asPath.split("?")[0],
-      query: { key: coverData?.covers[0].key },
+      query: { cover: getParsedKey(coverData?.covers[0].key) },
     });
   }, [coverData]);
 
