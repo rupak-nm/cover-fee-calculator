@@ -7,6 +7,7 @@ import {ModalWrapper} from "@modal/ModalWrapper"
 import { CloseIcon } from "@svg";
 import FormInput from "@components/FormInput";
 import { RegularButton } from "@components/RegularButton";
+import { isAddress } from "ethers/lib/utils";
 
 
 const DropDown = ({setIsOpen}: {setIsOpen:Function}) => {
@@ -28,15 +29,23 @@ export default DropDown;
 
 export const BulkImportModal = ({isOpen, onClose}:{isOpen: boolean, onClose: Function}) => {
 
-  const [listOfAddresses, setListOfAddresses] = useState("")
+  const [listOfAddresses, setListOfAddresses] = useState<string[]>([])
+  const [error, setError] = useState("")
 
   const handleInputChange = (val:string) => {
-    setListOfAddresses(val)
-    console.log(val)
+    val.split(",").map((address,index) => {
+      if(address !== "" && !isAddress(address.trim())){
+        setError("Invalid address")
+      }else{
+        setError("")
+      }
+    })
+    setListOfAddresses(val.split(","))
   }
 
   const handleImportClick = () => {
-    console.log(listOfAddresses.split(","))
+    let filteredAddresses = listOfAddresses.filter((address) => {return isAddress(address.trim())} )
+    console.log(filteredAddresses)
   }
 
   return (
@@ -62,11 +71,13 @@ export const BulkImportModal = ({isOpen, onClose}:{isOpen: boolean, onClose: Fun
             label=""
             placeholder='Provide a list of addresses you want to whitelist separated by “,”'
             className="w-96"
-            value={listOfAddresses}
+            value={listOfAddresses.join(",")}
             setValue={(val:string) => handleInputChange(val)}
             type="text"
             textfield
-          />
+          >
+            {error && <p className="text-FA5C2F">{error}</p>}
+          </FormInput>
 
           <div className="flex justify-end">
             <button
