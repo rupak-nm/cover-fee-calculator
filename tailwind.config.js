@@ -33,6 +33,7 @@ module.exports = {
         FEFEFF: "#FEFEFF",
         DAE2EB: "#DAE2EB",
         EEEEEE: "#EEEEEE",
+        FA5C2F: "#FA5C2F",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",

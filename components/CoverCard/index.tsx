@@ -47,7 +47,7 @@ export const CoverCard = ({
   };
 
   return (
-    <div className="p-6 bg-white border-2 rounded-3xl">
+    <div className="p-6 bg-white border-2 border-border-gray rounded-3xl">
       <div className="flex items-start justify-between">
         <div className="relative">
           <Image
