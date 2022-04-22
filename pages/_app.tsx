@@ -11,21 +11,24 @@ import { AppConstantsProvider } from "@utils/app-constants/context";
 import { ToastProvider } from "@toast/provider";
 import { TxPosterProvider } from "lib/tx-poster/context";
 import { DEFAULT_VARIANT } from "@config/toast";
+import { IpfsProvider } from "lib/ipfs/context";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
         <AppConstantsProvider>
-          <UnlimitedApprovalProvider>
-            <ToastProvider variant={DEFAULT_VARIANT}>
-              <TxPosterProvider>
-                <DataProvider>
-                  <Component {...pageProps} />
-                </DataProvider>
-              </TxPosterProvider>
-            </ToastProvider>
-          </UnlimitedApprovalProvider>
+          <IpfsProvider>
+            <UnlimitedApprovalProvider>
+              <ToastProvider variant={DEFAULT_VARIANT}>
+                <TxPosterProvider>
+                  <DataProvider>
+                    <Component {...pageProps} />
+                  </DataProvider>
+                </TxPosterProvider>
+              </ToastProvider>
+            </UnlimitedApprovalProvider>
+          </IpfsProvider>
         </AppConstantsProvider>
       </NetworkProvider>
     </Web3ReactProvider>

@@ -62,7 +62,7 @@ const Header: FC<HeaderProps> = ({
 
   const ChainLogo = (ChainLogos as any)[networkId] || ChainLogos[1];
   const network = (
-    <div className="inline-flex items-center justify-center px-4 py-1 mr-2 overflow-hidden text-sm font-medium leading-loose bg-white border border-transparent rounded-md md:py-3 md:mr-4 xl:w-auto xl:mr-0 text-9B9B9B">
+    <div className="inline-flex items-center justify-center px-4 py-2 mr-2 overflow-hidden text-sm font-medium leading-loose bg-white border border-transparent rounded-md md:mr-4 xl:w-auto xl:mr-0 text-9B9B9B">
       <ChainLogo width={24} height={24} />{" "}
       <p className="inline-block ml-2 overflow-hidden whitespace-nowrap text-ellipsis">
         {(NetworkNames as any)[networkId] || "Network"}
