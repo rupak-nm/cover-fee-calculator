@@ -9,7 +9,7 @@ import { OpenInNewIcon } from "@svg";
 import { classNames } from "@utils/functions";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { fromNow } from "@utils/formatting/relative-time";
 import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
 import { Checkbox } from "@components/Checkbox";
@@ -71,35 +71,107 @@ const renderWhen = (row) => (
 
 const renderDetails = (row, extraData) => <DetailsRenderer row={row} />;
 
-const renderActions = (row) => <ActionsRenderer row={row} />;
-
-const renderHeaderActions = (row) => <HeaderActionRenderer row={row} />;
-
-const columns = [
-  {
-    name: "",
-    align: "left",
-    renderHeader: () => renderHeaderActions(),
-    renderData: renderActions,
-  },
-  {
-    name: "added on",
-    align: "left",
-    renderHeader,
-    renderData: renderWhen,
-  },
-  {
-    name: "accounts",
-    align: "left",
-    renderHeader,
-    renderData: renderDetails,
-  },
-];
-
 export const WhitelistTable = () => {
-  const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
+  // const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
+  const { loading, hasMore, handleShowMore } = useWhiteListInfo();
+  const data = {
+    transactions: [
+      {
+        id: "0x2d577584c52cb5ddbe63f9135da4fa417e92a5b65f105ae7d5acebd4cde07dea",
+        status: true,
+        account: "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+        createdAtTimestamp: "1650369857",
+      },
+      {
+        id: "0x3d577584c52cb5ddbe63f9135da4fa417e92a5b65f105ae7d5acebd4cde07dea",
+        status: true,
+        account: "0x301bcc0d375f10543e585fbb883b36c715c959b3",
+        createdAtTimestamp: "1650369857",
+      },
+      {
+        id: "0x4d577584c52cb5ddbe63f9135da4fa417e92a5b65f105ae7d5acebd4cde07dea",
+        status: true,
+        account: "0x401bcc0d375f10543e585fbb883b36c715c959b3",
+        createdAtTimestamp: "1650369857",
+      },
+      {
+        id: "0x5d577584c52cb5ddbe63f9135da4fa417e92a5b65f105ae7d5acebd4cde07dea",
+        status: true,
+        account: "0x501bcc0d375f10543e585fbb883b36c715c959b3",
+        createdAtTimestamp: "1650369857",
+      },
+    ],
+  };
 
-  const [selectedRow, setSelectedRow] = useState([]);
+  const changeAll = (value) => {
+    return value ? data.transactions.map(({ id }) => id) : [];
+  };
+
+  const getCheckedById = (id, arr) => {
+    return arr.includes(id);
+  };
+
+  const changeById = (id, arr, value) => {
+    let _arr = arr;
+    if (value && !_arr.includes(id)) _arr.push(id);
+    else if (!value && _arr.includes(id)) {
+      const index = _arr.findIndex((e) => e === id);
+      _arr.splice(index, 1);
+    }
+    return _arr;
+  };
+
+  const allChecked = (arr) => {
+    return arr.length === data.transactions.length;
+  };
+
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  useEffect(() => console.log({ selectedRows }), [selectedRows]);
+
+  const renderActions = (row) => (
+    <ActionsRenderer
+      row={row}
+      checked={getCheckedById(row.id, selectedRows)}
+      onChange={(checked, r) => {
+        const newArr = changeById(r.id, selectedRows, checked);
+        setSelectedRows(newArr);
+      }}
+    />
+  );
+
+  const renderHeaderActions = (row) => (
+    <HeaderActionRenderer
+      row={row}
+      checked={allChecked(selectedRows)}
+      onChange={(checked) => {
+        const newArr = changeAll(checked);
+        setSelectedRows(newArr);
+      }}
+    />
+  );
+
+  const columns = [
+    {
+      name: "",
+      align: "left",
+      renderHeader: () => renderHeaderActions(),
+      renderData: (row) => renderActions(row),
+    },
+    {
+      name: "added on",
+      align: "left",
+      renderHeader,
+      renderData: renderWhen,
+    },
+    {
+      name: "accounts",
+      align: "left",
+      renderHeader,
+      renderData: renderDetails,
+    },
+  ];
+
   const handleCheckedRow = (ev) => {
     console.log("e", ev.target.id);
     checkedRows.map((row, idx) => {
@@ -165,22 +237,20 @@ const DetailsRenderer = ({ row }) => {
   );
 };
 
-const ActionsRenderer = ({ row }) => {
-  const [checkedRow, setCheckedRow] = useState(false);
-
+const ActionsRenderer = ({ row, checked, onChange }) => {
   return (
     <td className="py-6 pr-2 min-w-120">
       <div className="flex items-center px-2 py-1">
         <Checkbox
           id="table-data"
-          checked={checkedRow}
-          onChange={() => setCheckedRow((prev) => !prev)}
+          checked={checked}
+          onChange={(checked) => onChange(checked, row)}
         />
       </div>
     </td>
   );
 };
-const HeaderActionRenderer = ({ row }) => {
+const HeaderActionRenderer = ({ row, checked, onChange }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -213,12 +283,19 @@ const HeaderActionRenderer = ({ row }) => {
       >
         <TableCheckBox
           id="table-data-0"
-          checked={checkedRows[0]}
-          onChange={(ev) => handleCheckedRow(ev)}
+          // checked={checkedRows[0]}
+          // onChange={(ev) => handleCheckedRow(ev)}
+          checked={checked}
+          onChange={(ev) => onChange(ev.target.checked)}
         />
         <div className="relative cursor-pointer" onClick={handleDropdown}>
           <ChevronDownIcon width={10} height={6} />
-          {showDropdown && <DropDown setIsOpen={setIsOpen} />}
+          {showDropdown && (
+            <DropDown
+              setIsOpen={setIsOpen}
+              closeDropdown={() => setShowDropdown(false)}
+            />
+          )}
         </div>
       </div>
       <BulkImportModal isOpen={isOpen} onClose={onClose} />
