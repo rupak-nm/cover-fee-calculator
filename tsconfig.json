@@ -22,9 +22,10 @@
       "@wallet/*": ["lib/connect-wallet/*"],
       "@modal/*": ["lib/modal/*"],
       "@toast/*": ["lib/toast/*"],
+      "@date/*": ["lib/date/*"],
       "@config/*": ["config/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Whitelist/WhitelistTable.jsx"],
   "exclude": ["node_modules"]
 }

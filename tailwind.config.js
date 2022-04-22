@@ -28,6 +28,10 @@ module.exports = {
         "prim-border": "#4289F2",
         "light-blue": "#9FB8E7",
         "728FB2": "#728FB2",
+        FEFEFF: "#FEFEFF",
+        DAE2EB: "#DAE2EB",
+        EEEEEE: "#EEEEEE",
+        FA5C2F: "#FA5C2F",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
