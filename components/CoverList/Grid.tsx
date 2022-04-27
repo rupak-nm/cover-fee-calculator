@@ -1,4 +1,5 @@
-import { CoverCard } from "@components/CoverCard";
+// import { CoverCard } from "@components/CoverCard";
+import { CoverCard } from "@components/CoverCard/mock";
 import { classNames } from "@utils/functions";
 import { FC } from "react";
 
