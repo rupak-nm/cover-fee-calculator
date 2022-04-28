@@ -14,7 +14,7 @@ export const NoCovers: FC<NoCoversProps> = ({ gotoCreateCover }) => {
         <p className="font-poppins">There are currently no covers to show.</p>
         <RegularButton
           text="Create a New Cover"
-          className="text-base font-medium"
+          className="px-4 py-3 text-sm font-medium"
           onClick={() => gotoCreateCover()}
         />
       </div>

@@ -141,7 +141,6 @@ const PriceCurveChart = () => {
       !state.totalCommitment ||
       !state.floor ||
       !state.ceiling ||
-      !state.duration ||
       !state.provision
     ) {
       if (chartRef.current?.chart) {
@@ -167,7 +166,7 @@ const PriceCurveChart = () => {
 
     for (const amount of amounts) {
       try {
-        const result = getCoverFee({ amount, ...c });
+        const result = getCoverFee({ amount, ...c, duration: 1 });
         _data.push({ x: amount, y: result.rate * 100, ...result });
       } catch (err) {
         // console.error({ err });

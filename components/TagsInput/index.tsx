@@ -88,7 +88,7 @@ export const TagsInput: FC<TagsInputProps> = ({
             onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e)}
             className={classNames(
-              "text-h4 block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
+              "block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
             )}
             ref={inputRef}
           />

@@ -10,7 +10,7 @@ interface CoverListProps {
 export const CoverList: FC<CoverListProps> = ({ covers, gotoCreateCover }) => {
   const CreateBtn = () => (
     <button
-      className="flex items-center gap-2 p-2 border-2 rounded-lg text-text-prim border-text-prim"
+      className="flex items-center gap-2 px-2 py-1 border-2 rounded-lg text-text-prim border-text-prim"
       onClick={() => gotoCreateCover()}
     >
       <PlusIcon className="" />

@@ -127,7 +127,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
               onKeyDown={(e) => handleKeyDown(e)}
               onFocus={() => setOpen(true)}
               className={classNames(
-                "text-h4 block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
+                "block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
               )}
               ref={inputRef}
             />
@@ -152,10 +152,10 @@ export const TagsSelect: FC<TagsSelectProps> = ({
             open ? "block" : "hidden"
           )}
         >
-          <ul className="bg-white rounded-lg mt-1 overflow-hidden overflow-y-auto max-h-72 relative divide-y-2 shadow-lg">
+          <ul className="relative mt-1 overflow-hidden overflow-y-auto bg-white divide-y-2 rounded-lg shadow-lg max-h-72">
             {filterList(itemList, inputValue).length ? (
               <>
-                <li className="sticky top-0 w-full bg-white p-1 text-xs font-poppins text-text-gray">
+                <li className="sticky top-0 w-full p-1 text-xs bg-white font-poppins text-text-gray">
                   Please click on the items to add.
                 </li>
                 {filterList(itemList, inputValue).map((item, i) => (
@@ -174,7 +174,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                 ))}
               </>
             ) : (
-              <li className="text-center italic text-text-gray p-2">
+              <li className="p-2 italic text-center text-text-gray">
                 No Data to show !!!
               </li>
             )}

@@ -22,6 +22,8 @@ import DateLib from "@date/DateLib";
 import { formatCurrency } from "@utils/methods";
 import { convertFromUnits } from "@utils/functions/bn";
 import { getParsedKey, toBytes32 } from "@utils/helpers/cover";
+import { payouts } from "mock/payouts";
+import { covers } from "mock/covers";
 
 const renderHeader = (col) => (
   <th
@@ -89,15 +91,19 @@ const columns = [
 ];
 
 export const PayoutsTable = () => {
-  const { data: coverData, loading: coverDataLoading } = useCoversInfo();
+  // const { data: coverData, loading: coverDataLoading } = useCoversInfo();
+  const coverData = { covers };
 
   const [selectedRow, setSelectedRow] = useState([]);
 
   let router = useRouter();
-  let { query } = router;
-  let coverKey = toBytes32(query.cover);
+  // let { query } = router;
+  // let coverKey = toBytes32(query.cover);
 
-  const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(coverKey);
+  // const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(coverKey);
+  const data = payouts;
+  const loading = false;
+
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
@@ -105,13 +111,13 @@ export const PayoutsTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [selected, setSelected] = useState();
 
-  useEffect(() => {
-    setSelected(coverData?.covers[0]);
-    router.push({
-      pathname: router.asPath.split("?")[0],
-      query: { cover: getParsedKey(coverData?.covers[0].key) },
-    });
-  }, [coverData]);
+  // useEffect(() => {
+  //   setSelected(coverData?.covers[0]);
+  //   router.push({
+  //     pathname: router.asPath.split("?")[0],
+  //     query: { cover: getParsedKey(coverData?.covers[0].key) },
+  //   });
+  // }, [coverData]);
 
   if (!coverData) {
     return null;
@@ -134,13 +140,13 @@ export const PayoutsTable = () => {
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          {account ? (
-            <TBody
-              isLoading={loading}
-              columns={columns}
-              data={transactions}
-            ></TBody>
-          ) : (
+          {/* {account ? ( */}
+          <TBody
+            isLoading={loading}
+            columns={columns}
+            data={transactions}
+          ></TBody>
+          {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -148,7 +154,7 @@ export const PayoutsTable = () => {
                 </td>
               </tr>
             </tbody>
-          )}
+          )} */}
         </Table>
         <TablePagination />
       </TableWrapper>

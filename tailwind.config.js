@@ -15,7 +15,7 @@ module.exports = {
         heading2: ["23px", "29px"],
         xxs: ["10px", "8px"],
         h4: ["19px", "24px"],
-        h7: ["13px", "16px"],
+        h7: ["14px", "16px"],
       },
       borderRadius: {
         big: "0.625rem",
@@ -34,6 +34,7 @@ module.exports = {
         DAE2EB: "#DAE2EB",
         EEEEEE: "#EEEEEE",
         FA5C2F: "#FA5C2F",
+        "7398C0": "#7398C0",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",

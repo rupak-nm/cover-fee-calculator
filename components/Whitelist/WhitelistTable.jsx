@@ -11,13 +11,14 @@ import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { FC, useEffect, useState } from "react";
 import { fromNow } from "@utils/formatting/relative-time";
-import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
+// import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
 import { Checkbox } from "@components/Checkbox";
 import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
 import DropDown, { BulkImportModal } from "@components/Dropdown";
 import DateLib from "@date/DateLib";
 import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
 import { SearchBar } from "@components/common/SearchBar";
+import { whitelists } from "mock/whitelist";
 
 /* interface RenderHeaderProps {
   col: {
@@ -72,7 +73,9 @@ const renderWhen = (row) => (
 const renderDetails = (row, extraData) => <DetailsRenderer row={row} />;
 
 export const WhitelistTable = () => {
-  const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
+  // const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
+  const data = whitelists;
+  const loading = false;
 
   const changeAll = (value) => {
     return value ? data.transactions.map(({ id }) => id) : [];
@@ -173,13 +176,13 @@ export const WhitelistTable = () => {
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          {account ? (
-            <TBody
-              isLoading={loading}
-              columns={columns}
-              data={transactions}
-            ></TBody>
-          ) : (
+          {/* {account ? ( */}
+          <TBody
+            isLoading={loading}
+            columns={columns}
+            data={transactions}
+          ></TBody>
+          {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -187,7 +190,7 @@ export const WhitelistTable = () => {
                 </td>
               </tr>
             </tbody>
-          )}
+          )} */}
         </Table>
         <TablePagination />
       </TableWrapper>
