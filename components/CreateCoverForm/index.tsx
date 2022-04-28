@@ -16,7 +16,7 @@ import { useCreateCover } from "@utils/hooks/useCreateCover";
 import { useTokenSymbol } from "@utils/hooks/useTokenSymbol";
 import { formatCurrency } from "@utils/methods";
 import Link from "next/link";
-import { FC, FormEvent, useEffect, useState } from "react";
+import { FC, FormEvent, useCallback, useEffect, useState } from "react";
 
 interface FormData {
   coverName: string;
@@ -128,7 +128,7 @@ export const CreateCoverForm: FC = () => {
     ).short,
   };
 
-  const formatData = () => {
+  const formatData = useCallback(() => {
     const _data: any = {};
     _data.key = formData.coverName.trim().toLowerCase().split(" ").join("-");
     _data.coverName = formData.coverName;
@@ -165,7 +165,7 @@ export const CreateCoverForm: FC = () => {
     _data.initialLiquidity = "";
 
     console.log({ ..._data });
-  };
+  }, [formData]);
 
   const isEmpty = {
     npm: !formData.npmStake || parseFloat(formData.npmStake) === 0,
@@ -222,7 +222,7 @@ export const CreateCoverForm: FC = () => {
 
     setSubmitDisabled(false);
     formatData();
-  }, [formData, tosApproved, npmApproved, reApproved]);
+  }, [formData, tosApproved, npmApproved, reApproved, formatData]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -343,7 +343,7 @@ export const CreateCoverForm: FC = () => {
             <Link href={"/calculator"} passHref>
               <a
                 target={""}
-                className="outline-none ml-2 focus:ring-2 focus:ring-prim-border"
+                className="ml-2 outline-none focus:ring-2 focus:ring-prim-border"
               >
                 <Calculator width="24" height="24" className="" />
               </a>

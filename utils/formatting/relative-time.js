@@ -6,7 +6,7 @@
  * @see https://stackoverflow.com/a/67338038/938822
  */
 
-import { DateLib } from "@date/DateLib";
+import DateLib from "@date/DateLib";
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;

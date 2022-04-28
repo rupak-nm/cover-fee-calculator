@@ -19,7 +19,7 @@ export const CoverList: FC<CoverListProps> = ({ covers, gotoCreateCover }) => {
   );
 
   return (
-    <div className="justify-between min-h-screen bg-prim-gray py-18 sm:px-14 lg:px-28">
+    <div className="justify-between min-h-screen px-4 bg-prim-gray py-18 sm:px-14 lg:px-28">
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-prim-blue text-heading">
           Available Covers
