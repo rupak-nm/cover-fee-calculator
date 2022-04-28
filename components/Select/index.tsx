@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, FC } from "react";
+import { ChangeEvent, FC } from "react";
 import styles from "./style.module.css";
 
 type value = {
