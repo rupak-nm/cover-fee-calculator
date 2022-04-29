@@ -35,6 +35,7 @@ module.exports = {
         EEEEEE: "#EEEEEE",
         FA5C2F: "#FA5C2F",
         "7398C0": "#7398C0",
+        404040: "#404040",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -56,6 +57,9 @@ module.exports = {
         "btn-x": "22.5px",
         "btn-y": "16.5px",
         "75px": "75px",
+      },
+      minWidth: {
+        "800px": "800px",
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",

@@ -9,7 +9,7 @@ import { OpenInNewIcon } from "@svg";
 import { classNames } from "@utils/functions";
 import { useNetwork } from "@wallet/context/Network";
 import { useWeb3React } from "@web3-react/core";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { fromNow } from "@utils/formatting/relative-time";
 // import { useWhiteListInfo } from "@utils/hooks/useWhitelistInfo";
 import { Checkbox } from "@components/Checkbox";
@@ -19,6 +19,8 @@ import DateLib from "@date/DateLib";
 import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
 import { SearchBar } from "@components/common/SearchBar";
 import { whitelists } from "mock/whitelist";
+
+import { useRowSelect, useTable } from "react-table";
 
 /* interface RenderHeaderProps {
   col: {
@@ -37,25 +39,29 @@ interface RenderActionsProps {
   row: object;
 } */
 
-const renderHeader = (col) => (
-  <th
-    scope="col"
-    className={classNames(
-      `py-6 font-bold text-sm uppercase border-b border-b-DAE2EB`,
-      col.align === "right" ? "text-right" : "text-left"
-    )}
-  >
-    {col.name}
-  </th>
-);
+const TableHeader = (name, align, ...tableheadProps) => {
+  return (
+    <th
+      scope="col"
+      className={classNames(
+        `pt-6 pb-2 font-bold text-xs font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
+        align === "right" ? "text-right" : "text-left"
+      )}
+      {...tableheadProps}
+    >
+      {name.name}
+    </th>
+  );
+};
 
-const renderWhen = (row) => (
+const DateRenderer = ({ value, ...tdProps }) => (
   <td
-    className="py-6"
-    title={DateLib.toLongDateFormat(row?.createdAtTimestamp)}
+    className="py-6 text-sm font-medium font-poppins text-prim-blue"
+    title={DateLib.toLongDateFormat(value)}
+    {...tdProps}
   >
     {DateLib.toDateFormat(
-      row.createdAtTimestamp,
+      value,
       {
         month: "numeric",
         day: "numeric",
@@ -70,95 +76,117 @@ const renderWhen = (row) => (
   </td>
 );
 
-const renderDetails = (row, extraData) => <DetailsRenderer row={row} />;
+const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
+  if (cellName === "createdAtTimestamp") {
+    return <DateRenderer value={cellValue} {...tdProps} />;
+  }
+  return (
+    <td className="py-6 " {...tdProps}>
+      <div className="flex items-center">
+        <span
+          className={classNames(
+            "text-left font-poppins text-sm whitespace-nowrap text-prim-blue",
+            cellName === "account" ? "font-normal" : "font-semibold"
+          )}
+        >
+          {cellValue}
+        </span>
+      </div>
+    </td>
+  );
+};
+
+const ActionsRenderer = ({ checked, onChange }) => {
+  return (
+    <td className="py-6 pr-2 min-w-120">
+      <div className="flex items-center px-2 py-1">
+        <Checkbox
+          id="table-data"
+          custom
+          checked={checked}
+          onChange={onChange}
+        />
+      </div>
+    </td>
+  );
+};
+const HeaderActionRenderer = ({ checked, onChange }) => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <th className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
+      <div
+        className={classNames(
+          "flex items-center  w-fit py-1 px-2 gap-2",
+          showDropdown && "bg-EEEEEE rounded-md "
+        )}
+      >
+        <Checkbox
+          id="table-data-0"
+          custom
+          checked={checked}
+          onChange={onChange}
+        />
+        <div className="relative cursor-pointer" onClick={handleDropdown}>
+          <ChevronDownIcon width={10} height={6} />
+          {showDropdown && (
+            <DropDown
+              setIsOpen={setIsOpen}
+              closeDropdown={() => setShowDropdown(false)}
+            />
+          )}
+        </div>
+      </div>
+      <BulkImportModal isOpen={isOpen} onClose={onClose} />
+    </th>
+  );
+};
 
 export const WhitelistTable = () => {
   // const { data, loading, hasMore, handleShowMore } = useWhiteListInfo();
-  const data = whitelists;
+  const data = useMemo(() => whitelists, []);
   const loading = false;
-
-  const changeAll = (value) => {
-    return value ? data.transactions.map(({ id }) => id) : [];
-  };
-
-  const getCheckedById = (id, arr) => {
-    return arr.includes(id);
-  };
-
-  const changeById = (id, arr, value) => {
-    let _arr = arr;
-    if (value && !_arr.includes(id)) _arr.push(id);
-    else if (!value && _arr.includes(id)) {
-      const index = _arr.findIndex((e) => e === id);
-      _arr.splice(index, 1);
-    }
-    return _arr;
-  };
-
-  const allChecked = (arr) => {
-    return arr.length === data.transactions.length;
-  };
-
-  const [selectedRows, setSelectedRows] = useState([]);
-
-  const renderActions = (row) => (
-    <ActionsRenderer
-      row={row}
-      checked={getCheckedById(row.id, selectedRows)}
-      onChange={(checked, r) => {
-        const newArr = changeById(r.id, selectedRows, checked);
-        setSelectedRows(newArr);
-      }}
-    />
-  );
-
-  const renderHeaderActions = () => (
-    <HeaderActionRenderer
-      checked={allChecked(selectedRows)}
-      onChange={(checked) => {
-        const newArr = changeAll(checked);
-        setSelectedRows(newArr);
-      }}
-    />
-  );
-
-  const columns = [
-    {
-      name: "",
-      align: "left",
-      renderHeader: () => renderHeaderActions(),
-      renderData: (row) => renderActions(row),
-    },
-    {
-      name: "added on",
-      align: "left",
-      renderHeader,
-      renderData: renderWhen,
-    },
-    {
-      name: "accounts",
-      align: "left",
-      renderHeader,
-      renderData: renderDetails,
-    },
-  ];
-
-  const handleCheckedRow = (ev) => {
-    console.log("e", ev.target.id);
-    checkedRows.map((row, idx) => {
-      if (parseInt(ev.target.id.replace(/^\D+/g, "")) === idx) {
-        let newCheckedRows = [...checkedRows];
-        newCheckedRows[idx] = !newCheckedRows[idx];
-        setCheckedRows(newCheckedRows);
-      }
-    });
-  };
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const { transactions } = data;
   const [searchValue, setSearchValue] = useState("");
+
+  const cols = useMemo(
+    () => [
+      { Header: "Cover Name", accessor: "coverName" },
+      { Header: "Added On", accessor: "createdAtTimestamp" },
+      { Header: "Account", accessor: "account" },
+    ],
+    []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    // columns,
+    prepareRow,
+    // selectedFlatRows,
+    isAllRowsSelected,
+    toggleAllRowsSelected,
+  } = useTable(
+    {
+      columns: cols,
+      data: data.transactions,
+    },
+    useRowSelect
+  );
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -174,14 +202,53 @@ export const WhitelistTable = () => {
       </div>
 
       <TableWrapper>
-        <Table>
-          <THead columns={columns}></THead>
+        <Table {...getTableProps()}>
+          <thead className="rounded-sm text-text-gray bg-FEFEFF">
+            {headerGroups.map((headerGroup, i) => (
+              <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+                {i === headerGroups.length - 1 && (
+                  <HeaderActionRenderer
+                    checked={isAllRowsSelected}
+                    onChange={() => toggleAllRowsSelected(!isAllRowsSelected)}
+                  />
+                )}
+                {headerGroup.headers.map((column, _i) => {
+                  return (
+                    <TableHeader
+                      key={_i}
+                      name={column.render("Header")}
+                      align="left"
+                      {...column.getHeaderProps()}
+                    />
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
           {/* {account ? ( */}
-          <TBody
-            isLoading={loading}
-            columns={columns}
-            data={transactions}
-          ></TBody>
+          <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
+            {rows.map((row, i) => {
+              prepareRow(row);
+              return (
+                <tr key={i} {...row.getRowProps()}>
+                  <ActionsRenderer
+                    checked={row.isSelected}
+                    onChange={() => row.toggleRowSelected()}
+                  />
+                  {row.cells.map((cell, _i) => {
+                    return (
+                      <DetailsRenderer
+                        key={_i}
+                        cellName={cell.column.id}
+                        cellValue={cell.value}
+                        {...cell.getCellProps()}
+                      />
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
           {/* ) : (
             <tbody>
               <tr className="w-full text-center">
@@ -192,84 +259,12 @@ export const WhitelistTable = () => {
             </tbody>
           )} */}
         </Table>
-        <TablePagination />
       </TableWrapper>
+      <TablePagination
+        totalCount={data.transactions.length}
+        hasNext={false}
+        hasPrev={false}
+      />
     </>
-  );
-};
-
-const DetailsRenderer = ({ row }) => {
-  return (
-    <td className="py-6 ">
-      <div className="flex items-center">
-        <span className="text-left whitespace-nowrap">{row.account}</span>
-      </div>
-    </td>
-  );
-};
-
-const ActionsRenderer = ({ row, checked, onChange }) => {
-  return (
-    <td className="py-6 pr-2 min-w-120">
-      <div className="flex items-center px-2 py-1">
-        <Checkbox
-          id="table-data"
-          checked={checked}
-          onChange={(checked) => onChange(checked, row)}
-        />
-      </div>
-    </td>
-  );
-};
-const HeaderActionRenderer = ({ checked, onChange }) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [checkedRows, setCheckedRows] = useState([false]);
-  const handleCheckedRow = (ev) => {
-    console.log("e", ev.target.id);
-    checkedRows.map((row, idx) => {
-      if (parseInt(ev.target.id.replace(/^\D+/g, "")) === idx) {
-        let newCheckedRows = [...checkedRows];
-        newCheckedRows[idx] = !newCheckedRows[idx];
-        setCheckedRows(newCheckedRows);
-      }
-    });
-  };
-  const handleDropdown = () => {
-    setShowDropdown((prev) => !prev);
-  };
-
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
-  return (
-    <th className="py-6 pr-2 border-b min-w-120 border-b-DAE2EB">
-      <div
-        className={classNames(
-          "flex items-center  w-fit py-1 px-2",
-          showDropdown && "bg-EEEEEE rounded-md "
-        )}
-      >
-        <TableCheckBox
-          id="table-data-0"
-          // checked={checkedRows[0]}
-          // onChange={(ev) => handleCheckedRow(ev)}
-          checked={checked}
-          onChange={(ev) => onChange(ev.target.checked)}
-        />
-        <div className="relative cursor-pointer" onClick={handleDropdown}>
-          <ChevronDownIcon width={10} height={6} />
-          {showDropdown && (
-            <DropDown
-              setIsOpen={setIsOpen}
-              closeDropdown={() => setShowDropdown(false)}
-            />
-          )}
-        </div>
-      </div>
-      <BulkImportModal isOpen={isOpen} onClose={onClose} />
-    </th>
   );
 };

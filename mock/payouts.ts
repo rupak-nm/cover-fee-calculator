@@ -7,6 +7,7 @@ export const payouts = {
       amount: "200000000000000000000",
       claimed: "187000000000000000000",
       createdAtTimestamp: "1650441177",
+      coverName: "CrystalPool",
     },
     {
       id: "0x0e68fd415f0f5748781d327dde1edc35d502771a2a3d921118090ef2da2c03c8",
@@ -15,6 +16,7 @@ export const payouts = {
       amount: "200000000000000000000",
       claimed: "187000000000000000000",
       createdAtTimestamp: "1650241177",
+      coverName: "Animated Brands",
     },
     {
       id: "0x0e78fd415f0f5748781d327dde1edc35d502771a2a3d921118090ef2da2c03c8",
@@ -23,6 +25,7 @@ export const payouts = {
       amount: "200000000000000000000",
       claimed: "187000000000000000000",
       createdAtTimestamp: "1650411177",
+      coverName: "Hicif Bank",
     },
     {
       id: "0x0e88fd415f0f5748781d327dde1edc35d502771a2a3d921118090ef2da2c03c8",
@@ -31,6 +34,7 @@ export const payouts = {
       amount: "200000000000000000000",
       claimed: "187000000000000000000",
       createdAtTimestamp: "1630441177",
+      coverName: "X2D2 Exchange",
     },
   ],
 };

@@ -18,7 +18,9 @@ const availableCovers = [
 
 const Payouts = () => {
   return (
-    <div className="py-18 mx-28">
+    <div
+      className="px-4 py-18 sm:px-14 lg:px-28"
+    >
       <h4 className="text-xl font-bold">Payouts</h4>
       <PayoutsTable />
     </div>
