@@ -20,7 +20,7 @@ import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
 import { SearchBar } from "@components/common/SearchBar";
 import { whitelists } from "mock/whitelist";
 
-import { useRowSelect, useTable } from "react-table";
+import { useGlobalFilter, useRowSelect, useTable } from "react-table";
 
 /* interface RenderHeaderProps {
   col: {
@@ -159,8 +159,6 @@ export const WhitelistTable = () => {
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const [searchValue, setSearchValue] = useState("");
-
   const cols = useMemo(
     () => [
       { Header: "Cover Name", accessor: "coverName" },
@@ -180,24 +178,26 @@ export const WhitelistTable = () => {
     // selectedFlatRows,
     isAllRowsSelected,
     toggleAllRowsSelected,
+
+    state,
+    setGlobalFilter,
   } = useTable(
     {
       columns: cols,
       data: data.transactions,
     },
-    useRowSelect
+    useRowSelect,
+    useGlobalFilter
   );
 
-  const handleSearch = (e) => {
-    setSearchValue(e.target.value);
-  };
+  const { globalFilter } = state;
 
   return (
     <>
       <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
         <SearchBar
-          searchValue={searchValue}
-          onSearchChange={(e) => handleSearch(e)}
+          searchValue={globalFilter}
+          onSearchChange={(e) => setGlobalFilter(e.target.value)}
         />
       </div>
 

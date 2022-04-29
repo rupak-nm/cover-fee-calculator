@@ -123,7 +123,7 @@ const Header: FC<HeaderProps> = ({
               </button>
             );
             return (
-              <div className="flex flex-wrap items-center flex-grow gap-8 sm:flex-nowrap">
+              <div className="flex flex-wrap items-center flex-grow gap-6 sm:flex-nowrap">
                 {network}
                 {button}
                 {isAccountDetailsOpen && (

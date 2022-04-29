@@ -116,7 +116,7 @@ const renderAmount = (row) => <AmountRenderer row={row} />;
 
 const columns = [
   {
-    name: "Incident Date",
+    name: "Cover Name",
     align: "left",
     renderHeader,
     renderData: renderName,
@@ -147,8 +147,7 @@ export const PayoutsTable = () => {
 
   const [selectedRow, setSelectedRow] = useState([]);
 
-  let router = useRouter();
-  // let { query } = router;
+  const { query } = useRouter();
   // let coverKey = toBytes32(query.cover);
 
   // const { data, loading, hasMore, handleShowMore } = usePayoutsInfo(coverKey);
@@ -160,7 +159,9 @@ export const PayoutsTable = () => {
 
   const { transactions } = data;
   const [searchValue, setSearchValue] = useState("");
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState(undefined);
+
+  const [filtered, setFiltered] = useState(transactions);
 
   // useEffect(() => {
   //   setSelected(coverData?.covers[0]);
@@ -169,6 +170,39 @@ export const PayoutsTable = () => {
   //     query: { cover: getParsedKey(coverData?.covers[0].key) },
   //   });
   // }, [coverData]);
+
+  useEffect(() => {
+    if (query?.cover) {
+      setSelected(
+        coverData.covers.find((c) => getParsedKey(c.key) === query.cover)
+      );
+    }
+  }, [query, coverData.covers]);
+
+  useEffect(() => {
+    const includes = (str, qry) =>
+      str.toLowerCase().includes(qry.toLowerCase());
+
+    setFiltered(transactions);
+
+    if (selected) {
+      setFiltered((_data) =>
+        _data.filter((d) => includes(d.coverName, selected.projectName))
+      );
+    } else setFiltered(transactions);
+
+    if (searchValue) {
+      setFiltered((_data) =>
+        _data.filter((d) =>
+          Boolean(
+            includes(d.account, searchValue) ||
+              includes(d.amount, searchValue) ||
+              includes(d.coverName, searchValue)
+          )
+        )
+      );
+    }
+  }, [searchValue, selected, transactions]);
 
   if (!coverData) {
     return null;
@@ -192,11 +226,7 @@ export const PayoutsTable = () => {
         <Table>
           <THead columns={columns}></THead>
           {/* {account ? ( */}
-          <TBody
-            isLoading={loading}
-            columns={columns}
-            data={transactions}
-          ></TBody>
+          <TBody isLoading={loading} columns={columns} data={filtered}></TBody>
           {/* ) : (
             <tbody>
               <tr className="w-full text-center">
