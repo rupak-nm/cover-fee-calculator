@@ -54,7 +54,7 @@ export const Table: FC<TableProps> = ({ children, ...tableProps }) => {
 export const TableWrapper: FC<TableProps> = ({ children }) => {
   return (
     <>
-      <div className="relative px-8 overflow-x-scroll bg-white text-404040 rounded-t-3xl lg:overflow-hidden">
+      <div className="relative px-8 pt-2 overflow-x-scroll bg-white text-404040 rounded-t-3xl lg:overflow-hidden">
         {children}
       </div>
     </>
@@ -77,8 +77,8 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end w-full p-4 bg-white border-t rounded-b-3xl border-t-DAE2EB">
-        <p className="p-2 opacity-40">Rows per page</p>
+      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white border-t rounded-b-3xl border-t-DAE2EB font-poppins">
+        <p className=" opacity-40">Rows per page</p>
         <select
           className="w-12 mx-4 text-xs border rounded-md border-divider-gray disabled:opacity-75"
           value={limit.toString()}
@@ -90,18 +90,18 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <option value="25">25</option>
           <option value="50">50</option>
         </select>
-        <p className="p-2 text-sm opacity-40">
+        <p className="text-sm opacity-40">
           {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
         </p>
         <button
-          className="p-2 ml-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
+          className="ml-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
           onClick={onPrev}
           disabled={!hasPrev}
         >
           <ChevronLeftLgIcon width={16} height={16} />
         </button>
         <button
-          className="p-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
+          className="cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
           onClick={onNext}
           disabled={!hasNext}
         >
