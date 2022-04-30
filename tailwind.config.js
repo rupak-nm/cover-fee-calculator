@@ -36,6 +36,7 @@ module.exports = {
         FA5C2F: "#FA5C2F",
         "7398C0": "#7398C0",
         404040: "#404040",
+        E5EDF9: "#E5EDF9",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -68,7 +69,15 @@ module.exports = {
       zIndex: {
         60: "60",
       },
+      lineHeight: {
+        4.5: "18px",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("first-child", "& > *:first-child");
+      addVariant("last-child", "& > *:last-child");
+    },
+  ],
 };

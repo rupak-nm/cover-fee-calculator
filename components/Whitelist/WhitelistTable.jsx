@@ -44,7 +44,7 @@ const TableHeader = (name, align, ...tableheadProps) => {
     <th
       scope="col"
       className={classNames(
-        `pt-6 pb-2 font-bold text-xs font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
+        `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
         align === "right" ? "text-right" : "text-left"
       )}
       {...tableheadProps}
@@ -126,7 +126,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
     <th className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
       <div
         className={classNames(
-          "flex items-center  w-fit py-1 px-2 gap-2",
+          "flex items-center  w-fit py-1 px-2",
           showDropdown && "bg-EEEEEE rounded-md "
         )}
       >
@@ -136,7 +136,10 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
           checked={checked}
           onChange={onChange}
         />
-        <div className="relative cursor-pointer" onClick={handleDropdown}>
+        <div
+          className="relative flex-grow p-1 cursor-pointer"
+          onClick={handleDropdown}
+        >
           <ChevronDownIcon width={10} height={6} />
           {showDropdown && (
             <DropDown
@@ -205,7 +208,11 @@ export const WhitelistTable = () => {
         <Table {...getTableProps()}>
           <thead className="rounded-sm text-text-gray bg-FEFEFF">
             {headerGroups.map((headerGroup, i) => (
-              <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+              <tr
+                key={i}
+                {...headerGroup.getHeaderGroupProps()}
+                className="first-child:pl-8 last-child:pr-8"
+              >
                 {i === headerGroups.length - 1 && (
                   <HeaderActionRenderer
                     checked={isAllRowsSelected}
@@ -230,7 +237,14 @@ export const WhitelistTable = () => {
             {rows.map((row, i) => {
               prepareRow(row);
               return (
-                <tr key={i} {...row.getRowProps()}>
+                <tr
+                  key={i}
+                  {...row.getRowProps()}
+                  className={classNames(
+                    "first-child:pl-8 last-child:pr-8",
+                    row.isSelected && "bg-E5EDF9"
+                  )}
+                >
                   <ActionsRenderer
                     checked={row.isSelected}
                     onChange={() => row.toggleRowSelected()}

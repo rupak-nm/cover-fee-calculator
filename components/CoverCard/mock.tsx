@@ -75,7 +75,7 @@ export const CoverCard = ({
       </div>
 
       {/* Protection & Liquidity stats */}
-      <div className="flex flex-row justify-between gap-1 px-1 md:flex-col xl:flex-row text-h7 ">
+      <div className="flex flex-row justify-between gap-1 px-1 text-h7 ">
         <div className="flex-1" title={stats.protection.long}>
           Protection: {stats.protection.short}
         </div>
@@ -89,7 +89,7 @@ export const CoverCard = ({
       </div>
 
       {/* Total Users & Reassurance stats */}
-      <div className="flex flex-row justify-between gap-1 px-1 mt-4 md:flex-col xl:flex-row text-h7 ">
+      <div className="flex flex-row justify-between gap-1 px-1 mt-4 text-h7 ">
         <div className="flex-1">Total Users: {stats.totalUsers}</div>
 
         <div

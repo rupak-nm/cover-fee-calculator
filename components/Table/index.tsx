@@ -54,7 +54,7 @@ export const Table: FC<TableProps> = ({ children, ...tableProps }) => {
 export const TableWrapper: FC<TableProps> = ({ children }) => {
   return (
     <>
-      <div className="relative px-8 pt-2 overflow-x-scroll bg-white text-404040 rounded-t-3xl lg:overflow-hidden">
+      <div className="relative pt-2 overflow-x-scroll bg-white text-404040 rounded-t-3xl lg:overflow-hidden">
         {children}
       </div>
     </>
@@ -115,7 +115,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
 export const THead: FC<THeadProps> = ({ columns }) => {
   return (
     <thead className="rounded-sm text-text-gray bg-FEFEFF">
-      <tr>
+      <tr className="first-child:pl-8 last-child:pr-8">
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
         })}
@@ -146,7 +146,7 @@ export const TBody: FC<TBodyProps> = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr>
+            <tr className="first-child:pl-8 last-child:pr-8">
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>

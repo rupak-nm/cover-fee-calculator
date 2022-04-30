@@ -108,14 +108,14 @@ export const BulkImportModal = ({
 
         <div className="flex justify-end">
           <button
-            className="mt-6 mr-4 font-semibold uppercase bg-transparent border rounded-lg text-text-prim px-btn-x py-btn-y font-poppins border-text-prim"
+            className="mt-6 mr-4 font-semibold capitalize bg-transparent border rounded-lg text-text-prim px-btn-x py-btn-y font-poppins border-text-prim"
             onClick={() => onClose()}
           >
             Cancel
           </button>
           <RegularButton
             text={"Import"}
-            className="mt-6"
+            className="mt-6 capitalize"
             onClick={() => handleImportClick()}
           />
         </div>

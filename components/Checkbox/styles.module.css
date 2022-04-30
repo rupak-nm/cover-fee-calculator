@@ -8,7 +8,7 @@
   border: 2px solid #9B9B9B;
   border-radius: 0.2em;
   transform: translateY(-0.05em);
-  display: grid;
+  display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -18,12 +18,13 @@
   content: "";
   width: 10px;
   height: 10px;
-  position: absolute;
+  /* position: absolute; */
   inset: 0;
   top: 1px;
   left: 0.75px;
   border-radius: 2px;
   transform: scale(0);
+  transform-origin: center;
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em #4E7DD9;
 }

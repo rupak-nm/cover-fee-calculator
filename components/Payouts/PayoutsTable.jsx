@@ -77,7 +77,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `pt-6 pb-2 font-bold font-poppins text-xs text-text-gray uppercase border-b border-b-DAE2EB`,
+      `pt-6 pb-2 leading-4.5 tracking-wider font-bold font-poppins text-xs text-text-gray uppercase border-b border-b-DAE2EB`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
