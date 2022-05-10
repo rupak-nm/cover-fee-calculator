@@ -46,7 +46,7 @@ const DataProvider = ({ children }: { children: ReactChild }) => {
         setData(data);
       },
     }),
-    [data]
+    [data, setLocalvalue]
   );
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

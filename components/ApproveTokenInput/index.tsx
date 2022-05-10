@@ -14,6 +14,7 @@ interface ApproveTokenInputProps {
   helpText?: string | ReactChild;
   className?: string;
   btnText?: string;
+  disabledBtn?: boolean;
 }
 
 export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
@@ -27,6 +28,7 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
   helpText = "",
   className = "",
   btnText,
+  disabledBtn = false,
 }) => {
   return (
     <div className={classNames(className)}>
@@ -37,12 +39,13 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
         helpText={helpText}
         placeholder={placeholer}
         tokenName={tokenName}
+        disabled={disabled}
       />
       <RegularButton
         text={btnText ?? "Approve " + tokenName}
         className="mt-6"
         onClick={(e) => handleCLick(e)}
-        disabled={disabled}
+        disabled={disabled || disabledBtn}
       />
     </div>
   );

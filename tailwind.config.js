@@ -14,6 +14,8 @@ module.exports = {
         heading: ["28px", "40px"],
         heading2: ["23px", "29px"],
         xxs: ["10px", "8px"],
+        h4: ["19px", "24px"],
+        h7: ["14px", "16px"],
       },
       borderRadius: {
         big: "0.625rem",
@@ -32,11 +34,15 @@ module.exports = {
         DAE2EB: "#DAE2EB",
         EEEEEE: "#EEEEEE",
         FA5C2F: "#FA5C2F",
+        "7398C0": "#7398C0",
+        404040: "#404040",
+        E5EDF9: "#E5EDF9",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
       },
       padding: {
+        4.5: "18px",
         15: "60px",
         25: "100px",
         70: "70px",
@@ -54,10 +60,24 @@ module.exports = {
         "btn-y": "16.5px",
         "75px": "75px",
       },
+      minWidth: {
+        "800px": "800px",
+      },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
       },
+      zIndex: {
+        60: "60",
+      },
+      lineHeight: {
+        4.5: "18px",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("first-child", "& > *:first-child");
+      addVariant("last-child", "& > *:last-child");
+    },
+  ],
 };

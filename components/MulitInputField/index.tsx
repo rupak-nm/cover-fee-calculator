@@ -65,12 +65,18 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
             )}
           >
             {i !== 0 && (
-              <button onClick={() => handleRemoveClick(i)}>
+              <button
+                className="outline-0 focus:ring-2 focus:ring-prim-border"
+                onClick={() => handleRemoveClick(i)}
+              >
                 <RemoveBtn className="text-red-600" />
               </button>
             )}
             {i === value.length - 1 && i < maxFields - 1 && (
-              <button onClick={handleAddClick}>
+              <button
+                className="outline-0 focus:ring-2 focus:ring-prim-border"
+                onClick={handleAddClick}
+              >
                 <AddBtn className="text-prim-blue" />
               </button>
             )}

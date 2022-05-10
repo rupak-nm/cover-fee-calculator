@@ -87,3 +87,25 @@ export const isValidNumber = (x: any) => {
   const y = new BigNumber(x);
   return BigNumber.isBigNumber(y);
 };
+
+export const hasValue = (x: any) => {
+  return !(!x || !parseFloat(x.toString()));
+};
+
+export const toBN = (x: any) => new BigNumber(x?.toString() || "0");
+
+export const sumOf = (...amounts: any[]) => {
+  let sum = new BigNumber("0");
+
+  amounts.forEach((amount) => {
+    if (!amount || amount.toString() === "NaN" || !hasValue(amount)) return;
+
+    try {
+      sum = sum.plus(amount.toString());
+    } catch (error) {
+      console.log("Could not add", amount);
+    }
+  });
+
+  return sum;
+};

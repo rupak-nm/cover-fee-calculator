@@ -39,6 +39,7 @@ const asCurrency = (
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,
+    minimumFractionDigits: 0,
     maximumFractionDigits,
   });
 
