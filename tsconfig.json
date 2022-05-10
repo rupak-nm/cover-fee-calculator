@@ -18,14 +18,9 @@
     "paths": {
       "@components/*": ["components/*"],
       "@svg": ["utils/SVG/index.tsx"],
-      "@utils/*": ["utils/*"],
-      "@wallet/*": ["lib/connect-wallet/*"],
-      "@modal/*": ["lib/modal/*"],
-      "@toast/*": ["lib/toast/*"],
-      "@date/*": ["lib/date/*"],
-      "@config/*": ["config/*"]
+      "@utils/*": ["utils/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Whitelist/WhitelistTable.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
