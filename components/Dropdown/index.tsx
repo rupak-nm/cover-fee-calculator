@@ -78,7 +78,7 @@ export const BulkImportModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} overlayClass="backdrop-blur-sm">
-      <ModalWrapper className="max-w-xs px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-16 sm:max-w-xl">
+      <ModalWrapper className="max-w-xl px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-10">
         <Dialog.Title
           // as="h3"
           className="font-bold leading-9 text-black font-sora text-heading"
@@ -86,18 +86,10 @@ export const BulkImportModal = ({
           Bulk Import
         </Dialog.Title>
 
-        <button
-          onClick={() => onClose()}
-          className="absolute flex items-center justify-center text-black rounded-md top-5 right-6 sm:top-7 sm:right-12 hover:text-text-prim focus:text-text-prim focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-transparent"
-        >
-          <span className="sr-only">Close</span>
-          <CloseIcon width={24} height={24} />
-        </button>
-
         <FormInput
           label=""
           placeholder="Provide a list of addresses you want to whitelist separated by “,”"
-          className="w-96"
+          className="w-96 lg:w-[620px]"
           value={listOfAddresses.join(",")}
           setValue={(val: string) => handleInputChange(val)}
           type="text"
@@ -108,16 +100,17 @@ export const BulkImportModal = ({
 
         <div className="flex justify-end">
           <button
-            className="mt-6 mr-4 font-semibold capitalize bg-transparent border rounded-lg text-text-prim px-btn-x py-btn-y font-poppins border-text-prim"
+            className="py-3 mt-5 mr-4 text-sm font-semibold capitalize bg-transparent border rounded-lg font-poppins text-text-prim px-btn-x border-text-prim"
             onClick={() => onClose()}
           >
             Cancel
           </button>
-          <RegularButton
-            text={"Import"}
-            className="mt-6 capitalize"
+          <button
+            className="py-3 mt-5 text-sm font-semibold text-white capitalize rounded-lg outline-none bg-text-prim px-btn-x font-poppins focus:ring-2 focus:ring-prim-border"
             onClick={() => handleImportClick()}
-          />
+          >
+            Import
+          </button>
         </div>
       </ModalWrapper>
     </Modal>
