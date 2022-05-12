@@ -1,36 +1,17 @@
 import { CoverList } from "@components/CoverList";
-import { CreateCover } from "@components/CreateCover";
 import Header from "@components/Header";
 import { NoCovers } from "@components/NoCovers";
 import { covers } from "mock/covers";
 // import { useFetchCovers } from "@utils/hooks/useFetchCovers";
 import { NextPage } from "next";
-import { useState } from "react";
 
 const Home: NextPage = () => {
-  const [showFormPage, setShowFormPage] = useState(false);
-
   // const { data } = useFetchCovers();
   const data = covers;
   return (
     <div>
       <Header title="Neptune Mutual - Create New Cover" />
-      <main>
-        {showFormPage ? (
-          <CreateCover gotoHome={() => setShowFormPage(false)} />
-        ) : (
-          <>
-            {data.length ? (
-              <CoverList
-                covers={data}
-                gotoCreateCover={() => setShowFormPage(true)}
-              />
-            ) : (
-              <NoCovers gotoCreateCover={() => setShowFormPage(true)} />
-            )}
-          </>
-        )}
-      </main>
+      <main>{data.length ? <CoverList covers={data} /> : <NoCovers />}</main>
 
       <footer></footer>
     </div>

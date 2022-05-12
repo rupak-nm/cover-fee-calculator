@@ -69,7 +69,9 @@ export const TagsInput: FC<TagsInputProps> = ({
               key={index}
               className="relative flex items-center justify-between max-w-full gap-2 p-2 py-1 overflow-hidden text-sm text-white rounded-full bg-prim-blue"
             >
-              <span className="overflow-hidden text-ellipsis">{tag}</span>
+              <span className="overflow-hidden text-ellipsis font-poppins">
+                {tag}
+              </span>
               <span className="ml-2 bg-white rounded-lg cursor-pointer">
                 <RemoveBtn
                   onClick={() => removeTags(index)}

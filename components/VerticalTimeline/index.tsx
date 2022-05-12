@@ -17,12 +17,12 @@ export const VerticalTimeline: FC<VerticalTimelineProps> = ({
           <div className="relative">
             <div
               className={classNames(
-                "flex items-center justify-center border-4 border-text-prim rounded-full w-75px h-75px",
+                "flex items-center justify-center border-4 rounded-full w-75px h-75px",
                 idx === 0
-                  ? "text-text-prim bg-transparent"
+                  ? "text-text-prim bg-transparent border-light-blue"
                   : idx === items.length - 1
-                  ? "bg-text-prim text-white"
-                  : "bg-light-blue text-white"
+                  ? "bg-text-prim text-white border-text-prim"
+                  : "bg-light-blue text-white border-light-blue"
               )}
             >
               <span className="text-sm font-poppins">{innerLabel}</span>

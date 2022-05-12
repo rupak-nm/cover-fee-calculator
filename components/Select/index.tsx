@@ -30,7 +30,7 @@ const Select: FC<SelectProps> = ({
 
   return (
     <div className={`flex flex-col font-poppins ${className}`}>
-      <label className="text-xs font-semibold uppercase text-text-gray">
+      <label className="text-sm font-semibold tracking-wider uppercase text-text-gray">
         {label}
       </label>
       <select

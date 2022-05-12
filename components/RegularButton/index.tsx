@@ -19,7 +19,7 @@ export const RegularButton: FC<ApproveButtonProps> = ({
   return (
     <button
       className={classNames(
-        "bg-text-prim rounded-lg text-white px-btn-x py-btn-y font-poppins font-semibold uppercase outline-none focus:ring-2 focus:ring-prim-border",
+        "bg-text-prim rounded-lg text-white px-btn-x py-btn-y font-poppins font-semibold uppercase outline-none focus:ring-2 focus:ring-prim-border tracking-wider",
         disabled && "opacity-75 cursor-not-allowed",
         className
       )}

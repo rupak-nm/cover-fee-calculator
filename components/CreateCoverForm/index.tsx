@@ -459,7 +459,7 @@ export const CreateCoverForm: FC = () => {
             label="Npm Stake"
             placeholer="0.00"
             helpText={
-              <span className="text-sm">
+              <span className="text-sm font-poppins">
                 Balance: {balance.npm}
                 <br />
                 Minimum Stake: {balance.minStake}
@@ -490,7 +490,7 @@ export const CreateCoverForm: FC = () => {
             label="Reassurance Amount"
             placeholer="0.00"
             helpText={
-              <span className="text-sm">
+              <span className="text-sm font-poppins">
                 Balance: {balance.dai}
                 {error.dai && (
                   <>

@@ -12,7 +12,7 @@ export const CoverCard = ({
 }) => {
   const { projectName, key } = details;
   const imgSrc = getCoverImgSrc({ key });
-  const utilization = "0.25";
+  const utilization = "0.63";
 
   const stats = {
     coverFee: {
@@ -62,9 +62,11 @@ export const CoverCard = ({
       <Divider className="mt-4 mb-8" />
 
       {/* Utilization Ratio */}
-      <div className="flex justify-between px-1 text-h7 ">
-        <span className="uppercase text-h7 ">utilization Ratio</span>
-        <span className="font-semibold text-right text-h7 ">
+      <div className="flex justify-between px-1 text-h7">
+        <span className="uppercase text-h7 font-poppins">
+          utilization Ratio
+        </span>
+        <span className="font-semibold text-right text-h7 font-poppins">
           {formatPercent(parseFloat(utilization))}
         </span>
       </div>
