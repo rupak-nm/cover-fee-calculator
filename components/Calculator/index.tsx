@@ -210,7 +210,9 @@ const Calculator = () => {
       </div>
       <Divider className="mt-6" />
       <div className="mt-6">
-        <h2 className="text-xs font-semibold">{"YOUR COVER RATE & FEE"}</h2>
+        <h2 className="text-xs font-semibold text-prim-blue">
+          {"YOUR COVER RATE & FEE"}
+        </h2>
         <h1 className="mt-2 text-2xl font-bold text-text-prim">
           {coverRate ? `${coverRate}` : <i>N/A</i>} /{" "}
           {coverFee ? `${coverFee} DAI` : <i>N/A</i>}

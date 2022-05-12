@@ -59,7 +59,7 @@ const FormInput: FC<FormInputProps> = ({
   return (
     <div className={`flex flex-col font-poppins relative ${className}`}>
       {label && (
-        <label className="text-sm font-semibold uppercase font-poppins text-prim-blue">
+        <label className="text-sm font-semibold tracking-wider uppercase font-poppins text-prim-blue">
           {label}
         </label>
       )}

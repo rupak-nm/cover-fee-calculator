@@ -92,10 +92,10 @@ const Header: FC<HeaderProps> = ({
               <Link href={href} key={idx}>
                 <a
                   className={classNames(
-                    "block py-8",
+                    "block py-8 border-b-4",
                     href.substring(1) === navKey
-                      ? "box-border font-semibold border-b-4 rounded-sm border-prim-border text-text-prim"
-                      : "text-text-gray font-normal"
+                      ? "box-border font-semibold rounded-sm border-prim-border text-text-prim"
+                      : "text-text-gray font-normal border-transparent"
                   )}
                 >
                   {label}

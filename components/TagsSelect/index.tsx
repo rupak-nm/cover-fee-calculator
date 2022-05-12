@@ -89,7 +89,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
 
   return (
     <div className="relative">
-      <label className="text-sm font-semibold uppercase font-poppins text-prim-blue">
+      <label className="text-sm font-semibold tracking-wider uppercase font-poppins text-prim-blue">
         {label}
       </label>
       <div ref={divRef}>
@@ -162,7 +162,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                   <li
                     key={i}
                     className={classNames(
-                      "p-2",
+                      "p-2 font-poppins",
                       arrayIncludes(value, item, "name")
                         ? "bg-black bg-opacity-5"
                         : "bg-transparent cursor-pointer hover:bg-black hover:bg-opacity-10"

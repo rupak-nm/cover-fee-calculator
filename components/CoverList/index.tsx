@@ -1,21 +1,22 @@
 import { PlusIcon } from "@svg";
+import Link from "next/link";
 import { FC } from "react";
 import { Grid } from "./Grid";
 
 interface CoverListProps {
   covers: any[];
-  gotoCreateCover: Function;
 }
 
-export const CoverList: FC<CoverListProps> = ({ covers, gotoCreateCover }) => {
+export const CoverList: FC<CoverListProps> = ({ covers }) => {
   const CreateBtn = () => (
-    <button
-      className="flex items-center gap-2 px-2 py-1 border-2 rounded-lg text-text-prim border-text-prim"
-      onClick={() => gotoCreateCover()}
-    >
-      <PlusIcon className="" />
-      <span className="text-sm font-medium">Create a New Cover</span>
-    </button>
+    <Link href={"/create"} passHref>
+      <a>
+        <button className="flex items-center gap-2 px-2 py-1 border rounded-lg text-text-prim border-text-prim">
+          <PlusIcon className="" />
+          <span className="text-sm font-medium">Create a New Cover</span>
+        </button>
+      </a>
+    </Link>
   );
 
   return (
