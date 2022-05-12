@@ -85,7 +85,7 @@ const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
       <div className="flex items-center">
         <span
           className={classNames(
-            "text-left font-poppins text-sm whitespace-nowrap text-prim-blue",
+            "text-left font-poppins text-sm whitespace-nowrap text-prim-blue uppercase",
             cellName === "account" ? "font-normal" : "font-semibold"
           )}
         >
@@ -137,7 +137,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
           onChange={onChange}
         />
         <div
-          className="relative flex-grow p-1 cursor-pointer"
+          className="relative flex-grow p-1 mt-1 cursor-pointer"
           onClick={handleDropdown}
         >
           <ChevronDownIcon width={10} height={6} />
@@ -197,7 +197,7 @@ export const WhitelistTable = () => {
 
   return (
     <>
-      <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
+      <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
           searchValue={globalFilter}
           onSearchChange={(e) => setGlobalFilter(e.target.value)}

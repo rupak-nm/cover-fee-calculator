@@ -43,7 +43,7 @@ const CoverNameRenderer = ({ row }) => {
       <div className="flex items-center">
         <span
           className={classNames(
-            "text-left text-prim-blue font-poppins text-sm whitespace-nowrap font-semibold"
+            "text-left text-prim-blue font-poppins text-sm whitespace-nowrap font-semibold uppercase"
           )}
         >
           {row.coverName}
