@@ -238,11 +238,7 @@ export const CreateCoverForm: FC = () => {
 
   const period = {
     reporting: parseInt(formData.reportingPeriod || "0"),
-    resolution:
-      parseInt(formData.reportingPeriod || "0") +
-      parseInt(formData.cooldownPeriod || "0"),
     claim:
-      parseInt(formData.reportingPeriod || "0") +
       parseInt(formData.cooldownPeriod || "0") +
       parseInt(formData.claimPeriod || "0"),
   };
@@ -417,19 +413,18 @@ export const CreateCoverForm: FC = () => {
           <VerticalTimeline
             items={[
               {
-                innerLabel: "day 0",
-                name: "Start",
-                periodInfo: "Reporting Period",
+                innerLabel: "day 1",
+                name: "start",
+                periodInfo: "reporting",
               },
               {
                 innerLabel: `day ${period.reporting}`,
-                name: "Reporting End",
-                periodInfo: "Cooldown Period",
+                name: "resolve",
+                periodInfo: "claim Period",
               },
               {
-                innerLabel: `day ${period.resolution + period.claim}`,
-                name: "Finalize",
-                periodInfo: "Claim Period",
+                innerLabel: `day ${period.reporting + period.claim}`,
+                name: "finalize",
               },
             ]}
             className="max-w-screen-md mt-10"
