@@ -26,6 +26,7 @@ interface FormData {
   coverRules: string;
   coverExclusions: string;
   socialProfiles: string[];
+  requiresWhitelist: boolean;
   networkList: { name: string; chainId?: number }[];
   floorRate: string;
   ceilingRate: string;
@@ -64,6 +65,7 @@ const initialFormData = {
   coverRules: "",
   coverExclusions: "",
   socialProfiles: [""],
+  requiresWhitelist: false,
   networkList: [],
   floorRate: "",
   ceilingRate: "",
@@ -329,7 +331,19 @@ export const CreateCoverForm: FC = () => {
           maxFields={10}
         />
 
-        <Divider className="mt-12" />
+        <div className="py-4 mt-6">
+          <Checkbox
+            id="rw-checkbox"
+            label="Requires Whitelist"
+            labelClass="font-poppins"
+            checked={formData.requiresWhitelist}
+            onChange={(checked) =>
+              handleInputChange("requiresWhitelist", checked)
+            }
+          />
+        </div>
+
+        <Divider className="mt-10" />
 
         <div className="mt-10">
           <div className="flex items-center">
