@@ -123,7 +123,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
   };
 
   return (
-    <th className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
+    <th scope="col" className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
       <div
         className={classNames(
           "flex items-center  w-fit py-1 px-2",

@@ -11,6 +11,7 @@ module.exports = {
     },
     extend: {
       fontSize: {
+        modalHeading: ["33px", "48px"],
         heading: ["28px", "40px"],
         heading2: ["23px", "29px"],
         xxs: ["10px", "8px"],
