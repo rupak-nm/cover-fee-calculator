@@ -222,12 +222,17 @@ export const PayoutsTable = () => {
           setSelected={setSelected}
         />
       </div>
-      <TableWrapper>
-        <Table>
-          <THead columns={columns}></THead>
-          {/* {account ? ( */}
-          <TBody isLoading={loading} columns={columns} data={filtered}></TBody>
-          {/* ) : (
+      <div className="shadow-table rounded-3xl">
+        <TableWrapper>
+          <Table>
+            <THead columns={columns}></THead>
+            {/* {account ? ( */}
+            <TBody
+              isLoading={loading}
+              columns={columns}
+              data={filtered}
+            ></TBody>
+            {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -236,13 +241,14 @@ export const PayoutsTable = () => {
               </tr>
             </tbody>
           )} */}
-        </Table>
-      </TableWrapper>
-      <TablePagination
-        totalCount={transactions.length}
-        hasNext={false}
-        hasPrev={false}
-      />
+          </Table>
+        </TableWrapper>
+        <TablePagination
+          totalCount={transactions.length}
+          hasNext={false}
+          hasPrev={false}
+        />
+      </div>
     </>
   );
 };

@@ -204,66 +204,67 @@ export const WhitelistTable = () => {
         />
       </div>
 
-      <TableWrapper>
-        <Table {...getTableProps()}>
-          <thead className="rounded-sm text-text-gray bg-FEFEFF">
-            {headerGroups.map((headerGroup, i) => (
-              <tr
-                key={i}
-                {...headerGroup.getHeaderGroupProps()}
-                className="first-child:pl-8 last-child:pr-8"
-              >
-                {i === headerGroups.length - 1 && (
-                  <HeaderActionRenderer
-                    checked={isAllRowsSelected}
-                    onChange={() => toggleAllRowsSelected(!isAllRowsSelected)}
-                  />
-                )}
-                {headerGroup.headers.map((column, _i) => {
-                  return (
-                    <TableHeader
-                      key={_i}
-                      name={column.render("Header")}
-                      align="left"
-                      {...column.getHeaderProps()}
-                    />
-                  );
-                })}
-              </tr>
-            ))}
-          </thead>
-          {/* {account ? ( */}
-          <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
+      <div className="shadow-table rounded-3xl">
+        <TableWrapper>
+          <Table {...getTableProps()}>
+            <thead className="rounded-sm text-text-gray bg-FEFEFF">
+              {headerGroups.map((headerGroup, i) => (
                 <tr
                   key={i}
-                  {...row.getRowProps()}
-                  className={classNames(
-                    "first-child:pl-8 last-child:pr-8",
-                    row.isSelected && "bg-E5EDF9"
-                  )}
+                  {...headerGroup.getHeaderGroupProps()}
+                  className="first-child:pl-8 last-child:pr-8"
                 >
-                  <ActionsRenderer
-                    checked={row.isSelected}
-                    onChange={() => row.toggleRowSelected()}
-                  />
-                  {row.cells.map((cell, _i) => {
+                  {i === headerGroups.length - 1 && (
+                    <HeaderActionRenderer
+                      checked={isAllRowsSelected}
+                      onChange={() => toggleAllRowsSelected(!isAllRowsSelected)}
+                    />
+                  )}
+                  {headerGroup.headers.map((column, _i) => {
                     return (
-                      <DetailsRenderer
+                      <TableHeader
                         key={_i}
-                        cellName={cell.column.id}
-                        cellValue={cell.value}
-                        {...cell.getCellProps()}
+                        name={column.render("Header")}
+                        align="left"
+                        {...column.getHeaderProps()}
                       />
                     );
                   })}
                 </tr>
-              );
-            })}
-          </tbody>
-          {/* ) : (
+              ))}
+            </thead>
+            {/* {account ? ( */}
+            <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    key={i}
+                    {...row.getRowProps()}
+                    className={classNames(
+                      "first-child:pl-8 last-child:pr-8",
+                      row.isSelected && "bg-E5EDF9"
+                    )}
+                  >
+                    <ActionsRenderer
+                      checked={row.isSelected}
+                      onChange={() => row.toggleRowSelected()}
+                    />
+                    {row.cells.map((cell, _i) => {
+                      return (
+                        <DetailsRenderer
+                          key={_i}
+                          cellName={cell.column.id}
+                          cellValue={cell.value}
+                          {...cell.getCellProps()}
+                        />
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+            {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -272,13 +273,14 @@ export const WhitelistTable = () => {
               </tr>
             </tbody>
           )} */}
-        </Table>
-      </TableWrapper>
-      <TablePagination
-        totalCount={data.transactions.length}
-        hasNext={false}
-        hasPrev={false}
-      />
+          </Table>
+        </TableWrapper>
+        <TablePagination
+          totalCount={data.transactions.length}
+          hasNext={false}
+          hasPrev={false}
+        />
+      </div>
     </>
   );
 };

@@ -66,6 +66,7 @@ module.exports = {
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
+        table: "0px 4px 7px rgba(0, 0, 0, 0.05)",
       },
       zIndex: {
         60: "60",
