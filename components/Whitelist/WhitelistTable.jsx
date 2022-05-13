@@ -204,16 +204,12 @@ export const WhitelistTable = () => {
         />
       </div>
 
-      <div className="shadow-table rounded-3xl">
+      <div className="shadow-table rounded-3xl bg-white px-8">
         <TableWrapper>
           <Table {...getTableProps()}>
             <thead className="rounded-sm text-text-gray bg-FEFEFF">
               {headerGroups.map((headerGroup, i) => (
-                <tr
-                  key={i}
-                  {...headerGroup.getHeaderGroupProps()}
-                  className="first-child:pl-8 last-child:pr-8"
-                >
+                <tr key={i} {...headerGroup.getHeaderGroupProps()}>
                   {i === headerGroups.length - 1 && (
                     <HeaderActionRenderer
                       checked={isAllRowsSelected}
@@ -241,10 +237,7 @@ export const WhitelistTable = () => {
                   <tr
                     key={i}
                     {...row.getRowProps()}
-                    className={classNames(
-                      "first-child:pl-8 last-child:pr-8",
-                      row.isSelected && "bg-E5EDF9"
-                    )}
+                    className={classNames(row.isSelected && "bg-E5EDF9")}
                   >
                     <ActionsRenderer
                       checked={row.isSelected}

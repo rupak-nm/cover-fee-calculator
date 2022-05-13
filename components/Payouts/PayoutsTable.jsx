@@ -222,7 +222,7 @@ export const PayoutsTable = () => {
           setSelected={setSelected}
         />
       </div>
-      <div className="shadow-table rounded-3xl">
+      <div className="shadow-table rounded-3xl bg-white px-8">
         <TableWrapper>
           <Table>
             <THead columns={columns}></THead>

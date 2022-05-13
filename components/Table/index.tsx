@@ -115,7 +115,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
 export const THead: FC<THeadProps> = ({ columns }) => {
   return (
     <thead className="rounded-sm text-text-gray bg-FEFEFF">
-      <tr className="first-child:pl-8 last-child:pr-8">
+      <tr className="">
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
         })}
@@ -146,7 +146,7 @@ export const TBody: FC<TBodyProps> = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr className="first-child:pl-8 last-child:pr-8">
+            <tr className="">
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
