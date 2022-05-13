@@ -7,7 +7,7 @@ import { RegularButton } from "@components/RegularButton";
 import { TagsInput } from "@components/TagsInput";
 import { TagsSelect, TagValue } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
-import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
+// import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
 import { Calculator } from "@svg";
 import { useAppConstants } from "@utils/app-constants/context";
 import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
@@ -317,7 +317,7 @@ export const CreateCoverForm: FC = () => {
           setValue={(val) => handleInputChange("socialProfiles", val)}
           label="Social Profiles"
           helpText="Press the (+) to add more."
-          className="mt-12"
+          className="mt-6"
           placeholder={[
             "Enter website link",
             "Enter documentation link",
@@ -417,23 +417,19 @@ export const CreateCoverForm: FC = () => {
           <VerticalTimeline
             items={[
               {
-                innerLabel: "Day 0",
+                innerLabel: "day 0",
                 name: "Start",
                 periodInfo: "Reporting Period",
               },
               {
-                innerLabel: `Day ${period.reporting}`,
+                innerLabel: `day ${period.reporting}`,
                 name: "Reporting End",
                 periodInfo: "Cooldown Period",
               },
               {
-                innerLabel: `Day ${period.resolution}`,
-                name: "Resolution End",
+                innerLabel: `day ${period.resolution + period.claim}`,
+                name: "Finalize",
                 periodInfo: "Claim Period",
-              },
-              {
-                innerLabel: `Day ${period.claim}`,
-                name: "Claim End",
               },
             ]}
             className="max-w-screen-md mt-10"

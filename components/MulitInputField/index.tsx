@@ -1,5 +1,5 @@
 import FormInput from "@components/FormInput";
-import { AddBtn, RemoveBtn } from "@svg";
+import { AddBtn, RemoveBtn, TrashIcon } from "@svg";
 import { classNames } from "@utils/functions";
 import { FC } from "react";
 
@@ -55,23 +55,33 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
           setValue={(val) => handleInputChange(val, i)}
           type="text"
           helpText={i === value.length - 1 ? helpText : ""}
+          inputClass={i === 0 ? "mt-2" : "mt-0"}
           {...formInputProps}
+          sideElement={
+            i !== 0 && (
+              <div className="relative ">
+                <div className="absolute flex items-center justify-center h-full ml-2 sm:ml-4 ">
+                  <button
+                    className="p-2 border rounded border-teal-light outline-0 focus:ring-2 focus:ring-prim-border"
+                    onClick={() => handleRemoveClick(i)}
+                  >
+                    <TrashIcon className="text-text-gray" />
+                  </button>
+                </div>
+              </div>
+            )
+          }
         >
           <div
             className={classNames(
               // i === 0 && value.length !== 1 ? "h-0" : "h-6",
-              "h-6 mt-1 flex justify-end gap-x-4",
+              "flex justify-end",
+              i === value.length - 1 && i < maxFields - 1
+                ? "h-6 mt-1"
+                : "h-4 mt-0",
               i === value.length - 1 ? "absolute -bottom-2 right-0" : ""
             )}
           >
-            {i !== 0 && (
-              <button
-                className="outline-0 focus:ring-2 focus:ring-prim-border"
-                onClick={() => handleRemoveClick(i)}
-              >
-                <RemoveBtn className="text-red-600" />
-              </button>
-            )}
             {i === value.length - 1 && i < maxFields - 1 && (
               <button
                 className="outline-0 focus:ring-2 focus:ring-prim-border"
