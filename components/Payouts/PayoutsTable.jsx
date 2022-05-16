@@ -24,6 +24,7 @@ import { convertFromUnits } from "@utils/functions/bn";
 import { getParsedKey, toBytes32 } from "@utils/helpers/cover";
 import { payouts } from "mock/payouts";
 import { covers } from "mock/covers";
+import styles from "./PayoutsTable.module.css";
 
 const DetailsRenderer = ({ row }) => {
   return (
@@ -77,7 +78,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `pt-6 pb-2 leading-4.5 tracking-wider font-bold font-poppins text-xs text-text-gray uppercase border-b border-b-DAE2EB`,
+      `pt-6 pb-2 leading-4.5 tracking-wider font-bold font-poppins text-xs text-text-gray uppercase`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -210,9 +211,9 @@ export const PayoutsTable = () => {
 
   return (
     <>
-      <div className="flex py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
+      <div className="flex px-8 py-8 mt-8 mb-6 bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
-          containerClass="w-full"
+          containerClass="w-full pr-5"
           searchValue={searchValue}
           onSearchChange={(e) => setSearchValue(e.target.value)}
         />
@@ -222,7 +223,12 @@ export const PayoutsTable = () => {
           setSelected={setSelected}
         />
       </div>
-      <div className="shadow-table rounded-3xl bg-white px-8">
+      <div
+        className={classNames(
+          "bg-white shadow-table rounded-3xl",
+          styles.table
+        )}
+      >
         <TableWrapper>
           <Table>
             <THead columns={columns}></THead>

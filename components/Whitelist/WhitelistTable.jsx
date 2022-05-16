@@ -19,6 +19,7 @@ import DateLib from "@date/DateLib";
 import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
 import { SearchBar } from "@components/common/SearchBar";
 import { whitelists } from "mock/whitelist";
+import styles from "./WhitelistTable.module.css";
 
 import { useGlobalFilter, useRowSelect, useTable } from "react-table";
 
@@ -40,12 +41,14 @@ interface RenderActionsProps {
 } */
 
 const TableHeader = (name, align, ...tableheadProps) => {
+  console.log("align", align);
+  console.log("align", name);
   return (
     <th
       scope="col"
       className={classNames(
-        `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
-        align === "right" ? "text-right" : "text-left"
+        `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase `,
+        name.align === "right" ? "text-right" : "text-left"
       )}
       {...tableheadProps}
     >
@@ -81,12 +84,20 @@ const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
     return <DateRenderer value={cellValue} {...tdProps} />;
   }
   return (
-    <td className="py-6 " {...tdProps}>
+    <td
+      className={classNames(
+        "flex py-6",
+        { ...tdProps },
+        cellName === "account" && "justify-end"
+      )}
+    >
       <div className="flex items-center">
         <span
           className={classNames(
-            "text-left font-poppins text-sm whitespace-nowrap text-prim-blue uppercase",
-            cellName === "account" ? "font-normal" : "font-semibold"
+            " font-poppins text-sm whitespace-nowrap text-prim-blue uppercase",
+            cellName === "account"
+              ? "font-normal text-right"
+              : "font-semibold text-left"
           )}
         >
           {cellValue}
@@ -123,7 +134,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
   };
 
   return (
-    <th scope="col" className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
+    <th scope="col" className="relative pt-6 pb-2 min-w-120">
       <div
         className={classNames(
           "flex items-center  w-fit py-1 px-2",
@@ -197,19 +208,28 @@ export const WhitelistTable = () => {
 
   return (
     <>
-      <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30 rounded-2xl">
+      <div className="px-8 py-8 mt-8 mb-6 bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
           searchValue={globalFilter}
           onSearchChange={(e) => setGlobalFilter(e.target.value)}
         />
       </div>
 
-      <div className="shadow-table rounded-3xl bg-white px-8">
+      <div
+        className={classNames(
+          "bg-white shadow-table rounded-3xl",
+          styles.table
+        )}
+      >
         <TableWrapper>
           <Table {...getTableProps()}>
             <thead className="rounded-sm text-text-gray bg-FEFEFF">
               {headerGroups.map((headerGroup, i) => (
-                <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+                <tr
+                  key={i}
+                  {...headerGroup.getHeaderGroupProps()}
+                  className="first-child:pl-8 last-child:pr-8"
+                >
                   {i === headerGroups.length - 1 && (
                     <HeaderActionRenderer
                       checked={isAllRowsSelected}
@@ -221,7 +241,7 @@ export const WhitelistTable = () => {
                       <TableHeader
                         key={_i}
                         name={column.render("Header")}
-                        align="left"
+                        align={column.Header === "Account" && "right"}
                         {...column.getHeaderProps()}
                       />
                     );
@@ -230,14 +250,17 @@ export const WhitelistTable = () => {
               ))}
             </thead>
             {/* {account ? ( */}
-            <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
+            <tbody {...getTableBodyProps()}>
               {rows.map((row, i) => {
                 prepareRow(row);
                 return (
                   <tr
                     key={i}
                     {...row.getRowProps()}
-                    className={classNames(row.isSelected && "bg-E5EDF9")}
+                    className={classNames(
+                      "first-child:pl-8 last-child:pr-8",
+                      row.isSelected && "bg-E5EDF9"
+                    )}
                   >
                     <ActionsRenderer
                       checked={row.isSelected}

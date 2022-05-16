@@ -1,0 +1,21 @@
+.table td, .table th {
+    position: relative;
+  }
+  
+  .table td::after,.table th:after {
+    background: #DAE2EB;
+    bottom: 0;
+    content: '';
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 5;
+    height: 1px;
+  }
+  
+  .table td:first-child:after,.table th:first-child:after {
+    margin-left: 32px;
+  }
+  .table td:last-child:after,.table th:last-child:after {
+    margin-right: 32px;
+  }

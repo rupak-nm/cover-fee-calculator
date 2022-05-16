@@ -77,10 +77,10 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white border-t rounded-b-3xl border-t-DAE2EB font-poppins">
+      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xls font-poppins">
         <p className=" opacity-40">Rows per page</p>
         <select
-          className="px-2 py-1 w-14 mx-4 text-xs border rounded-md border-divider-gray disabled:opacity-75"
+          className="px-2 py-1 mx-4 text-xs border rounded-md w-14 border-divider-gray disabled:opacity-75"
           value={limit.toString()}
           onChange={(ev) => updateRowCount(ev.target.value)}
           disabled={totalCount <= limit}
@@ -115,7 +115,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
 export const THead: FC<THeadProps> = ({ columns }) => {
   return (
     <thead className="rounded-sm text-text-gray bg-FEFEFF">
-      <tr className="">
+      <tr className="first-child:pl-8 last-child:pr-8">
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
         })}
@@ -133,7 +133,7 @@ export const TBody: FC<TBodyProps> = ({
   RowWrapper = Fragment,
 }) => {
   return (
-    <tbody className="divide-y divide-DAE2EB">
+    <tbody className="">
       {data.length === 0 && (
         <tr className="w-full text-center">
           <td className="p-6" colSpan={columns.length}>
@@ -146,7 +146,7 @@ export const TBody: FC<TBodyProps> = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr className="">
+            <tr className="first-child:pl-8 last-child:pr-8">
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
