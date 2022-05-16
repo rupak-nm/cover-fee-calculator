@@ -45,7 +45,7 @@ const TableHeader = (name, align, ...tableheadProps) => {
       scope="col"
       className={classNames(
         `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
-        align === "right" ? "text-right" : "text-left"
+        name.align === "right" ? "text-right" : "text-left"
       )}
       {...tableheadProps}
     >
@@ -81,12 +81,20 @@ const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
     return <DateRenderer value={cellValue} {...tdProps} />;
   }
   return (
-    <td className="py-6 " {...tdProps}>
+    <td
+      className={classNames(
+        "flex py-6",
+        { ...tdProps },
+        cellName === "account" && "justify-end"
+      )}
+    >
       <div className="flex items-center">
         <span
           className={classNames(
-            "text-left font-poppins text-sm whitespace-nowrap text-prim-blue uppercase",
-            cellName === "account" ? "font-normal" : "font-semibold"
+            " font-poppins text-sm whitespace-nowrap text-prim-blue uppercase",
+            cellName === "account"
+              ? "font-normal text-right"
+              : "font-semibold text-left"
           )}
         >
           {cellValue}
@@ -123,7 +131,10 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
   };
 
   return (
-    <th className="pt-6 pb-2 border-b min-w-120 border-b-DAE2EB">
+    <th
+      scope="col"
+      className="relative pt-6 pb-2 min-w-120 border-b border-b-DAE2EB"
+    >
       <div
         className={classNames(
           "flex items-center  w-fit py-1 px-2",
@@ -197,73 +208,74 @@ export const WhitelistTable = () => {
 
   return (
     <>
-      <div className="py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30 rounded-2xl">
+      <div className="px-8 py-8 mt-8 mb-6 bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
           searchValue={globalFilter}
           onSearchChange={(e) => setGlobalFilter(e.target.value)}
         />
       </div>
 
-      <TableWrapper>
-        <Table {...getTableProps()}>
-          <thead className="rounded-sm text-text-gray bg-FEFEFF">
-            {headerGroups.map((headerGroup, i) => (
-              <tr
-                key={i}
-                {...headerGroup.getHeaderGroupProps()}
-                className="first-child:pl-8 last-child:pr-8"
-              >
-                {i === headerGroups.length - 1 && (
-                  <HeaderActionRenderer
-                    checked={isAllRowsSelected}
-                    onChange={() => toggleAllRowsSelected(!isAllRowsSelected)}
-                  />
-                )}
-                {headerGroup.headers.map((column, _i) => {
-                  return (
-                    <TableHeader
-                      key={_i}
-                      name={column.render("Header")}
-                      align="left"
-                      {...column.getHeaderProps()}
-                    />
-                  );
-                })}
-              </tr>
-            ))}
-          </thead>
-          {/* {account ? ( */}
-          <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
-            {rows.map((row, i) => {
-              prepareRow(row);
-              return (
+      <div className="bg-white shadow-table rounded-3xl">
+        <TableWrapper>
+          <Table {...getTableProps()}>
+            <thead className="rounded-sm text-text-gray bg-FEFEFF">
+              {headerGroups.map((headerGroup, i) => (
                 <tr
                   key={i}
-                  {...row.getRowProps()}
-                  className={classNames(
-                    "first-child:pl-8 last-child:pr-8",
-                    row.isSelected && "bg-E5EDF9"
-                  )}
+                  {...headerGroup.getHeaderGroupProps()}
+                  className="first-child:pl-8 last-child:pr-8"
                 >
-                  <ActionsRenderer
-                    checked={row.isSelected}
-                    onChange={() => row.toggleRowSelected()}
-                  />
-                  {row.cells.map((cell, _i) => {
+                  {i === headerGroups.length - 1 && (
+                    <HeaderActionRenderer
+                      checked={isAllRowsSelected}
+                      onChange={() => toggleAllRowsSelected(!isAllRowsSelected)}
+                    />
+                  )}
+                  {headerGroup.headers.map((column, _i) => {
                     return (
-                      <DetailsRenderer
+                      <TableHeader
                         key={_i}
-                        cellName={cell.column.id}
-                        cellValue={cell.value}
-                        {...cell.getCellProps()}
+                        name={column.render("Header")}
+                        align={column.Header === "Account" && "right"}
+                        {...column.getHeaderProps()}
                       />
                     );
                   })}
                 </tr>
-              );
-            })}
-          </tbody>
-          {/* ) : (
+              ))}
+            </thead>
+            {/* {account ? ( */}
+            <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
+              {rows.map((row, i) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    key={i}
+                    {...row.getRowProps()}
+                    className={classNames(
+                      "first-child:pl-8 last-child:pr-8",
+                      row.isSelected && "bg-E5EDF9"
+                    )}
+                  >
+                    <ActionsRenderer
+                      checked={row.isSelected}
+                      onChange={() => row.toggleRowSelected()}
+                    />
+                    {row.cells.map((cell, _i) => {
+                      return (
+                        <DetailsRenderer
+                          key={_i}
+                          cellName={cell.column.id}
+                          cellValue={cell.value}
+                          {...cell.getCellProps()}
+                        />
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+            {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -272,13 +284,14 @@ export const WhitelistTable = () => {
               </tr>
             </tbody>
           )} */}
-        </Table>
-      </TableWrapper>
-      <TablePagination
-        totalCount={data.transactions.length}
-        hasNext={false}
-        hasPrev={false}
-      />
+          </Table>
+        </TableWrapper>
+        <TablePagination
+          totalCount={data.transactions.length}
+          hasNext={false}
+          hasPrev={false}
+        />
+      </div>
     </>
   );
 };

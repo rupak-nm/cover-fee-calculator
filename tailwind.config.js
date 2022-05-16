@@ -11,6 +11,7 @@ module.exports = {
     },
     extend: {
       fontSize: {
+        modalHeading: ["33px", "48px"],
         heading: ["28px", "40px"],
         heading2: ["23px", "29px"],
         xxs: ["10px", "15px"],
@@ -76,8 +77,10 @@ module.exports = {
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
+        table: "0px 4px 7px rgba(0, 0, 0, 0.05)",
         dropdown2: "0px 4px 6px rgba(0, 0, 0, 0.06);",
         input: "0px 0px 14px rgba(66, 137, 242, 0.2);",
+
       },
       zIndex: {
         60: "60",
