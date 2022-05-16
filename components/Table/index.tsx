@@ -77,7 +77,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xls font-poppins">
+      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
         <p className=" opacity-40">Rows per page</p>
         <select
           className="px-2 py-1 mx-4 text-xs border rounded-md w-14 border-divider-gray disabled:opacity-75"
@@ -133,7 +133,7 @@ export const TBody: FC<TBodyProps> = ({
   RowWrapper = Fragment,
 }) => {
   return (
-    <tbody className="">
+    <tbody className="divide-y divide-DAE2EB">
       {data.length === 0 && (
         <tr className="w-full text-center">
           <td className="p-6" colSpan={columns.length}>

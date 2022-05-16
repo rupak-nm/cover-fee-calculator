@@ -24,7 +24,6 @@ import { convertFromUnits } from "@utils/functions/bn";
 import { getParsedKey, toBytes32 } from "@utils/helpers/cover";
 import { payouts } from "mock/payouts";
 import { covers } from "mock/covers";
-import styles from "./PayoutsTable.module.css";
 
 const DetailsRenderer = ({ row }) => {
   return (
@@ -78,7 +77,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `pt-6 pb-2 leading-4.5 tracking-wider font-bold font-poppins text-xs text-text-gray uppercase`,
+      `pt-6 pb-2 leading-4.5 tracking-wider font-bold font-poppins text-xs text-text-gray uppercase border-b border-b-DAE2EB`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -223,12 +222,7 @@ export const PayoutsTable = () => {
           setSelected={setSelected}
         />
       </div>
-      <div
-        className={classNames(
-          "bg-white shadow-table rounded-3xl",
-          styles.table
-        )}
-      >
+      <div className="bg-white shadow-table rounded-3xl">
         <TableWrapper>
           <Table>
             <THead columns={columns}></THead>

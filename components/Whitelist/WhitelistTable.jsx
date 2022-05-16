@@ -19,7 +19,6 @@ import DateLib from "@date/DateLib";
 import { TableCheckBox } from "@components/Checkbox/TableCheckbox";
 import { SearchBar } from "@components/common/SearchBar";
 import { whitelists } from "mock/whitelist";
-import styles from "./WhitelistTable.module.css";
 
 import { useGlobalFilter, useRowSelect, useTable } from "react-table";
 
@@ -41,13 +40,11 @@ interface RenderActionsProps {
 } */
 
 const TableHeader = (name, align, ...tableheadProps) => {
-  console.log("align", align);
-  console.log("align", name);
   return (
     <th
       scope="col"
       className={classNames(
-        `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase `,
+        `pt-6 pb-2 font-bold text-xs leading-4.5 tracking-wider font-poppins text-text-gray uppercase border-b border-b-DAE2EB`,
         name.align === "right" ? "text-right" : "text-left"
       )}
       {...tableheadProps}
@@ -134,7 +131,10 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
   };
 
   return (
-    <th scope="col" className="relative pt-6 pb-2 min-w-120">
+    <th
+      scope="col"
+      className="relative pt-6 pb-2 min-w-120 border-b border-b-DAE2EB"
+    >
       <div
         className={classNames(
           "flex items-center  w-fit py-1 px-2",
@@ -215,12 +215,7 @@ export const WhitelistTable = () => {
         />
       </div>
 
-      <div
-        className={classNames(
-          "bg-white shadow-table rounded-3xl",
-          styles.table
-        )}
-      >
+      <div className="bg-white shadow-table rounded-3xl">
         <TableWrapper>
           <Table {...getTableProps()}>
             <thead className="rounded-sm text-text-gray bg-FEFEFF">
@@ -250,7 +245,7 @@ export const WhitelistTable = () => {
               ))}
             </thead>
             {/* {account ? ( */}
-            <tbody {...getTableBodyProps()}>
+            <tbody {...getTableBodyProps()} className="divide-y divide-DAE2EB">
               {rows.map((row, i) => {
                 prepareRow(row);
                 return (
