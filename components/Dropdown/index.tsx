@@ -81,7 +81,7 @@ export const BulkImportModal = ({
       <ModalWrapper className="max-w-xl px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-10">
         <Dialog.Title
           // as="h3"
-          className="font-bold leading-9 text-black font-sora text-heading"
+          className="font-bold text-black text-modalHeading leading-11 font-sora"
         >
           Bulk Import
         </Dialog.Title>
@@ -100,13 +100,13 @@ export const BulkImportModal = ({
 
         <div className="flex justify-end">
           <button
-            className="py-3 mt-5 mr-4 text-sm font-semibold capitalize bg-transparent border rounded-lg font-poppins text-text-prim px-btn-x border-text-prim"
+            className="py-3 mt-5 mr-4 text-sm font-medium capitalize bg-transparent border rounded-lg font-poppins text-text-prim px-btn-x border-text-prim"
             onClick={() => onClose()}
           >
             Cancel
           </button>
           <button
-            className="py-3 mt-5 text-sm font-semibold text-white capitalize rounded-lg outline-none bg-text-prim px-btn-x font-poppins focus:ring-2 focus:ring-prim-border"
+            className="py-3 mt-5 text-sm font-medium text-white capitalize rounded-lg outline-none bg-text-prim px-btn-x font-poppins focus:ring-2 focus:ring-prim-border"
             onClick={() => handleImportClick()}
           >
             Import

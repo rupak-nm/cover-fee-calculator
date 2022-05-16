@@ -525,7 +525,7 @@ export const CreateCoverForm: FC = () => {
             checked={tosApproved}
             onChange={(checked) => setTosApproved(checked)}
             label={
-              <span className="leading-6">
+              <span className="leading-6 font-poppins">
                 I have read, understood, and agree to{" "}
                 <a
                   href="https://docs.neptunemutual.com/usage/terms-of-use"

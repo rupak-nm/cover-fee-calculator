@@ -210,9 +210,9 @@ export const PayoutsTable = () => {
 
   return (
     <>
-      <div className="flex py-8 pr-5 mt-8 mb-6 pl-11 bg-DAE2EB bg-opacity-30">
+      <div className="flex px-8 py-8 mt-8 mb-6 bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
-          containerClass="w-full"
+          containerClass="w-full pr-5"
           searchValue={searchValue}
           onSearchChange={(e) => setSearchValue(e.target.value)}
         />
@@ -222,12 +222,17 @@ export const PayoutsTable = () => {
           setSelected={setSelected}
         />
       </div>
-      <TableWrapper>
-        <Table>
-          <THead columns={columns}></THead>
-          {/* {account ? ( */}
-          <TBody isLoading={loading} columns={columns} data={filtered}></TBody>
-          {/* ) : (
+      <div className="bg-white shadow-table rounded-3xl">
+        <TableWrapper>
+          <Table>
+            <THead columns={columns}></THead>
+            {/* {account ? ( */}
+            <TBody
+              isLoading={loading}
+              columns={columns}
+              data={filtered}
+            ></TBody>
+            {/* ) : (
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
@@ -236,13 +241,14 @@ export const PayoutsTable = () => {
               </tr>
             </tbody>
           )} */}
-        </Table>
-      </TableWrapper>
-      <TablePagination
-        totalCount={transactions.length}
-        hasNext={false}
-        hasPrev={false}
-      />
+          </Table>
+        </TableWrapper>
+        <TablePagination
+          totalCount={transactions.length}
+          hasNext={false}
+          hasPrev={false}
+        />
+      </div>
     </>
   );
 };

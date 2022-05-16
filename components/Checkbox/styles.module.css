@@ -35,7 +35,7 @@
 }
 
 .custom_input[type="checkbox"][data-size="lg"]::before {
-  width: 14px;
+  width: 13px;
   height: 14px;
 }
 

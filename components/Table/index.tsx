@@ -77,10 +77,10 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white border-t rounded-b-3xl border-t-DAE2EB font-poppins">
+      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
         <p className=" opacity-40">Rows per page</p>
         <select
-          className="w-12 mx-4 text-xs border rounded-md border-divider-gray disabled:opacity-75"
+          className="px-2 py-1 mx-4 text-xs border rounded-md w-14 border-divider-gray disabled:opacity-75"
           value={limit.toString()}
           onChange={(ev) => updateRowCount(ev.target.value)}
           disabled={totalCount <= limit}
@@ -101,7 +101,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <ChevronLeftLgIcon width={16} height={16} />
         </button>
         <button
-          className="cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
+          className="ml-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
           onClick={onNext}
           disabled={!hasNext}
         >
