@@ -1,7 +1,8 @@
 import { DownArrow, RemoveBtn } from "@svg";
-import { classNames } from "@utils/functions";
+import { arrayIncludes, classNames } from "@utils/functions";
 import { useClickOutside } from "@utils/hooks/useClickOutside";
 import { ChangeEvent, FC, KeyboardEventHandler, useRef, useState } from "react";
+import { DropdownList } from "./DropdownList";
 
 export type TagValue = { name: string; [key: string]: any };
 
@@ -32,15 +33,6 @@ export const TagsSelect: FC<TagsSelectProps> = ({
   const divRef = useRef(null);
   useClickOutside(divRef, () => setOpen(false));
 
-  const arrayIncludes = (arr: Array<any>, obj: any, key: string = "name") => {
-    return arr
-      .reduce((p, c) => {
-        p.push(c[key]);
-        return p;
-      }, [])
-      .includes(obj[key]);
-  };
-
   const filterList = (list: TagValue[], query: string) => {
     const filteredList: TagValue[] = [];
     if (query && list.length) {
@@ -65,6 +57,12 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     setValue(arr);
   };
 
+  const removeTag = (tag: { name: string; [key: string]: string }) => {
+    let arr = value;
+    arr = arr.filter((e) => e.name !== tag.name);
+    setValue(arr);
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (val) setOpen(true);
@@ -84,6 +82,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
 
   const handleItemSelect = (item: TagValue) => {
     if (!arrayIncludes(value, item)) addTag(item);
+    else removeTag(item);
     inputRef?.current?.focus();
   };
 
@@ -95,11 +94,12 @@ export const TagsSelect: FC<TagsSelectProps> = ({
       <div ref={divRef}>
         <div
           className={classNames(
-            "p-4 text-black mt-2 bg-white border rounded-lg outline-none border-border-gray font-poppins ring-0 focus-within:ring-2 ring-prim-border relative",
-            className
+            "p-4 text-black mt-2 bg-white border outline-none border-border-gray font-poppins relative focus-within:shadow-input",
+            className,
+            open ? "rounded-t-lg" : "rounded-lg"
           )}
         >
-          <ul className="flex flex-wrap items-center gap-2">
+          <ul className="flex flex-wrap items-center gap-2 pr-6">
             {value.map((tag, index) => (
               <li
                 key={index}
@@ -127,7 +127,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
               onKeyDown={(e) => handleKeyDown(e)}
               onFocus={() => setOpen(true)}
               className={classNames(
-                "block flex-shrink-0 pl-1 flex-grow rounded-lg focus:outline-none focus-visible:none"
+                "block flex-1 min-w-100px pl-1 rounded-lg focus:outline-none focus-visible:none"
               )}
               ref={inputRef}
             />
@@ -146,40 +146,13 @@ export const TagsSelect: FC<TagsSelectProps> = ({
             />
           </button>
         </div>
-        <div
-          className={classNames(
-            "absolute w-full z-50",
-            open ? "block" : "hidden"
-          )}
-        >
-          <ul className="relative mt-1 overflow-hidden overflow-y-auto bg-white divide-y-2 rounded-lg shadow-lg max-h-72">
-            {filterList(itemList, inputValue).length ? (
-              <>
-                <li className="sticky top-0 w-full p-1 text-xs bg-white font-poppins text-text-gray">
-                  Please click on the items to add.
-                </li>
-                {filterList(itemList, inputValue).map((item, i) => (
-                  <li
-                    key={i}
-                    className={classNames(
-                      "p-2 font-poppins",
-                      arrayIncludes(value, item, "name")
-                        ? "bg-black bg-opacity-5"
-                        : "bg-transparent cursor-pointer hover:bg-black hover:bg-opacity-10"
-                    )}
-                    onClick={() => handleItemSelect(item)}
-                  >
-                    {item.name}
-                  </li>
-                ))}
-              </>
-            ) : (
-              <li className="p-2 italic text-center text-text-gray">
-                No Data to show !!!
-              </li>
-            )}
-          </ul>
-        </div>
+
+        <DropdownList
+          open={open}
+          selectedList={value}
+          displayList={filterList(itemList, inputValue)}
+          handleItemClick={handleItemSelect}
+        />
       </div>
       {helpText && (
         <p className="pt-1 text-xs font-poppins text-text-gray">{helpText}</p>

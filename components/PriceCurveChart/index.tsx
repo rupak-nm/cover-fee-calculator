@@ -24,17 +24,33 @@ const PriceCurveChart = () => {
         color: "#4E7DD9",
         dashStyle: "Dash",
       },
+      lineWidth: 1,
+      lineColor: "#01052D",
       ordinal: false,
       minRange: 1,
+      labels: {
+        useHTML: true,
+        formatter: function () {
+          const val = new Intl.NumberFormat("en", {
+            notation: "compact",
+            compactDisplay: "short",
+          }).format(parseFloat(this.value.toString()));
+          return `<span class="font-poppins align-sub text-xxs text-prim-blue">${val}</span>`;
+        },
+      },
     },
     yAxis: {
       opposite: false,
       labels: {
-        format: "{value}%",
+        useHTML: true,
+        format:
+          '<span class="font-poppins text-xs text-prim-blue">{value}%</span>',
       },
       gridLineDashStyle: "Dash",
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
+      lineWidth: 1,
+      lineColor: "#01052D",
       // min: yAxisMin,
     },
     series: [
@@ -58,7 +74,7 @@ const PriceCurveChart = () => {
         },
         marker: {
           fillColor: "white",
-          lineWidth: 2,
+          lineWidth: 4,
           radius: 3,
           lineColor: "#4E7DD9",
         },
@@ -81,16 +97,17 @@ const PriceCurveChart = () => {
     tooltip: {
       animation: true,
       // xDateFormat: "",
+      padding: 0,
       useHTML: true,
       formatter: function (this: any): any {
         const _option = this.points[0].point.options;
-        return `<div class='px-2'><p class='font-bold font-poppins text-h6'>
+        return `<div class='p-4'><p class='font-semibold font-poppins text-xxs'>
         Guaranteed Protection: <span class='font-normal text-text-prim'>${
           formatCurrency(_option.amount).long
         }</span>
-        <br />Utilization Ratio: <span class='font-normal text-text-prim'>${formatPercent(
+        <!-- <br />Utilization Ratio: <span class='font-normal text-text-prim'>${formatPercent(
           _option.utilizationRatio
-        )}</span>
+        )}</span> -->
         <br />Cover Rate: <span class='font-normal text-text-prim'>${formatPercent(
           _option.rate
         )}</span>
@@ -101,12 +118,13 @@ const PriceCurveChart = () => {
       },
       backgroundColor: "rgba(255, 255, 255)",
       borderWidth: 1,
-      borderRadius: 15,
-      borderColor: "#B0C4DB",
+      borderRadius: 10,
+      borderColor: "#DAE2EB",
       shadow: {
-        offsetX: 1,
+        color: "#000",
+        offsetX: 0,
         offsetY: 2,
-        width: 2,
+        width: 6,
         opacity: 0.05,
       },
       shape: "square",

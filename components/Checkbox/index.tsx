@@ -8,6 +8,8 @@ interface CheckboxProps {
   onChange: (checked: boolean) => any;
   label?: ReactChild | string;
   custom?: boolean;
+  labelClass?: string;
+  size?: "sm" | "lg" | "xl";
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -16,10 +18,13 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   label = "",
   custom = false,
+  labelClass = "",
+  size = "sm",
 }) => {
   return (
     <div className="relative flex items-center">
       <input
+        data-size={size}
         type="checkbox"
         id={id ?? "checkbox-1"}
         className={classNames(
@@ -30,7 +35,10 @@ export const Checkbox: FC<CheckboxProps> = ({
         onChange={(e) => onChange(e.target.checked)}
       />
       {label && (
-        <label className="ml-2 font-poppins" htmlFor={id ?? "checkbox-1"}>
+        <label
+          className={classNames("ml-2 font-poppins", labelClass)}
+          htmlFor={id ?? "checkbox-1"}
+        >
           {label}
         </label>
       )}

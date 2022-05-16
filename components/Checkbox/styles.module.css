@@ -5,7 +5,7 @@
   font: inherit;
   width: 16px;
   height: 16px;
-  border: 2px solid #9B9B9B;
+  border: 2px solid #D4DFEE;
   border-radius: 0.2em;
   transform: translateY(-0.05em);
   display: flex;
@@ -27,6 +27,26 @@
   transform-origin: center;
   transition: 120ms transform ease-in-out;
   box-shadow: inset 1em 1em #4E7DD9;
+}
+
+.custom_input[type="checkbox"][data-size="lg"] {
+  width: 20px;
+  height: 20px;
+}
+
+.custom_input[type="checkbox"][data-size="lg"]::before {
+  width: 14px;
+  height: 14px;
+}
+
+.custom_input[type="checkbox"][data-size="xl"] {
+  width: 24px;
+  height: 24px;
+}
+
+.custom_input[type="checkbox"][data-size="xl"]::before {
+  width: 16px;
+  height: 16px;
 }
 
 .custom_input[type="checkbox"]:checked::before {
