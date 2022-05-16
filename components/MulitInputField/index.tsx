@@ -77,9 +77,9 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
               // i === 0 && value.length !== 1 ? "h-0" : "h-6",
               "flex justify-end",
               i === value.length - 1 && i < maxFields - 1
-                ? "h-6 mt-1"
+                ? "h-6 mt-0"
                 : "h-4 mt-0",
-              i === value.length - 1 ? "absolute -bottom-2 right-0" : ""
+              i === value.length - 1 ? "absolute bottom-0 right-0" : ""
             )}
           >
             {i === value.length - 1 && i < maxFields - 1 && (

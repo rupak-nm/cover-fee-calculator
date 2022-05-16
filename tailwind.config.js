@@ -13,7 +13,7 @@ module.exports = {
       fontSize: {
         heading: ["28px", "40px"],
         heading2: ["23px", "29px"],
-        xxs: ["10px", "8px"],
+        xxs: ["10px", "15px"],
         h4: ["19px", "24px"],
         h7: ["14px", "16px"],
       },
@@ -66,7 +66,11 @@ module.exports = {
         "btn-y": "16.5px",
         "75px": "75px",
       },
+      maxWidth: {
+        "95%": "95%",
+      },
       minWidth: {
+        "80%": "80%",
         "800px": "800px",
         "100px": "100px",
       },

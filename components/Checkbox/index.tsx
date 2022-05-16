@@ -9,6 +9,7 @@ interface CheckboxProps {
   label?: ReactChild | string;
   custom?: boolean;
   labelClass?: string;
+  size?: "sm" | "lg" | "xl";
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -18,10 +19,12 @@ export const Checkbox: FC<CheckboxProps> = ({
   label = "",
   custom = false,
   labelClass = "",
+  size = "sm",
 }) => {
   return (
     <div className="relative flex items-center">
       <input
+        data-size={size}
         type="checkbox"
         id={id ?? "checkbox-1"}
         className={classNames(

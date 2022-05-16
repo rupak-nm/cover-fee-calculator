@@ -117,7 +117,9 @@ const FormInput: FC<FormInputProps> = ({
         {sideElement ?? <></>}
       </div>
       {helpText && (
-        <p className="pt-1 text-xs font-poppins text-text-gray">{helpText}</p>
+        <p className="pt-1 text-xs leading-6 font-poppins text-text-gray">
+          {helpText}
+        </p>
       )}
       {children ?? <></>}
     </div>

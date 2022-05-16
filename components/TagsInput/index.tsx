@@ -86,7 +86,7 @@ export const TagsInput: FC<TagsInputProps> = ({
           className
         )}
       >
-        <ul className="flex flex-wrap items-center flex-grow gap-2">
+        <ul className="flex flex-wrap items-center flex-grow max-w-95% gap-2">
           {value.map((tag, index) => (
             <li
               key={index}

@@ -316,18 +316,7 @@ export const CreateCoverForm: FC = () => {
           label="Social Profiles"
           helpText="Press the (+) to add more."
           className="mt-6"
-          placeholder={[
-            "Enter website link",
-            "Enter documentation link",
-            "Enter telegram link",
-            "Enter twitter link",
-            "Enter github link",
-            "Enter facebook link",
-            "Enter blog link",
-            "Enter discord link",
-            "Enter linkedin link",
-            "Enter slack link",
-          ]}
+          placeholder="https://"
           maxFields={10}
         />
 
@@ -335,7 +324,9 @@ export const CreateCoverForm: FC = () => {
           <Checkbox
             id="rw-checkbox"
             label="Requires Whitelist"
-            labelClass="font-poppins"
+            labelClass="font-poppins leading-6"
+            custom
+            size="xl"
             checked={formData.requiresWhitelist}
             onChange={(checked) =>
               handleInputChange("requiresWhitelist", checked)
@@ -450,7 +441,7 @@ export const CreateCoverForm: FC = () => {
             label="Resolution Resource"
             helpText="Press the (+) to add more."
             className="mt-20"
-            placeholder="https://example.com/docs/123"
+            placeholder="https://"
           />
         </div>
 
@@ -525,10 +516,12 @@ export const CreateCoverForm: FC = () => {
         <div className="mt-18">
           <Checkbox
             id="tos-checkbox"
+            custom
+            size="lg"
             checked={tosApproved}
             onChange={(checked) => setTosApproved(checked)}
             label={
-              <>
+              <span className="leading-6">
                 I have read, understood, and agree to{" "}
                 <a
                   href="https://docs.neptunemutual.com/usage/terms-of-use"
@@ -539,7 +532,7 @@ export const CreateCoverForm: FC = () => {
                   the terms of service
                 </a>
                 .
-              </>
+              </span>
             }
           />
         </div>
