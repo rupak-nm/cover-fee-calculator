@@ -24,6 +24,7 @@ interface FormInputProps {
   inputClass?: string;
   children?: ReactNode;
   disabled?: boolean;
+  sideElement?: ReactNode;
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -47,14 +48,15 @@ const FormInput: FC<FormInputProps> = ({
   inputClass = "",
   disabled = false,
   children,
+  sideElement,
 }) => {
   const { decimal, thousand } = getNumberSeparators();
 
   const inputfieldClass = classNames(
-    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray border-border-gray font-poppins flex-grow min-w-0",
+    "p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray border-border-gray font-poppins flex-grow min-w-0 focus:ring-3/2 focus:shadow-input",
     tokenName
-      ? "rounded-r-none focus:ring-2 ring-inset focus:ring-prim-border"
-      : "focus:ring-2 focus:ring-prim-border"
+      ? "rounded-r-none ring-inset focus:ring-prim-border"
+      : "focus:ring-prim-border"
   );
   return (
     <div className={`flex flex-col font-poppins relative ${className}`}>
@@ -112,9 +114,12 @@ const FormInput: FC<FormInputProps> = ({
             {tokenName}
           </div>
         )}
+        {sideElement ?? <></>}
       </div>
       {helpText && (
-        <p className="pt-1 text-xs font-poppins text-text-gray">{helpText}</p>
+        <p className="pt-1 text-xs leading-6 font-poppins text-text-gray">
+          {helpText}
+        </p>
       )}
       {children ?? <></>}
     </div>

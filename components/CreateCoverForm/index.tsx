@@ -7,7 +7,7 @@ import { RegularButton } from "@components/RegularButton";
 import { TagsInput } from "@components/TagsInput";
 import { TagsSelect, TagValue } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
-import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
+// import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
 import { Calculator } from "@svg";
 import { useAppConstants } from "@utils/app-constants/context";
 import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
@@ -26,6 +26,7 @@ interface FormData {
   coverRules: string;
   coverExclusions: string;
   socialProfiles: string[];
+  requiresWhitelist: boolean;
   networkList: { name: string; chainId?: number }[];
   floorRate: string;
   ceilingRate: string;
@@ -64,6 +65,7 @@ const initialFormData = {
   coverRules: "",
   coverExclusions: "",
   socialProfiles: [""],
+  requiresWhitelist: false,
   networkList: [],
   floorRate: "",
   ceilingRate: "",
@@ -238,11 +240,7 @@ export const CreateCoverForm: FC = () => {
 
   const period = {
     reporting: parseInt(formData.reportingPeriod || "0"),
-    resolution:
-      parseInt(formData.reportingPeriod || "0") +
-      parseInt(formData.cooldownPeriod || "0"),
     claim:
-      parseInt(formData.reportingPeriod || "0") +
       parseInt(formData.cooldownPeriod || "0") +
       parseInt(formData.claimPeriod || "0"),
   };
@@ -317,23 +315,26 @@ export const CreateCoverForm: FC = () => {
           setValue={(val) => handleInputChange("socialProfiles", val)}
           label="Social Profiles"
           helpText="Press the (+) to add more."
-          className="mt-12"
-          placeholder={[
-            "Enter website link",
-            "Enter documentation link",
-            "Enter telegram link",
-            "Enter twitter link",
-            "Enter github link",
-            "Enter facebook link",
-            "Enter blog link",
-            "Enter discord link",
-            "Enter linkedin link",
-            "Enter slack link",
-          ]}
+          className="mt-6"
+          placeholder="https://"
           maxFields={10}
         />
 
-        <Divider className="mt-12" />
+        <div className="py-4 mt-6">
+          <Checkbox
+            id="rw-checkbox"
+            label="Requires Whitelist"
+            labelClass="font-poppins leading-6"
+            custom
+            size="xl"
+            checked={formData.requiresWhitelist}
+            onChange={(checked) =>
+              handleInputChange("requiresWhitelist", checked)
+            }
+          />
+        </div>
+
+        <Divider className="mt-10" />
 
         <div className="mt-10">
           <div className="flex items-center">
@@ -417,23 +418,18 @@ export const CreateCoverForm: FC = () => {
           <VerticalTimeline
             items={[
               {
-                innerLabel: "Day 0",
-                name: "Start",
-                periodInfo: "Reporting Period",
+                innerLabel: "day 1",
+                name: "start",
+                periodInfo: "reporting",
               },
               {
-                innerLabel: `Day ${period.reporting}`,
-                name: "Reporting End",
-                periodInfo: "Cooldown Period",
+                innerLabel: `day ${period.reporting}`,
+                name: "resolve",
+                periodInfo: "claim Period",
               },
               {
-                innerLabel: `Day ${period.resolution}`,
-                name: "Resolution End",
-                periodInfo: "Claim Period",
-              },
-              {
-                innerLabel: `Day ${period.claim}`,
-                name: "Claim End",
+                innerLabel: `day ${period.reporting + period.claim}`,
+                name: "finalize",
               },
             ]}
             className="max-w-screen-md mt-10"
@@ -445,7 +441,7 @@ export const CreateCoverForm: FC = () => {
             label="Resolution Resource"
             helpText="Press the (+) to add more."
             className="mt-20"
-            placeholder="https://example.com/docs/123"
+            placeholder="https://"
           />
         </div>
 
@@ -520,10 +516,12 @@ export const CreateCoverForm: FC = () => {
         <div className="mt-18">
           <Checkbox
             id="tos-checkbox"
+            custom
+            size="lg"
             checked={tosApproved}
             onChange={(checked) => setTosApproved(checked)}
             label={
-              <>
+              <span className="leading-6">
                 I have read, understood, and agree to{" "}
                 <a
                   href="https://docs.neptunemutual.com/usage/terms-of-use"
@@ -534,7 +532,7 @@ export const CreateCoverForm: FC = () => {
                   the terms of service
                 </a>
                 .
-              </>
+              </span>
             }
           />
         </div>

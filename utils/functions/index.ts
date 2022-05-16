@@ -13,6 +13,19 @@ export const isEmptyVariable = (...vars: any[]) => {
   return false;
 };
 
+export const arrayIncludes = (
+  arr: Array<any>,
+  obj: any,
+  key: string = "name"
+) => {
+  return arr
+    .reduce((p, c) => {
+      p.push(c[key]);
+      return p;
+    }, [])
+    .includes(obj[key]);
+};
+
 export const allNullItemsArray = (arr: any[]) => {
   for (let v of arr) {
     if (typeof v === "number" || (typeof v === "string" && v !== ""))
