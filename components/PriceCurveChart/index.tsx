@@ -101,7 +101,7 @@ const PriceCurveChart = () => {
       useHTML: true,
       formatter: function (this: any): any {
         const _option = this.points[0].point.options;
-        return `<div class='p-4'><p class='font-semibold font-poppins text-xxs'>
+        return `<div class='p-4 bg-white border border-DAE2EB rounded-lgg shadow-hc-tooltip'><p class='font-semibold font-poppins text-xxs'>
         Guaranteed Protection: <span class='font-normal text-text-prim'>${
           formatCurrency(_option.amount).long
         }</span>
@@ -116,17 +116,9 @@ const PriceCurveChart = () => {
         }</span>
         </div>`;
       },
-      backgroundColor: "rgba(255, 255, 255)",
-      borderWidth: 1,
-      borderRadius: 10,
-      borderColor: "#DAE2EB",
-      shadow: {
-        color: "#000",
-        offsetX: 0,
-        offsetY: 2,
-        width: 6,
-        opacity: 0.05,
-      },
+      backgroundColor: "rgba(255, 255, 255, 0)",
+      borderWidth: 0,
+      shadow: false,
       shape: "square",
       // split: true,
       hideDelay: 100,

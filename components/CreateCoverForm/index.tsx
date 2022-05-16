@@ -462,7 +462,9 @@ export const CreateCoverForm: FC = () => {
                 {error.npm && (
                   <>
                     <br />
-                    <span className="text-red-500">{error.npm}</span>
+                    <span className="text-red-500 font-poppins">
+                      {error.npm}
+                    </span>
                   </>
                 )}
               </span>
@@ -491,7 +493,9 @@ export const CreateCoverForm: FC = () => {
                 {error.dai && (
                   <>
                     <br />
-                    <span className="text-red-500">{error.dai}</span>
+                    <span className="text-red-500 font-poppins">
+                      {error.dai}
+                    </span>
                   </>
                 )}
               </span>
@@ -538,7 +542,7 @@ export const CreateCoverForm: FC = () => {
         </div>
 
         <RegularButton
-          text="Create Cover"
+          text={`Create ${formData.coverName || "Cover"}`}
           type="submit"
           className="mt-8"
           disabled={submitDisabled}
