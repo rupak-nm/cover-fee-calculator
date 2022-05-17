@@ -9,7 +9,10 @@ interface TooltipProps {
 export const Tooltip: FC<TooltipProps> = ({ text, children }) => {
   return (
     <TooltipPrimitive.Root delayDuration={0}>
-      <TooltipPrimitive.Trigger>{children}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Trigger>
+        <span className="sr-only">Tooltip Button</span>
+        {children}
+      </TooltipPrimitive.Trigger>
       <TooltipPrimitive.Content side="right">
         <TooltipPrimitive.Arrow />
         <div className="px-4 py-3 text-xs font-light text-white rounded max-w-200px bg-prim-blue font-poppins">

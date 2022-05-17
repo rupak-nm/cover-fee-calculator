@@ -87,6 +87,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
                 className="outline-0 focus:ring-2 focus:ring-prim-border"
                 onClick={handleAddClick}
               >
+                <span className="sr-only">Add Input</span>
                 <AddBtn className="text-prim-blue" />
               </button>
             )}

@@ -83,7 +83,7 @@ const Header: FC<HeaderProps> = ({
       {({ onOpen }: { onOpen: Function }) => {
         const button = (
           <button
-            className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md sm:px-6 sm:py-3 lg:px-4 lg:py-2 sm:text-lg lg:text-sm bg-text-prim hover:bg-opacity-75"
+            className="relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white border border-transparent rounded-md sm:px-6 sm:py-3 lg:px-4 lg:py-2.5 sm:text-lg lg:text-sm bg-text-prim hover:bg-opacity-75 leading-5.25"
             onClick={() => (active ? handleToggleAccountPopup() : onOpen())}
           >
             {!active ? (
@@ -126,6 +126,7 @@ const Header: FC<HeaderProps> = ({
         <div className="flex flex-wrap items-center w-full text-white gap-x-15">
           <Link href="/">
             <a className="block py-3 w-min">
+              <span className="sr-only">Home</span>
               <div className="flex items-center gap-2">
                 <NeptuneLogo />
                 <NeptuneLogoText height={35} />
@@ -156,6 +157,7 @@ const Header: FC<HeaderProps> = ({
 
         <div className="flex items-center lg:hidden">
           <button onClick={() => setIsModalOpen(true)}>
+            <span className="sr-only">Open Menu Button</span>
             <HamburgerIcon className="text-white" />
           </button>
           <NavModal

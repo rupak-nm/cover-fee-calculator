@@ -46,7 +46,7 @@ export const NavModal: FC<NavModalProps> = ({
                     className={classNames(
                       "font-poppins text-2xll sm:text-large",
                       href.substring(1) === navKey
-                        ? "font-semibold text-text-prim"
+                        ? "font-semibold text-text-prim border-b-3.5 border-text-prim pb-2.5 sm:pb-4"
                         : "font-normal text-white"
                     )}
                   >

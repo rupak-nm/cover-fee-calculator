@@ -86,9 +86,9 @@ export const TagsInput: FC<TagsInputProps> = ({
           className
         )}
       >
-        <ul className="flex flex-wrap items-center flex-grow max-w-full gap-2">
+        <div className="flex flex-wrap items-center flex-grow max-w-full gap-2">
           {value.map((tag, index) => (
-            <li
+            <div
               key={index}
               className="relative flex items-center justify-between max-w-full gap-2 p-2 py-1 overflow-hidden text-sm text-white rounded-full bg-prim-blue"
             >
@@ -105,7 +105,7 @@ export const TagsInput: FC<TagsInputProps> = ({
                   close
                 </RemoveBtn>
               </span>
-            </li>
+            </div>
           ))}
           <input
             placeholder={placeholder}
@@ -117,7 +117,7 @@ export const TagsInput: FC<TagsInputProps> = ({
             )}
             ref={inputRef}
           />
-        </ul>
+        </div>
 
         {/* <button
           className="p-1 transform"

@@ -76,7 +76,13 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     ) {
       if (value.length) removeTags(value.length - 1);
     }
-    if (e.key === "Escape" || e.code === "Escape") setOpen(false);
+    if (
+      e.key === "Escape" ||
+      e.code === "Escape" ||
+      e.key === "Tab" ||
+      e.code === "Tab"
+    )
+      setOpen(false);
     if (e.key === "ArrowDown" || e.code === "ArrowDown") setOpen(true);
   };
 
@@ -99,9 +105,9 @@ export const TagsSelect: FC<TagsSelectProps> = ({
             open ? "rounded-t-lg" : "rounded-lg"
           )}
         >
-          <ul className="flex flex-wrap items-center gap-2 pr-6">
+          <div className="flex flex-wrap items-center gap-2 pr-6">
             {value.map((tag, index) => (
-              <li
+              <div
                 key={index}
                 className="relative flex items-center justify-between max-w-full gap-2 p-2 py-1 overflow-hidden text-sm text-white rounded-full bg-prim-blue"
               >
@@ -118,7 +124,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                     close
                   </RemoveBtn>
                 </span>
-              </li>
+              </div>
             ))}
             <input
               placeholder={!value.length ? placeholder ?? "" : ""}
@@ -131,13 +137,14 @@ export const TagsSelect: FC<TagsSelectProps> = ({
               )}
               ref={inputRef}
             />
-          </ul>
+          </div>
           <button
             className={classNames(
               "absolute right-2 top-1/2 transform -translate-y-1/2 p-2 hover:bg-black hover:bg-opacity-10 rounded-full"
             )}
             onClick={() => setOpen((val) => !val)}
           >
+            <span className="sr-only">Open Dropdown</span>
             <DownArrow
               className={classNames(
                 "w-4 h-4 transition-all",

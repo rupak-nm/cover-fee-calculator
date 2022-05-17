@@ -22,6 +22,7 @@ export const SVGCheckbox: FC<SVGCheckboxProps> = ({
         onClick={() => onChange(!checked)}
         className="outline-none cursor-default focus:ring-2"
       >
+        <span className="sr-only">Checkbox</span>
         {checked ? (
           <svg
             width="24"

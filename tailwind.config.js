@@ -27,6 +27,9 @@ module.exports = {
         big: "0.625rem",
         lgg: "10px",
       },
+      borderWidth: {
+        3.5: "3.5px",
+      },
       colors: {
         "prim-blue": "#01052D",
         "prim-gray": "#F1F3F6",
@@ -61,6 +64,7 @@ module.exports = {
       },
       spacing: {
         "1/2": "2px",
+        2.5: "10px",
         7.5: "30px",
         15: "3.75rem",
         18: "4.5rem",
@@ -96,6 +100,7 @@ module.exports = {
       },
       lineHeight: {
         4.5: "18px",
+        5.25: "21px",
       },
     },
   },
