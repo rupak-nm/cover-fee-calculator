@@ -28,13 +28,14 @@ export const DropdownList: FC<DropdownListProps> = ({
               <li
                 key={i}
                 className={classNames("p-4 font-poppins hover:bg-DEEAF6")}
+                onClick={(e) => handleItemClick(item)}
               >
                 <SVGCheckbox
                   // id={`checkbox-${item.name}`}
                   className="w-4 h-4"
                   label={item.name}
                   checked={arrayIncludes(selectedList, item, "name")}
-                  onChange={() => handleItemClick(item)}
+                  onChange={() => {}}
                 />
               </li>
             ))}
