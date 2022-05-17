@@ -423,12 +423,12 @@ export const CreateCoverForm: FC = () => {
                 periodInfo: "reporting",
               },
               {
-                innerLabel: `day ${period.reporting}`,
+                innerLabel: `day ${period.reporting + 1}`,
                 name: "resolve",
                 periodInfo: "claim Period",
               },
               {
-                innerLabel: `day ${period.reporting + period.claim}`,
+                innerLabel: `day ${period.reporting + period.claim + 1}`,
                 name: "finalize",
               },
             ]}
