@@ -42,7 +42,7 @@ export const CoverDropdown: FC<CoverDropdownProps> = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative w-fit">
-        <Listbox.Button className="relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9 min-w-[200px]">
+        <Listbox.Button className="relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9 min-w-300px">
           <span className="flex items-center pr-3 capitalize truncate text-text-gray">
             {prefix}
             {getParsedKey(selected?.key)} cover

@@ -8,15 +8,18 @@ import { TagsInput } from "@components/TagsInput";
 import { TagsSelect, TagValue } from "@components/TagsSelect";
 import { VerticalTimeline } from "@components/VerticalTimeline";
 // import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
-import { Calculator } from "@svg";
+import { InfoIcon } from "@svg";
 import { useAppConstants } from "@utils/app-constants/context";
 import { allNullItemsArray, isEmptyVariable } from "@utils/functions";
 import { convertFromUnits } from "@utils/functions/bn";
 import { useCreateCover } from "@utils/hooks/useCreateCover";
 import { useTokenSymbol } from "@utils/hooks/useTokenSymbol";
 import { formatCurrency } from "@utils/methods";
-import Link from "next/link";
 import { FC, FormEvent, useCallback, useEffect, useState } from "react";
+
+// import * as Tooltip from "@radix-ui/react-tooltip";
+import { Tooltip } from "@components/common/Tooltip";
+import { SVGCheckbox } from "@components/Checkbox/SVGCheckbox";
 
 interface FormData {
   coverName: string;
@@ -320,18 +323,23 @@ export const CreateCoverForm: FC = () => {
           maxFields={10}
         />
 
-        <div className="py-4 mt-6">
-          <Checkbox
-            id="rw-checkbox"
+        <div className="flex items-center gap-2 py-4 mt-6">
+          <SVGCheckbox
+            checked={formData.requiresWhitelist}
             label="Requires Whitelist"
             labelClass="font-poppins leading-6"
-            custom
-            size="xl"
-            checked={formData.requiresWhitelist}
             onChange={(checked) =>
               handleInputChange("requiresWhitelist", checked)
             }
+            className="w-6 h-6"
           />
+          <Tooltip
+            text="If you select this checkbox, only pre-whitelisted addresses will
+                be able to purchase covers. You can add multiple addresses to
+                the whitelist after this cover is created."
+          >
+            <InfoIcon className="w-4 h-4 text-text-gray" />
+          </Tooltip>
         </div>
 
         <Divider className="mt-10" />
@@ -341,14 +349,6 @@ export const CreateCoverForm: FC = () => {
             <h2 className="font-semibold text-heading2 text-prim-blue">
               Fine Tune the Premium Pricing
             </h2>
-            <Link href={"/calculator"} passHref>
-              <a
-                target={""}
-                className="ml-2 outline-none focus:ring-2 focus:ring-prim-border"
-              >
-                <Calculator width="24" height="24" className="" />
-              </a>
-            </Link>
           </div>
           <div className="grid gap-8 mt-6 md:grid-cols-2">
             <FormInput
@@ -440,7 +440,7 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("resolutionResource", val)}
             label="Resolution Resource"
             helpText="Press the (+) to add more."
-            className="mt-20"
+            className="mt-10"
             placeholder="https://"
           />
         </div>
@@ -518,11 +518,9 @@ export const CreateCoverForm: FC = () => {
         </div>
 
         <div className="mt-18">
-          <Checkbox
-            id="tos-checkbox"
-            custom
-            size="lg"
+          <SVGCheckbox
             checked={tosApproved}
+            className="w-5 h-5"
             onChange={(checked) => setTosApproved(checked)}
             label={
               <span className="leading-6 font-poppins">

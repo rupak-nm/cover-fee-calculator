@@ -127,7 +127,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
               onKeyDown={(e) => handleKeyDown(e)}
               onFocus={() => setOpen(true)}
               className={classNames(
-                "block flex-1 min-w-100px pl-1 rounded-lg focus:outline-none focus-visible:none"
+                "block flex-1 min-w-100px h-7 pl-1 rounded-lg focus:outline-none focus-visible:none"
               )}
               ref={inputRef}
             />

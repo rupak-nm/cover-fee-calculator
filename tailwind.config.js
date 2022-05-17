@@ -17,6 +17,8 @@ module.exports = {
         xxs: ["10px", "15px"],
         h4: ["19px", "24px"],
         h7: ["14px", "16px"],
+        large: ["2.5rem", "24px"],
+        "2xll": ["1.75rem", "24px"],
       },
       ringWidth: {
         "3/2": "1.5px",
@@ -44,6 +46,7 @@ module.exports = {
         404040: "#404040",
         E5EDF9: "#E5EDF9",
         DEEAF6: "#DEEAF6",
+        "5F5F5F": "#5F5F5F",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -58,6 +61,7 @@ module.exports = {
       },
       spacing: {
         "1/2": "2px",
+        7.5: "30px",
         15: "3.75rem",
         18: "4.5rem",
         21: "5.25rem",
@@ -70,11 +74,15 @@ module.exports = {
       },
       maxWidth: {
         "95%": "95%",
+        "200px": "200px",
       },
       minWidth: {
         "80%": "80%",
         "800px": "800px",
         "100px": "100px",
+        "200px": "200px",
+        "300px": "300px",
+        "400px": "400px",
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",

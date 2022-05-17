@@ -86,7 +86,7 @@ export const TagsInput: FC<TagsInputProps> = ({
           className
         )}
       >
-        <ul className="flex flex-wrap items-center flex-grow max-w-95% gap-2">
+        <ul className="flex flex-wrap items-center flex-grow max-w-full gap-2">
           {value.map((tag, index) => (
             <li
               key={index}
@@ -113,12 +113,13 @@ export const TagsInput: FC<TagsInputProps> = ({
             onChange={handleChange}
             onKeyDown={(e) => handleKeyDown(e)}
             className={classNames(
-              "block pl-1 flex-1 min-w-100px rounded-lg focus:outline-none focus-visible:none"
+              "block pl-1 flex-1 min-w-100px rounded-lg focus:outline-none focus-visible:none h-7"
             )}
             ref={inputRef}
           />
         </ul>
-        <button
+
+        {/* <button
           className="p-1 transform"
           onClick={handleCopy}
           disabled={showCopiedIcon}
@@ -128,7 +129,7 @@ export const TagsInput: FC<TagsInputProps> = ({
           ) : (
             <CopiedIcon className="text-green-700" />
           )}
-        </button>
+        </button> */}
       </div>
       <p className="pt-1 text-xs font-poppins text-text-gray">{helpText}</p>
     </div>

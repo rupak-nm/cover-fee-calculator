@@ -65,7 +65,7 @@ const FormInput: FC<FormInputProps> = ({
           {label}
         </label>
       )}
-      <div className="flex">
+      <div className="flex items-center">
         {type === "number" ? (
           <CurrencyInput
             id={id}

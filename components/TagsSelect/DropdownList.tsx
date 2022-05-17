@@ -1,4 +1,5 @@
 import { Checkbox } from "@components/Checkbox";
+import { SVGCheckbox } from "@components/Checkbox/SVGCheckbox";
 import { arrayIncludes, classNames } from "@utils/functions";
 import { FC } from "react";
 import { TagValue } from ".";
@@ -20,7 +21,7 @@ export const DropdownList: FC<DropdownListProps> = ({
     <div
       className={classNames("absolute w-full z-50", open ? "block" : "hidden")}
     >
-      <ul className="relative overflow-hidden overflow-y-auto bg-white border divide-y-2 rounded-b-lg border-border-gray shadow-dropdown2 max-h-72">
+      <ul className="relative overflow-hidden overflow-y-auto bg-white border rounded-b-lg border-border-gray shadow-dropdown2 max-h-72">
         {displayList.length ? (
           <>
             {displayList.map((item, i) => (
@@ -28,10 +29,10 @@ export const DropdownList: FC<DropdownListProps> = ({
                 key={i}
                 className={classNames("p-4 font-poppins hover:bg-DEEAF6")}
               >
-                <Checkbox
-                  id={`checkbox-${item.name}`}
+                <SVGCheckbox
+                  // id={`checkbox-${item.name}`}
+                  className="w-4 h-4"
                   label={item.name}
-                  labelClass="text-sm"
                   checked={arrayIncludes(selectedList, item, "name")}
                   onChange={() => handleItemClick(item)}
                 />
