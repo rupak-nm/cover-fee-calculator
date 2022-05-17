@@ -98,7 +98,7 @@ const Header: FC<HeaderProps> = ({
         );
         return (
           <div className="flex flex-wrap items-center flex-grow gap-6 sm:flex-nowrap">
-            {network}
+            {/* {network} */}
             {button}
             {isAccountDetailsOpen && (
               <AccountDetailsModal
