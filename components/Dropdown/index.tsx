@@ -3,7 +3,6 @@ import BulkImportIcon from "@utils/SVG/BulkImportIcon";
 import DeleteIcon from "@utils/SVG/DeleteIcon";
 import { useRef, useState } from "react";
 import { Modal } from "@modal/Modal";
-import { ModalWrapper } from "@modal/ModalWrapper";
 import { CloseIcon } from "@svg";
 import FormInput from "@components/FormInput";
 import { RegularButton } from "@components/RegularButton";
@@ -78,7 +77,7 @@ export const BulkImportModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} overlayClass="backdrop-blur-sm">
-      <ModalWrapper className="max-w-xl px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-10">
+      <div className="relative z-50 inline-block w-auto max-w-2xl px-10 py-12 my-8 overflow-y-auto text-left align-middle transition-all bg-white border border-divider-gray min-w-200px rounded-3xl">
         <Dialog.Title
           // as="h3"
           className="font-bold text-black text-modalHeading leading-11 font-sora"
@@ -89,7 +88,7 @@ export const BulkImportModal = ({
         <FormInput
           label=""
           placeholder="Provide a list of addresses you want to whitelist separated by “,”"
-          className="w-96 lg:w-[620px]"
+          className="w-60 sm:w-96 md:w-[520px]"
           value={listOfAddresses.join(",")}
           setValue={(val: string) => handleInputChange(val)}
           type="text"
@@ -112,7 +111,7 @@ export const BulkImportModal = ({
             Import
           </button>
         </div>
-      </ModalWrapper>
+      </div>
     </Modal>
   );
 };

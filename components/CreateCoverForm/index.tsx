@@ -20,6 +20,7 @@ import { FC, FormEvent, useCallback, useEffect, useState } from "react";
 // import * as Tooltip from "@radix-ui/react-tooltip";
 import { Tooltip } from "@components/common/Tooltip";
 import { SVGCheckbox } from "@components/Checkbox/SVGCheckbox";
+import useMediaQuery from "@utils/hooks/useMediaQuery";
 
 interface FormData {
   coverName: string;
@@ -87,6 +88,9 @@ export const CreateCoverForm: FC = () => {
   const [tosApproved, setTosApproved] = useState(false);
 
   const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const [showTooltip, setShowTooltip] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const {
     npmApproving,
@@ -337,8 +341,15 @@ export const CreateCoverForm: FC = () => {
             text="If you select this checkbox, only pre-whitelisted addresses will
                 be able to purchase covers. You can add multiple addresses to
                 the whitelist after this cover is created."
+            open={showTooltip}
+            position={isMobile ? "bottom" : "right"}
           >
-            <InfoIcon className="w-4 h-4 text-text-gray" />
+            <div
+              onMouseEnter={() => setShowTooltip(true)}
+              onMouseLeave={() => setShowTooltip(false)}
+            >
+              <InfoIcon className="w-4 h-4 text-text-gray" />
+            </div>
           </Tooltip>
         </div>
 

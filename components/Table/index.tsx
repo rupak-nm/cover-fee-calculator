@@ -1,15 +1,8 @@
+import { FilledDownArrow } from "@svg";
 import { classNames } from "@utils/functions";
 import ChevronLeftLgIcon from "@utils/SVG/ChevronLeftLgIcon";
 import ChevronRightLgIcon from "@utils/SVG/ChevronRightLgIcon";
-import {
-  FC,
-  Fragment,
-  ReactNode,
-  MouseEventHandler,
-  ReactElement,
-  ReactFragment,
-} from "react";
-import styles from "./style.module.css";
+import { FC, Fragment, ReactNode, MouseEventHandler } from "react";
 
 interface TableProps {
   children: ReactNode;
@@ -81,16 +74,11 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center flex-wrap gap-y-2 justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
-        <p className="font-poppins opacity-40">Rows per page</p>
-        <div
-          className={classNames(
-            styles.select_wrapper,
-            disabled ? "text-gray-500" : "text-prim-blue"
-          )}
-        >
+      <div className="flex items-center flex-wrap gap-5.5 justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
+        <p className="text-sm font-poppins opacity-40">Rows per page</p>
+        <div className={"relative"}>
           <select
-            className="px-2 h-6.5 py-1 text-xs bg-white border rounded-md w-14 border-divider-gray disabled:opacity-75 disabled:text-gray-500 font-poppins text-prim-blue leading-4.5 appearance-none"
+            className="px-2 h-6.5 py-1 text-xs bg-white border rounded-md w-13 border-divider-gray disabled:opacity-75 disabled:text-gray-500 font-poppins text-prim-blue leading-4.5 appearance-none"
             value={limit.toString()}
             onChange={(ev) => updateRowCount(ev.target.value)}
             disabled={disabled}
@@ -100,24 +88,33 @@ export const TablePagination: FC<TablePaginationProps> = ({
             <option value="25">25</option>
             <option value="50">50</option>
           </select>
+
+          <FilledDownArrow
+            className={classNames(
+              "w-2 h-2 absolute top-1/2 transform -translate-y-1/2 right-2",
+              disabled ? "text-gray-500" : "text-prim-blue"
+            )}
+          />
         </div>
         <p className="text-sm font-poppins opacity-40">
           {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
         </p>
-        <button
-          className="ml-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onPrev}
-          disabled={!hasPrev}
-        >
-          <ChevronLeftLgIcon width={16} height={16} />
-        </button>
-        <button
-          className="ml-2 cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onNext}
-          disabled={!hasNext}
-        >
-          <ChevronRightLgIcon width={16} height={16} />
-        </button>
+        <div className="flex items-center gap-5.5">
+          <button
+            className="cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
+            onClick={onPrev}
+            disabled={!hasPrev}
+          >
+            <ChevronLeftLgIcon width={20} height={20} />
+          </button>
+          <button
+            className="cursor-pointer disabled:opacity-25 disabled:cursor-not-allowed"
+            onClick={onNext}
+            disabled={!hasNext}
+          >
+            <ChevronRightLgIcon width={20} height={20} />
+          </button>
+        </div>
       </div>
     </>
   );

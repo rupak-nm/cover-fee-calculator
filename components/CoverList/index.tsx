@@ -21,7 +21,7 @@ export const CoverList: FC<CoverListProps> = ({ covers }) => {
 
   return (
     <div className="justify-between min-h-screen px-4 bg-prim-gray py-18 sm:px-14 lg:px-28">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap-reverse items-center justify-between gap-2">
         <h1 className="font-bold text-prim-blue text-heading">
           Available Covers
         </h1>
