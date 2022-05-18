@@ -93,7 +93,7 @@ const FormInput: FC<FormInputProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={(e) => setValue(e.target.value ?? "")}
-            className={classNames(inputfieldClass, "h-40", inputClass)}
+            className={classNames(inputfieldClass, "h-87 sm:h-40", inputClass)}
             disabled={disabled}
             {...inputProps}
           />
