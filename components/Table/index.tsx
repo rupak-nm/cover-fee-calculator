@@ -1,3 +1,4 @@
+import { classNames } from "@utils/functions";
 import ChevronLeftLgIcon from "@utils/SVG/ChevronLeftLgIcon";
 import ChevronRightLgIcon from "@utils/SVG/ChevronRightLgIcon";
 import {
@@ -8,6 +9,7 @@ import {
   ReactElement,
   ReactFragment,
 } from "react";
+import styles from "./style.module.css";
 
 interface TableProps {
   children: ReactNode;
@@ -75,22 +77,31 @@ export const TablePagination: FC<TablePaginationProps> = ({
     return null;
   }
 
+  const disabled = totalCount <= limit;
+
   return (
     <>
-      <div className="flex items-center justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
-        <p className=" opacity-40">Rows per page</p>
-        <select
-          className="px-2 py-1 mx-4 text-xs border rounded-md w-14 border-divider-gray disabled:opacity-75"
-          value={limit.toString()}
-          onChange={(ev) => updateRowCount(ev.target.value)}
-          disabled={totalCount <= limit}
+      <div className="flex items-center flex-wrap gap-y-2 justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
+        <p className="font-poppins opacity-40">Rows per page</p>
+        <div
+          className={classNames(
+            styles.select_wrapper,
+            disabled ? "text-gray-500" : "text-prim-blue"
+          )}
         >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-        </select>
-        <p className="text-sm opacity-40">
+          <select
+            className="px-2 h-6.5 py-1 text-xs bg-white border rounded-md w-14 border-divider-gray disabled:opacity-75 disabled:text-gray-500 font-poppins text-prim-blue leading-4.5 appearance-none"
+            value={limit.toString()}
+            onChange={(ev) => updateRowCount(ev.target.value)}
+            disabled={disabled}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <p className="text-sm font-poppins opacity-40">
           {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
         </p>
         <button

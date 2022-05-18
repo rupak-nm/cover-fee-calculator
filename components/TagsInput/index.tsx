@@ -95,7 +95,7 @@ export const TagsInput: FC<TagsInputProps> = ({
               <span className="overflow-hidden text-ellipsis font-poppins">
                 {tag}
               </span>
-              <span className="ml-2 bg-white rounded-lg cursor-pointer">
+              <span className="bg-white rounded-lg cursor-pointer">
                 <RemoveBtn
                   onClick={() => removeTags(index)}
                   width={16}

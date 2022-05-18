@@ -350,7 +350,7 @@ export const CreateCoverForm: FC = () => {
               Fine Tune the Premium Pricing
             </h2>
           </div>
-          <div className="grid gap-8 mt-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 mt-6 md:grid-cols-2">
             <FormInput
               label="Floor Rate"
               placeholder="0.00"
@@ -376,7 +376,7 @@ export const CreateCoverForm: FC = () => {
           <h2 className="font-semibold text-heading2 text-prim-blue">
             Configure Governance Parameters
           </h2>
-          <div className="grid gap-8 mt-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 mt-6 md:grid-cols-2">
             <FormInput
               label="Reporting Period"
               placeholder="No. of Days"

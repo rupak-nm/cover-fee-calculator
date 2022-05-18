@@ -87,11 +87,15 @@ const Header: FC<HeaderProps> = ({
             onClick={() => (active ? handleToggleAccountPopup() : onOpen())}
           >
             {!active ? (
-              <span className="whitespace-nowrap">Connect Wallet</span>
+              <span className="whitespace-nowrap font-poppins">
+                Connect Wallet
+              </span>
             ) : (
               <>
                 <AccountBalanceWalletIcon width="24" height="24" />
-                <span>{account && truncateAddress(account)}</span>
+                <span className="font-poppins">
+                  {account && truncateAddress(account)}
+                </span>
               </>
             )}
           </button>

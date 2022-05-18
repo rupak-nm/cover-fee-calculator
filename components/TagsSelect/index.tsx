@@ -1,7 +1,7 @@
 import { DownArrow, RemoveBtn } from "@svg";
 import { arrayIncludes, classNames } from "@utils/functions";
 import { useClickOutside } from "@utils/hooks/useClickOutside";
-import { ChangeEvent, FC, KeyboardEventHandler, useRef, useState } from "react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 import { DropdownList } from "./DropdownList";
 
 export type TagValue = { name: string; [key: string]: any };
@@ -114,7 +114,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                 <span className="overflow-hidden text-ellipsis">
                   {tag.name}
                 </span>
-                <span className="ml-2 bg-white rounded-lg cursor-pointer">
+                <span className="bg-white rounded-lg cursor-pointer">
                   <RemoveBtn
                     onClick={() => removeTags(index)}
                     width={16}

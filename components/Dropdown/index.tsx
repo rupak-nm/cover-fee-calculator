@@ -26,7 +26,7 @@ const DropDown = ({
   return (
     <>
       <div
-        className="absolute z-10 p-5 text-xs font-bold rounded-lg shadow-dropdown bg-FEFEFF top-4 -left-6 w-max text-prim-blue"
+        className="absolute z-10 p-5 mt-2 text-xs font-bold rounded-lg shadow-dropdown bg-FEFEFF top-4 -left-6 w-max text-prim-blue"
         ref={divRef}
       >
         <div className="flex mb-3 items-cente" onClick={handleBulkImport}>
