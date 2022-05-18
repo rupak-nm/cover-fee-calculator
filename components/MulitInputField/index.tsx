@@ -60,7 +60,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
           sideElement={
             i !== 0 && (
               <div className="relative ">
-                <div className="absolute flex items-center justify-center h-full ml-2 sm:ml-4 ">
+                <div className="relative flex items-center justify-center h-full ml-2 lg:absolute sm:ml-4 ">
                   <button
                     className="p-2 border rounded border-teal-light outline-0 focus:ring-2 focus:ring-prim-border"
                     onClick={() => handleRemoveClick(i)}
@@ -76,10 +76,10 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
             className={classNames(
               // i === 0 && value.length !== 1 ? "h-0" : "h-6",
               "flex justify-end",
-              i === value.length - 1 && i < maxFields - 1
-                ? "h-6 mt-0"
-                : "h-4 mt-0",
-              i === value.length - 1 ? "absolute bottom-0 right-0" : ""
+              i === value.length - 1 && i < maxFields - 1 ? "h-6" : "h-4",
+              i === value.length - 1 ? "absolute bottom-0 right-0" : "",
+              i !== 0 &&
+                "transform -translate-x-10 sm:-translate-x-12 lg:translate-x-0"
             )}
           >
             {i === value.length - 1 && i < maxFields - 1 && (
@@ -87,6 +87,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
                 className="outline-0 focus:ring-2 focus:ring-prim-border"
                 onClick={handleAddClick}
               >
+                <span className="sr-only">Add Input</span>
                 <AddBtn className="text-prim-blue" />
               </button>
             )}

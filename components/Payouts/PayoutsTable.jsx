@@ -210,9 +210,9 @@ export const PayoutsTable = () => {
 
   return (
     <>
-      <div className="flex px-8 py-8 mt-8 mb-6 bg-DAE2EB bg-opacity-30 rounded-2xl">
+      <div className="flex flex-wrap gap-2 px-8 py-8 mt-8 mb-6 sm:flex-nowrap bg-DAE2EB bg-opacity-30 rounded-2xl">
         <SearchBar
-          containerClass="w-full pr-5"
+          containerClass="w-full"
           searchValue={searchValue}
           onSearchChange={(e) => setSearchValue(e.target.value)}
         />

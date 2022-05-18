@@ -1,3 +1,4 @@
+import { Listbox } from "@headlessui/react";
 import { ChangeEvent, FC } from "react";
 import styles from "./style.module.css";
 
@@ -23,9 +24,9 @@ const Select: FC<SelectProps> = ({
   className,
   selectProps = {},
 }) => {
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const _val = e.target.value;
-    onChange(_val);
+  const handleChange = (val: string) => {
+    // const _val = e.target.value;
+    onChange(val);
   };
 
   return (
@@ -33,28 +34,42 @@ const Select: FC<SelectProps> = ({
       <label className="text-xs font-semibold tracking-wider uppercase text-text-gray">
         {label}
       </label>
-      <select
-        className={`p-4 pr-7 mt-2 ${
-          selected === "" ? "text-text-gray" : "text-black"
-        } bg-white border rounded-lg outline-none focus:ring-2 focus:ring-gray-500 border-border-gray ${
-          styles.select
-        }`}
+      <Listbox
+        as={"div"}
         value={selected}
         onChange={handleChange}
         {...selectProps}
+        className="relative"
       >
-        {options.map(({ name, value }, idx) => (
-          <option
-            value={value}
-            key={idx}
-            className={`p-4 ${
-              selected === value ? "bg-gray-200" : "bg-white"
-            } rounded-md text-neutral-700`}
-          >
-            {name}
-          </option>
-        ))}
-      </select>
+        <Listbox.Button
+          className={`p-4 pr-7 mt-2 w-full ${
+            selected === "" ? "text-text-gray" : "text-black"
+          } bg-white border rounded-lg outline-none ring-0 focus:ring-3/2 ring-prim-border focus:shadow-input border-border-gray text-left ${
+            styles.select
+          }`}
+        >
+          {options.find((opt) => opt.value === selected)?.name}
+        </Listbox.Button>
+        <Listbox.Options
+          className={
+            "absolute w-full bottom-15 bg-white border border-border-gray rounded-lg overflow-hidden focus:shadow-input focus:outline-none"
+          }
+        >
+          {options.map(({ name, value }, idx) => (
+            <Listbox.Option
+              value={value}
+              key={idx}
+              className={`px-4 py-3 cursor-default ${
+                selected === value
+                  ? "bg-gray-200"
+                  : "bg-white hover:bg-gray-100"
+              } text-neutral-700`}
+            >
+              {name}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </Listbox>
     </div>
   );
 };

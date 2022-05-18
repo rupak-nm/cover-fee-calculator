@@ -29,7 +29,14 @@ export const Checkbox: FC<CheckboxProps> = ({
         id={id ?? "checkbox-1"}
         className={classNames(
           "outline-none focus:ring-2",
-          custom ? styles.custom_input : "origin-left transform scale-125"
+          custom ? styles.custom_input : "origin-left",
+          !custom
+            ? size === "sm"
+              ? "h-4 w-4"
+              : size === "lg"
+              ? "h-5 w-5"
+              : "h-6 w-6"
+            : ""
         )}
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}

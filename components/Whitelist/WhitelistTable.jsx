@@ -133,7 +133,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
   return (
     <th
       scope="col"
-      className="relative pt-6 pb-2 min-w-120 border-b border-b-DAE2EB"
+      className="relative pt-6 pb-2 border-b min-w-120 border-b-DAE2EB"
     >
       <div
         className={classNames(
@@ -148,7 +148,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
           onChange={onChange}
         />
         <div
-          className="relative flex-grow p-1 mt-1 cursor-pointer"
+          className="relative flex-grow p-1 cursor-pointer"
           onClick={handleDropdown}
         >
           <ChevronDownIcon width={10} height={6} />

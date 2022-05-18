@@ -1,4 +1,9 @@
-import { AccountBalanceWalletIcon, NeptuneLogo, NeptuneLogoText } from "@svg";
+import {
+  AccountBalanceWalletIcon,
+  HamburgerIcon,
+  NeptuneLogo,
+  NeptuneLogoText,
+} from "@svg";
 import { classNames, truncateAddress } from "@utils/functions";
 import Head from "next/head";
 import Link from "next/link";
@@ -12,11 +17,32 @@ import useAuth from "@wallet/hooks/useAuth";
 
 import { ChainLogos, NetworkNames } from "@wallet/config/chains";
 import { AccountDetailsModal } from "./AccountDetailsModal";
+import { NavModal } from "./NavModal";
 
 interface HeaderProps {
   title?: string;
   navKey?: string;
 }
+type NavlinkType = { label: string; href: string };
+
+export const navLinks: NavlinkType[] = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "Whitelist",
+    href: "/whitelist",
+  },
+  {
+    label: "Payouts",
+    href: "/payouts",
+  },
+  {
+    label: "Calculator",
+    href: "/calculator",
+  },
+];
 
 const Header: FC<HeaderProps> = ({
   title = "NeptuneMutual - Cover Fee Calculator",
@@ -29,25 +55,7 @@ const Header: FC<HeaderProps> = ({
   const { logout } = useAuth(networkId);
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
 
-  type NavlinkType = { label: string; href: string };
-  const navLinks: NavlinkType[] = [
-    {
-      label: "Home",
-      href: "/",
-    },
-    {
-      label: "Whitelist",
-      href: "/whitelist",
-    },
-    {
-      label: "Payouts",
-      href: "/payouts",
-    },
-    {
-      label: "Calculator",
-      href: "/calculator",
-    },
-  ];
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => !prev);
@@ -62,12 +70,53 @@ const Header: FC<HeaderProps> = ({
 
   const ChainLogo = (ChainLogos as any)[networkId] || ChainLogos[1];
   const network = (
-    <div className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium leading-loose bg-white border border-transparent rounded-md text-9B9B9B">
+    <div className="flex items-center justify-center gap-2 px-4 py-2 leading-loose bg-white border border-transparent rounded-md sm:px-6 sm:py-3 lg:px-4 lg:py-2 text-9B9B9B">
       <ChainLogo width={24} height={24} className="flex-shrink-0" />{" "}
-      <p className="whitespace-nowrap text-ellipsis">
+      <p className="text-base whitespace-nowrap text-ellipsis sm:text-lg lg:text-sm font-poppins text-5F5F5F">
         {(NetworkNames as any)[networkId] || "Network"}
       </p>
     </div>
+  );
+
+  const Wallet = () => (
+    <ConnectWallet networkId={networkId} notifier={console.log}>
+      {({ onOpen }: { onOpen: Function }) => {
+        const button = (
+          <button
+            className="relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-white border border-transparent rounded-md sm:px-6 sm:py-3 lg:px-4 lg:py-2.5 sm:text-lg lg:text-sm bg-text-prim hover:bg-opacity-75 leading-5.25"
+            onClick={() => (active ? handleToggleAccountPopup() : onOpen())}
+          >
+            {!active ? (
+              <span className="whitespace-nowrap font-poppins">
+                Connect Wallet
+              </span>
+            ) : (
+              <>
+                <AccountBalanceWalletIcon width="24" height="24" />
+                <span className="font-poppins">
+                  {account && truncateAddress(account)}
+                </span>
+              </>
+            )}
+          </button>
+        );
+        return (
+          <div className="flex flex-wrap items-center flex-grow gap-6 sm:flex-nowrap">
+            {/* {network} */}
+            {button}
+            {isAccountDetailsOpen && (
+              <AccountDetailsModal
+                networkId={networkId}
+                account={account ?? ""}
+                isOpen={isAccountDetailsOpen}
+                onClose={handleToggleAccountPopup}
+                handleDisconnect={handleDisconnect}
+              />
+            )}
+          </div>
+        );
+      }}
+    </ConnectWallet>
   );
 
   return (
@@ -81,13 +130,14 @@ const Header: FC<HeaderProps> = ({
         <div className="flex flex-wrap items-center w-full text-white gap-x-15">
           <Link href="/">
             <a className="block py-3 w-min">
+              <span className="sr-only">Home</span>
               <div className="flex items-center gap-2">
                 <NeptuneLogo />
                 <NeptuneLogoText height={35} />
               </div>
             </a>
           </Link>
-          <div className="flex text-sm gap-7 font-poppins">
+          <div className="hidden text-sm lg:flex gap-7 font-poppins">
             {navLinks.map(({ href, label }, idx) => (
               <Link href={href} key={idx}>
                 <a
@@ -105,40 +155,23 @@ const Header: FC<HeaderProps> = ({
           </div>
         </div>
 
-        <ConnectWallet networkId={networkId} notifier={console.log}>
-          {({ onOpen }: { onOpen: Function }) => {
-            const button = (
-              <button
-                className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-text-prim hover:bg-opacity-75"
-                onClick={() => (active ? handleToggleAccountPopup() : onOpen())}
-              >
-                {!active ? (
-                  <span className="whitespace-nowrap">Connect Wallet</span>
-                ) : (
-                  <>
-                    <AccountBalanceWalletIcon width="24" height="24" />
-                    <span>{account && truncateAddress(account)}</span>
-                  </>
-                )}
-              </button>
-            );
-            return (
-              <div className="flex flex-wrap items-center flex-grow gap-6 sm:flex-nowrap">
-                {network}
-                {button}
-                {isAccountDetailsOpen && (
-                  <AccountDetailsModal
-                    networkId={networkId}
-                    account={account ?? ""}
-                    isOpen={isAccountDetailsOpen}
-                    onClose={handleToggleAccountPopup}
-                    handleDisconnect={handleDisconnect}
-                  />
-                )}
-              </div>
-            );
-          }}
-        </ConnectWallet>
+        <div className="items-center hidden lg:flex">
+          <Wallet />
+        </div>
+
+        <div className="flex items-center lg:hidden">
+          <button onClick={() => setIsModalOpen(true)}>
+            <span className="sr-only">Open Menu Button</span>
+            <HamburgerIcon className="text-white" />
+          </button>
+          <NavModal
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            navKey={navKey}
+          >
+            <Wallet />
+          </NavModal>
+        </div>
       </div>
     </div>
   );
