@@ -552,7 +552,7 @@ export const CreateCoverForm: FC = () => {
         <RegularButton
           text={`Create ${formData.coverName || "Cover"}`}
           type="submit"
-          className="mt-8"
+          className="w-full mt-8 py-btn-y px-btn-x sm:px-16 lg:px-btn-x sm:w-auto"
           disabled={submitDisabled}
         />
       </form>

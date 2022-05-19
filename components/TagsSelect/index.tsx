@@ -28,7 +28,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const divRef = useRef(null);
   useClickOutside(divRef, () => setOpen(false));
@@ -63,7 +63,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     setValue(arr);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     if (val) setOpen(true);
     setInputValue(val);
@@ -126,14 +126,15 @@ export const TagsSelect: FC<TagsSelectProps> = ({
                 </span>
               </div>
             ))}
-            <input
+            <textarea
               placeholder={!value.length ? placeholder ?? "" : ""}
               value={inputValue}
               onChange={handleChange}
               onKeyDown={(e) => handleKeyDown(e)}
               onFocus={() => setOpen(true)}
               className={classNames(
-                "block flex-1 min-w-100px h-7 pl-1 rounded-lg focus:outline-none focus-visible:none"
+                "block flex-1 min-w-100px pl-1 overflow-hidden resize-none rounded-lg focus:outline-none focus-visible:none",
+                value.length ? "h-7" : "h-11 xs:h-7 "
               )}
               ref={inputRef}
             />

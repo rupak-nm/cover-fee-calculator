@@ -93,6 +93,7 @@ export const BulkImportModal = ({
           setValue={(val: string) => handleInputChange(val)}
           type="text"
           textfield
+          textfieldSize="medium"
         >
           {error && <p className="text-FA5C2F">{error}</p>}
         </FormInput>

@@ -4,6 +4,7 @@ import ChevronDownIcon from "@utils/SVG/ChevronDownIcon";
 import { classNames } from "@utils/functions";
 import { getParsedKey } from "@utils/helpers/cover";
 import { useRouter } from "next/router";
+import { DownArrow } from "@svg";
 
 /* import { getCoverImgSrc } from "@/src/helpers/cover"; */
 
@@ -42,13 +43,13 @@ export const CoverDropdown: FC<CoverDropdownProps> = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative w-full sm:w-fit">
-        <Listbox.Button className="relative w-full px-4 py-2 pr-12 bg-white border rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9 sm:min-w-300px">
+        <Listbox.Button className="relative w-full px-4 py-2 pr-12 bg-white border rounded-lg cursor-default border-DAE2EB border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9 sm:min-w-300px">
           <span className="flex items-center pr-3 capitalize truncate text-text-gray">
             {prefix}
             {getParsedKey(selected?.key)} cover
           </span>
-          <span className="absolute inset-y-0 right-0 flex items-center pt-4 pl-3 pr-2 pointer-events-none text-9B9B9B">
-            <ChevronDownIcon className="w-6 h-6" aria-hidden="true" />
+          <span className="absolute inset-y-0 right-0 flex items-center py-2 pl-3 pr-3 pointer-events-none text-9B9B9B">
+            <DownArrow className="w-3 h-3 text-prim-blue" aria-hidden="true" />
           </span>
         </Listbox.Button>
         <Transition

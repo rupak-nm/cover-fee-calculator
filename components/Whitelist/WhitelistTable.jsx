@@ -84,9 +84,9 @@ const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
     <td
       className={classNames(
         "flex py-6",
-        { ...tdProps },
         cellName === "account" && "justify-end"
       )}
+      {...tdProps}
     >
       <div className="flex items-center">
         <span
@@ -107,7 +107,7 @@ const DetailsRenderer = ({ cellName, cellValue, ...tdProps }) => {
 const ActionsRenderer = ({ checked, onChange }) => {
   return (
     <td className="py-6 pr-2 min-w-120">
-      <div className="flex items-center px-2 py-1">
+      <div className="flex items-center py-1 pr-2">
         <Checkbox
           id="table-data"
           custom
@@ -137,7 +137,7 @@ const HeaderActionRenderer = ({ checked, onChange }) => {
     >
       <div
         className={classNames(
-          "flex items-center  w-fit py-1 px-2",
+          "flex items-center  w-fit py-1 pr-2 pl-1",
           showDropdown && "bg-EEEEEE rounded-md "
         )}
       >
@@ -223,7 +223,7 @@ export const WhitelistTable = () => {
                 <tr
                   key={i}
                   {...headerGroup.getHeaderGroupProps()}
-                  className="first-child:pl-8 last-child:pr-8"
+                  className="first-child:pl-7 last-child:pr-8"
                 >
                   {i === headerGroups.length - 1 && (
                     <HeaderActionRenderer

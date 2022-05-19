@@ -43,7 +43,7 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
       />
       <RegularButton
         text={btnText ?? "Approve " + tokenName}
-        className="mt-6"
+        className="w-full mt-6 py-btn-y px-btn-x sm:px-16 lg:px-btn-x sm:w-auto"
         onClick={(e) => handleCLick(e)}
         disabled={disabled || disabledBtn}
       />

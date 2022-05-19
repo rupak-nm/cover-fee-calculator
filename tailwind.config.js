@@ -10,6 +10,9 @@ module.exports = {
       sora: "Sora, sans-serif",
     },
     extend: {
+      screens: {
+        xs: "550px",
+      },
       fontSize: {
         modalHeading: ["33px", "48px"],
         heading: ["28px", "40px"],
@@ -88,11 +91,11 @@ module.exports = {
       },
       minWidth: {
         "80%": "80%",
-        "800px": "800px",
         "100px": "100px",
         "200px": "200px",
         "300px": "300px",
         "400px": "400px",
+        "850px": "850px",
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",
