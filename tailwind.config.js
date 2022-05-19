@@ -50,6 +50,9 @@ module.exports = {
         E5EDF9: "#E5EDF9",
         DEEAF6: "#DEEAF6",
         "5F5F5F": "#5F5F5F",
+        "7A9DFF": "#7A9DFF",
+        E39FF4: "#E39FF4",
+        "6EE4F1": "#6EE4F1",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
