@@ -39,7 +39,7 @@ export const NavModal: FC<NavModalProps> = ({
               <LanguageSelect />
             </div>
 
-            <div className="flex flex-col items-start px-10 mt-16 sm:px-24 gap-y-16 sm:gap-y-24">
+            <div className="flex flex-col items-start px-10 pb-10 mt-16 sm:px-24 gap-y-16 sm:gap-y-24">
               {navLinks.map(({ label, href }, idx) => (
                 <Link href={href} key={idx}>
                   <a

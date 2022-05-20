@@ -286,6 +286,7 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("coverDescription", val)}
             type="text"
             textfield
+            textfieldSize="medium"
           />
 
           <TagsSelect
@@ -303,7 +304,6 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("coverRules", val)}
             type="text"
             textfield
-            inputClass="h-87"
           />
 
           <FormInput
@@ -313,7 +313,6 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("coverExclusions", val)}
             type="text"
             textfield
-            inputClass="h-87"
           />
         </div>
 
@@ -553,7 +552,7 @@ export const CreateCoverForm: FC = () => {
         <RegularButton
           text={`Create ${formData.coverName || "Cover"}`}
           type="submit"
-          className="mt-8"
+          className="w-full mt-8 py-btn-y px-btn-x sm:px-16 lg:px-btn-x sm:w-auto"
           disabled={submitDisabled}
         />
       </form>

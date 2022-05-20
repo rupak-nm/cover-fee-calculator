@@ -19,7 +19,7 @@ export const SearchBar: FC<SearchbarProps> = ({
     <div className={classNames("flex justify-between ", containerClass)}>
       <div
         className={classNames(
-          "flex items-center justify-end bg-white py-2 px-4 gap-4 rounded-lg",
+          "flex items-center justify-end bg-white border border-DAE2EB py-2 px-4 gap-4 rounded-lg",
           searchClass
         )}
       >

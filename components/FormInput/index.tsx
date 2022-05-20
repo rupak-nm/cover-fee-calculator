@@ -25,6 +25,7 @@ interface FormInputProps {
   children?: ReactNode;
   disabled?: boolean;
   sideElement?: ReactNode;
+  textfieldSize?: "medium" | "large";
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -49,6 +50,7 @@ const FormInput: FC<FormInputProps> = ({
   disabled = false,
   children,
   sideElement,
+  textfieldSize = "large",
 }) => {
   const { decimal, thousand } = getNumberSeparators();
 
@@ -93,7 +95,11 @@ const FormInput: FC<FormInputProps> = ({
             placeholder={placeholder}
             value={value}
             onChange={(e) => setValue(e.target.value ?? "")}
-            className={classNames(inputfieldClass, "h-87 sm:h-40", inputClass)}
+            className={classNames(
+              inputfieldClass,
+              textfieldSize === "large" ? "h-87" : "h-40",
+              inputClass
+            )}
             disabled={disabled}
             {...inputProps}
           />

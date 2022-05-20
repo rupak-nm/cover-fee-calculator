@@ -10,6 +10,9 @@ module.exports = {
       sora: "Sora, sans-serif",
     },
     extend: {
+      screens: {
+        xs: "550px",
+      },
       fontSize: {
         modalHeading: ["33px", "48px"],
         heading: ["28px", "40px"],
@@ -50,6 +53,9 @@ module.exports = {
         E5EDF9: "#E5EDF9",
         DEEAF6: "#DEEAF6",
         "5F5F5F": "#5F5F5F",
+        "7A9DFF": "#7A9DFF",
+        E39FF4: "#E39FF4",
+        "6EE4F1": "#6EE4F1",
       },
       backgroundImage: {
         arrow: "url('/arrow.svg')",
@@ -85,11 +91,11 @@ module.exports = {
       },
       minWidth: {
         "80%": "80%",
-        "800px": "800px",
         "100px": "100px",
         "200px": "200px",
         "300px": "300px",
         "400px": "400px",
+        "850px": "850px",
       },
       boxShadow: {
         dropdown: "0px 1px 11px rgba(0, 0, 0, 0.33)",

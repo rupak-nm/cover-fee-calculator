@@ -7,7 +7,8 @@ interface NoCoversProps {}
 
 export const NoCovers: FC<NoCoversProps> = ({}) => {
   return (
-    <div className="flex items-center justify-center h-screen bg-prim-gray">
+    <div className="relative flex items-center justify-center h-screen bg-prim-gray">
+      <div className="absolute top-0 w-full h-3 bg-gradient-to-r from-7A9DFF via-E39FF4 to-6EE4F1"></div>
       <div className="flex flex-col items-center gap-y-8">
         <ClipboardImage width="209" height="209" />
         <p className="font-poppins text-404040">

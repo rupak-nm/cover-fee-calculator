@@ -17,7 +17,7 @@ export const SVGCheckbox: FC<SVGCheckboxProps> = ({
   labelClass = "",
 }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-start">
       <button
         onClick={() => onChange(!checked)}
         className="outline-none cursor-default focus:ring-2"

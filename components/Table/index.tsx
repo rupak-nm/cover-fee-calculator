@@ -22,10 +22,12 @@ interface TablePaginationProps {
   hasPrev: boolean;
   hasNext: boolean;
   updateRowCount: (val: string) => any;
+  px0?: boolean;
 }
 
 interface THeadProps {
   columns: any[];
+  px0?: boolean;
 }
 
 interface TBodyProps {
@@ -34,13 +36,14 @@ interface TBodyProps {
   isLoading: boolean;
   extraData: object;
   RowWrapper: FC<any>;
+  px0?: boolean;
 }
 
 /* interface callbackfunction {(...args: any[]) => any;} */
 
 export const Table: FC<TableProps> = ({ children, ...tableProps }) => {
   return (
-    <table className="w-full min-w-800px" {...tableProps}>
+    <table className="w-full min-w-850px" {...tableProps}>
       {children}
     </table>
   );
@@ -49,7 +52,7 @@ export const Table: FC<TableProps> = ({ children, ...tableProps }) => {
 export const TableWrapper: FC<TableProps> = ({ children }) => {
   return (
     <>
-      <div className="relative pt-2 overflow-x-scroll bg-white text-404040 rounded-t-3xl lg:overflow-hidden">
+      <div className="relative pt-2 overflow-x-auto bg-white text-404040 rounded-t-3xl">
         {children}
       </div>
     </>
@@ -65,6 +68,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
   hasPrev,
   hasNext,
   updateRowCount,
+  px0 = false,
 }) => {
   if (totalCount <= 0) {
     return null;
@@ -74,11 +78,16 @@ export const TablePagination: FC<TablePaginationProps> = ({
 
   return (
     <>
-      <div className="flex items-center flex-wrap gap-5.5 justify-end w-full px-8 pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB">
+      <div
+        className={classNames(
+          "flex items-center flex-wrap gap-5.5 justify-end w-full pt-4.5 pb-7 bg-white rounded-b-3xl font-poppins border-t border-t-DAE2EB",
+          px0 ? "" : "px-8"
+        )}
+      >
         <p className="text-sm font-poppins opacity-40">Rows per page</p>
         <div className={"relative"}>
           <select
-            className="px-2 h-6.5 py-1 text-xs bg-white border rounded-md w-13 border-divider-gray disabled:opacity-75 disabled:text-gray-500 font-poppins text-prim-blue leading-4.5 appearance-none"
+            className="px-2 h-6.5 py-1 text-xs bg-white border rounded-md w-13 border-divider-gray disabled:cursor-not-allowed disabled:text-gray-500 font-poppins text-prim-blue leading-4.5 appearance-none"
             value={limit.toString()}
             onChange={(ev) => updateRowCount(ev.target.value)}
             disabled={disabled}
@@ -120,10 +129,10 @@ export const TablePagination: FC<TablePaginationProps> = ({
   );
 };
 
-export const THead: FC<THeadProps> = ({ columns }) => {
+export const THead: FC<THeadProps> = ({ columns, px0 = false }) => {
   return (
     <thead className="rounded-sm text-text-gray bg-FEFEFF">
-      <tr className="first-child:pl-8 last-child:pr-8">
+      <tr className={px0 ? "" : "first-child:pl-8 last-child:pr-8"}>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
         })}
@@ -139,6 +148,7 @@ export const TBody: FC<TBodyProps> = ({
   isLoading,
   extraData,
   RowWrapper = Fragment,
+  px0 = false,
 }) => {
   return (
     <tbody className="divide-y divide-DAE2EB">
@@ -154,7 +164,7 @@ export const TBody: FC<TBodyProps> = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr className="first-child:pl-8 last-child:pr-8">
+            <tr className={px0 ? "" : "first-child:pl-8 last-child:pr-8"}>
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
