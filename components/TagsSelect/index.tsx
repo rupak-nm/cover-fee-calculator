@@ -14,6 +14,7 @@ interface TagsSelectProps {
   itemList: TagValue[];
   placeholder?: string;
   helpText?: string;
+  required?: boolean;
 }
 
 export const TagsSelect: FC<TagsSelectProps> = ({
@@ -24,6 +25,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
   className = "",
   placeholder = "",
   helpText,
+  required = false,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
@@ -96,6 +98,11 @@ export const TagsSelect: FC<TagsSelectProps> = ({
     <div className="relative">
       <label className="text-sm font-semibold tracking-wider uppercase font-poppins text-prim-blue">
         {label}
+        {required && (
+          <span className="text-base leading-none text-red-700 font-poppins">
+            *
+          </span>
+        )}
       </label>
       <div ref={divRef}>
         <div

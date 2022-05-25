@@ -26,6 +26,7 @@ interface FormInputProps {
   disabled?: boolean;
   sideElement?: ReactNode;
   textfieldSize?: "medium" | "large";
+  required?: boolean;
 }
 
 const FormInput: FC<FormInputProps> = ({
@@ -51,6 +52,7 @@ const FormInput: FC<FormInputProps> = ({
   children,
   sideElement,
   textfieldSize = "large",
+  required = false,
 }) => {
   const { decimal, thousand } = getNumberSeparators();
 
@@ -65,6 +67,11 @@ const FormInput: FC<FormInputProps> = ({
       {label && (
         <label className="text-sm font-semibold tracking-wider uppercase font-poppins text-prim-blue">
           {label}
+          {required && (
+            <span className="text-base leading-none text-red-700 font-poppins">
+              *
+            </span>
+          )}
         </label>
       )}
       <div className="flex items-center">

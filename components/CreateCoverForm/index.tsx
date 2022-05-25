@@ -21,6 +21,7 @@ import { FC, FormEvent, useCallback, useEffect, useState } from "react";
 import { Tooltip } from "@components/common/Tooltip";
 import { SVGCheckbox } from "@components/Checkbox/SVGCheckbox";
 import useMediaQuery from "@utils/hooks/useMediaQuery";
+import { Saved, SocialProfileSelect } from "@components/SocialProfileSelect";
 
 interface FormData {
   coverName: string;
@@ -29,7 +30,7 @@ interface FormData {
   coverDescription: string;
   coverRules: string;
   coverExclusions: string;
-  socialProfiles: string[];
+  socialProfiles: Saved[];
   requiresWhitelist: boolean;
   networkList: { name: string; chainId?: number }[];
   floorRate: string;
@@ -68,7 +69,7 @@ const initialFormData = {
   coverDescription: "",
   coverRules: "",
   coverExclusions: "",
-  socialProfiles: [""],
+  socialProfiles: [],
   requiresWhitelist: false,
   networkList: [],
   floorRate: "",
@@ -172,8 +173,6 @@ export const CreateCoverForm: FC = () => {
     _data.stakeWithFees = formData.npmStake;
     _data.reassurance = formData.reassuranceAmount;
     _data.initialLiquidity = "";
-
-    console.log({ ..._data });
   }, [formData]);
 
   const isEmpty = {
@@ -221,12 +220,10 @@ export const CreateCoverForm: FC = () => {
     )
       return setSubmitDisabled(true);
 
-    if (!tags.length || !networkList.length) return setSubmitDisabled(true);
+    if (!tags.length || !networkList.length || !socialProfiles.length)
+      return setSubmitDisabled(true);
 
-    if (
-      (socialProfiles.length && socialProfiles[0] === "") ||
-      (resolutionResource.length && allNullItemsArray(resolutionResource))
-    )
+    if (resolutionResource.length && allNullItemsArray(resolutionResource))
       return setSubmitDisabled(true);
 
     setSubmitDisabled(false);
@@ -239,7 +236,7 @@ export const CreateCoverForm: FC = () => {
 
   const handleInputChange = (
     fieldName: keyof FormData,
-    fieldValue: string | string[] | TagValue[] | boolean
+    fieldValue: string | string[] | TagValue[] | boolean | Saved[]
   ) => {
     // console.log({ fieldName, fieldValue });
     setFormData((val) => ({ ...val, [fieldName]: fieldValue }));
@@ -262,6 +259,7 @@ export const CreateCoverForm: FC = () => {
             value={formData.coverName}
             setValue={(val) => handleInputChange("coverName", val)}
             type="text"
+            required
           />
 
           <FormInput
@@ -277,6 +275,7 @@ export const CreateCoverForm: FC = () => {
             value={formData.tags}
             setValue={(val) => handleInputChange("tags", val)}
             placeholder="Tags"
+            required
           />
 
           <FormInput
@@ -287,6 +286,7 @@ export const CreateCoverForm: FC = () => {
             type="text"
             textfield
             textfieldSize="medium"
+            required
           />
 
           <TagsSelect
@@ -295,6 +295,7 @@ export const CreateCoverForm: FC = () => {
             value={formData.networkList}
             placeholder="Enter the list of blockchain networks your app supports."
             setValue={(val) => handleInputChange("networkList", val)}
+            required
           />
 
           <FormInput
@@ -304,6 +305,7 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("coverRules", val)}
             type="text"
             textfield
+            required
           />
 
           <FormInput
@@ -313,10 +315,11 @@ export const CreateCoverForm: FC = () => {
             setValue={(val) => handleInputChange("coverExclusions", val)}
             type="text"
             textfield
+            required
           />
         </div>
 
-        <MultiInputField
+        {/* <MultiInputField
           value={formData.socialProfiles}
           setValue={(val) => handleInputChange("socialProfiles", val)}
           label="Social Profiles"
@@ -324,6 +327,14 @@ export const CreateCoverForm: FC = () => {
           className="mt-6"
           placeholder="https://"
           maxFields={10}
+        /> */}
+
+        <SocialProfileSelect
+          value={formData.socialProfiles}
+          setValue={(val) => handleInputChange("socialProfiles", val)}
+          wrapperClass="mt-6"
+          label="Social Profiles"
+          required
         />
 
         <div className="flex items-center gap-2 py-4 mt-6">
@@ -368,6 +379,7 @@ export const CreateCoverForm: FC = () => {
               setValue={(val) => handleInputChange("floorRate", val)}
               helpText="Enter the policy floor rate."
               numberFormat={false}
+              required
             />
             <FormInput
               label="Ceiling Rate"
@@ -376,6 +388,7 @@ export const CreateCoverForm: FC = () => {
               setValue={(val) => handleInputChange("ceilingRate", val)}
               helpText="Enter the policy ceiling rate."
               numberFormat={false}
+              required
             />
           </div>
         </div>
@@ -393,6 +406,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.reportingPeriod}
               setValue={(val) => handleInputChange("reportingPeriod", val)}
               helpText="Min 7-day reporting period."
+              required
             />
             <FormInput
               label="Cooldown Period"
@@ -400,6 +414,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.cooldownPeriod}
               setValue={(val) => handleInputChange("cooldownPeriod", val)}
               helpText="Resolution can only be achieved after the cooldown period."
+              required
             />
             <FormInput
               label="Claim Period"
@@ -407,6 +422,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.claimPeriod}
               setValue={(val) => handleInputChange("claimPeriod", val)}
               helpText="Enter number of days during when people can claim."
+              required
             />
             <FormInput
               label="Minimum Reporting Stake"
@@ -414,6 +430,7 @@ export const CreateCoverForm: FC = () => {
               value={formData.minimumStake}
               setValue={(val) => handleInputChange("minimumStake", val)}
               helpText="Minimum amount of NPM tokens required to report incident"
+              required
             />
           </div>
         </div>
@@ -452,6 +469,7 @@ export const CreateCoverForm: FC = () => {
             helpText="Press the (+) to add more."
             className="mt-10"
             placeholder="https://"
+            required
           />
         </div>
 
@@ -493,6 +511,7 @@ export const CreateCoverForm: FC = () => {
                 ? "Approving NPM"
                 : undefined
             }
+            required
           />
           <ApproveTokenInput
             label="Reassurance Amount"
@@ -524,13 +543,15 @@ export const CreateCoverForm: FC = () => {
                 ? "Approving DAI"
                 : undefined
             }
+            required
           />
         </div>
 
         <div className="mt-18">
-          <SVGCheckbox
+          <Checkbox
+            id="test"
             checked={tosApproved}
-            className="w-5 h-5"
+            // className="w-5 h-5"
             onChange={(checked) => setTosApproved(checked)}
             label={
               <span className="leading-6 font-poppins">
