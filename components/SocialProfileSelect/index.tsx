@@ -25,6 +25,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { DisplayProfiles } from "./DisplayProfiles";
 
 type Profile = { Icon: ElementType; name: string; value: string };
 export type Saved = { Icon: ElementType; text: string; profile: string };
@@ -203,15 +204,10 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
         </label>
       )}
 
-      {value.map(({ Icon, text, profile }, i) => (
-        <div className="mt-1 space-y-2" key={i}>
-          <DisplayCard
-            Icon={Icon}
-            text={text}
-            onDelete={() => handleDisplayCardDelete(profile)}
-          />
-        </div>
-      ))}
+      <DisplayProfiles
+        profiles={value}
+        onDelete={(profile) => handleDisplayCardDelete(profile)}
+      />
 
       <div ref={divRef} className={classNames(value.length ? "mt-4" : "mt-1")}>
         <Listbox
@@ -240,6 +236,7 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
                   onKeyDown={(e) => handleKeyDown(e)}
                   value={inputVal}
                   onChange={(e) => handleInputChange(e)}
+                  required
                   type="url"
                 />
                 <button

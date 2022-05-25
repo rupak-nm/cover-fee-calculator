@@ -543,6 +543,7 @@ export const CreateCoverForm: FC = () => {
             checked={tosApproved}
             size="lg"
             onChange={(checked) => setTosApproved(checked)}
+            wrapperClass="items-stretch"
             label={
               <span className="leading-6 font-poppins">
                 I have read, understood, and agree to{" "}

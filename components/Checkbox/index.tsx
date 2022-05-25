@@ -10,6 +10,7 @@ interface CheckboxProps {
   custom?: boolean;
   labelClass?: string;
   size?: "sm" | "lg" | "xl";
+  wrapperClass?: string;
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -20,15 +21,16 @@ export const Checkbox: FC<CheckboxProps> = ({
   custom = false,
   labelClass = "",
   size = "sm",
+  wrapperClass = "",
 }) => {
   return (
-    <div className="relative flex items-center">
+    <div className={classNames("relative flex items-center", wrapperClass)}>
       <input
         data-size={size}
         type="checkbox"
         id={id ?? "checkbox-1"}
         className={classNames(
-          "outline-none focus:ring-2",
+          "outline-none focus:ring-2 flex-shrink-0",
           custom ? styles.custom_input : "origin-left",
           !custom
             ? size === "sm"
