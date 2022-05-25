@@ -319,16 +319,6 @@ export const CreateCoverForm: FC = () => {
           />
         </div>
 
-        {/* <MultiInputField
-          value={formData.socialProfiles}
-          setValue={(val) => handleInputChange("socialProfiles", val)}
-          label="Social Profiles"
-          helpText="Press the (+) to add more."
-          className="mt-6"
-          placeholder="https://"
-          maxFields={10}
-        /> */}
-
         <SocialProfileSelect
           value={formData.socialProfiles}
           setValue={(val) => handleInputChange("socialProfiles", val)}
@@ -551,7 +541,7 @@ export const CreateCoverForm: FC = () => {
           <Checkbox
             id="test"
             checked={tosApproved}
-            // className="w-5 h-5"
+            size="lg"
             onChange={(checked) => setTosApproved(checked)}
             label={
               <span className="leading-6 font-poppins">

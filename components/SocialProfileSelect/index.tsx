@@ -16,7 +16,15 @@ import {
 } from "@svg";
 import { classNames } from "@utils/functions";
 import { useClickOutside } from "@utils/hooks/useClickOutside";
-import { ElementType, FC, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  ElementType,
+  FC,
+  KeyboardEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 type Profile = { Icon: ElementType; name: string; value: string };
 export type Saved = { Icon: ElementType; text: string; profile: string };
@@ -106,38 +114,34 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
   const [inputVal, setInputVal] = useState("");
 
   const divRef = useRef(null);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   useClickOutside(divRef, () => setListOpen(false));
 
   const dropdownList = profileList.filter(
     (p) => !value.map((s) => s.profile).includes(p.value)
   );
 
-  const handleChange = (v: string) => {
-    setSelected(profileList.find((p) => p.value === v) ?? initialSelected);
+  const handleChange = (v: Profile) => {
+    if (typeof v === "string") {
+      setSelected(profileList.find((p) => p.value === v) ?? initialSelected);
+    }
   };
 
   useEffect(() => {
     if (inputRef?.current?.focus) inputRef.current.focus();
   }, [selected]);
 
-  const handleInputChange = (e: KeyboardEvent) => {
-    setInputVal(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputVal(e.currentTarget.value);
   };
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (
-      e.key === "Escape" ||
-      e.code === "Escape" ||
-      e.key === "Tab" ||
-      e.code === "Tab"
-    )
-      setListOpen(false);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Escape" || e.code === "Escape") setListOpen(false);
     if (e.key === "ArrowDown" || e.code === "ArrowDown") setListOpen(true);
     if (e.key === "Enter" || e.code === "Enter") handleSave(selected.value);
   };
 
-  const handleDefaultDelete = (e: MouseEvent) => {
+  const handleDefaultDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setSelected(initialSelected);
     setInputVal("");
@@ -150,7 +154,7 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
     return val.match(UrlRegex);
   };
 
-  const handleSave = (val: string, e?: MouseEvent) => {
+  const handleSave = (val: string, e?: React.MouseEvent<HTMLButtonElement>) => {
     if (e) e.stopPropagation();
     if (!isValidInput(inputVal)) return;
     const _saved = [...value];
@@ -216,83 +220,75 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
           onChange={handleChange}
           className="relative"
         >
-          {({ open }) => (
-            <>
-              <button
-                className={classNames(
-                  "w-full outline-none focus:shadow-input text-left flex items-center gap-x-2 text-text-gray bg-white px-4.5 pr-3.5 border border-border-gray",
-                  listOpen ? "rounded-t-lg" : "rounded-lg",
-                  selected.value ? "py-15px" : "py-4"
-                )}
-                onClick={() => {
-                  if (inputRef?.current?.focus) inputRef.current.focus();
-                  setListOpen((val) => !val);
-                }}
-              >
-                <selected.Icon />
-                {selected.value ? (
-                  <div className="flex flex-grow gap-2">
-                    <input
-                      className="flex-grow pl-2 text-sm leading-6 border border-transparent rounded outline-none focus:border-prim-border"
-                      ref={inputRef}
-                      onKeyDown={handleKeyDown}
-                      value={inputVal}
-                      onChange={handleInputChange}
-                      type="url"
-                    />
-                    <button
-                      className="px-4 text-sm leading-5 text-prim-border"
-                      onClick={(e) => handleSave(selected.value, e)}
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={handleDefaultDelete}
-                      className="px-1 bg-black bg-opacity-0 rounded hover:bg-opacity-10"
-                    >
-                      <XIcon className="w-2 h-2 text-black" />
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <span className="text-base font-poppins">
-                      {selected.name}
-                    </span>
-                    <button className="ml-auto">
-                      <DownArrow
-                        className={classNames(
-                          "w-3 h-3 transform",
-                          listOpen ? "rotate-180" : "rotate-0"
-                        )}
-                      />
-                    </button>
-                  </>
-                )}
-              </button>
-              <Transition show={listOpen}>
-                <Listbox.Options
-                  className={
-                    "absolute w-full bg-white border border-border-gray z-40 overflow-hidden rounded-b-lg focus:outline-none max-h-56 overflow-y-auto py-2 shadow-dropdown2"
-                  }
+          <button
+            className={classNames(
+              "w-full outline-none focus:shadow-input text-left flex items-center gap-x-2 text-text-gray bg-white px-4.5 pr-3.5 border border-border-gray",
+              listOpen ? "rounded-t-lg" : "rounded-lg",
+              selected.value ? "py-15px" : "py-4"
+            )}
+            onClick={() => {
+              if (inputRef?.current?.focus) inputRef.current.focus();
+              setListOpen((val) => !val);
+            }}
+          >
+            <selected.Icon />
+            {selected.value ? (
+              <div className="flex flex-grow gap-2">
+                <input
+                  className="flex-grow pl-2 text-sm leading-6 border border-transparent rounded outline-none focus:border-prim-border"
+                  ref={inputRef}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                  value={inputVal}
+                  onChange={(e) => handleInputChange(e)}
+                  type="url"
+                />
+                <button
+                  className="px-4 text-sm leading-5 text-prim-border"
+                  onClick={(e) => handleSave(selected.value, e)}
                 >
-                  {dropdownList.map(({ name, value, Icon }, idx) => (
-                    <Listbox.Option
-                      value={value}
-                      key={idx}
-                      className={classNames(
-                        "flex items-center text-text-gray gap-x-2 bg-black bg-opacity-0 hover:bg-opacity-10 px-4 py-2 outline-2 cursor-default"
-                      )}
-                    >
-                      <Icon />
-                      <span className="text-sm leading-6 font-poppins">
-                        {name}
-                      </span>
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </>
-          )}
+                  Save
+                </button>
+                <button
+                  onClick={(e) => handleDefaultDelete(e)}
+                  className="px-1 bg-black bg-opacity-0 rounded hover:bg-opacity-10"
+                >
+                  <XIcon className="w-2 h-2 text-black" />
+                </button>
+              </div>
+            ) : (
+              <>
+                <span className="text-base font-poppins">{selected.name}</span>
+                <button className="ml-auto">
+                  <DownArrow
+                    className={classNames(
+                      "w-3 h-3 transform",
+                      listOpen ? "rotate-180" : "rotate-0"
+                    )}
+                  />
+                </button>
+              </>
+            )}
+          </button>
+          <Transition show={listOpen}>
+            <Listbox.Options
+              className={
+                "absolute w-full bg-white border border-border-gray z-40 overflow-hidden rounded-b-lg focus:outline-none max-h-56 overflow-y-auto py-2 shadow-dropdown2"
+              }
+            >
+              {dropdownList.map(({ name, value, Icon }, idx) => (
+                <Listbox.Option
+                  value={value}
+                  key={idx}
+                  className={classNames(
+                    "flex items-center text-text-gray gap-x-2 bg-black bg-opacity-0 hover:bg-opacity-10 px-4 py-2 outline-2 cursor-default"
+                  )}
+                >
+                  <Icon />
+                  <span className="text-sm leading-6 font-poppins">{name}</span>
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
         </Listbox>
       </div>
     </div>
