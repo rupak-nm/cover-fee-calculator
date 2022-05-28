@@ -1,5 +1,5 @@
-import "@fontsource/poppins";
-import "@fontsource/sora";
+import "@fontsource/poppins/latin.css";
+import "@fontsource/sora/latin.css";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { createContext, useState } from "react";

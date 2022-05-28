@@ -121,7 +121,7 @@ const Calculator = () => {
     getStats();
 
   return (
-    <div className="px-4 py-12 sm:px-7 lg:px-20 sm:py-10 lg:pt-8 lg:pb-12 bg-prim-gray font-poppins">
+    <div className="h-full px-4 py-12 pb-14 sm:px-7 lg:px-20 sm:py-10 lg:pt-8 lg:pb-12 bg-prim-gray font-poppins">
       <h1 className="hidden text-xl font-bold lg:block">
         Cover Fee Calculator
       </h1>
@@ -210,7 +210,9 @@ const Calculator = () => {
       </div>
       <Divider className="mt-6" />
       <div className="mt-6">
-        <h2 className="text-xs font-semibold">{"YOUR COVER RATE & FEE"}</h2>
+        <h2 className="text-xs font-semibold text-prim-blue">
+          {"YOUR COVER RATE & FEE"}
+        </h2>
         <h1 className="mt-2 text-2xl font-bold text-text-prim">
           {coverRate ? `${coverRate}` : <i>N/A</i>} /{" "}
           {coverFee ? `${coverFee} DAI` : <i>N/A</i>}
