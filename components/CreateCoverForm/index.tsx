@@ -327,7 +327,7 @@ export const CreateCoverForm: FC = () => {
           required
         />
 
-        <div className="flex items-center gap-2 py-4 mt-6">
+        <div className="flex items-center gap-2 py-4 mt-3">
           <SVGCheckbox
             checked={formData.requiresWhitelist}
             label="Requires Whitelist"
@@ -353,7 +353,7 @@ export const CreateCoverForm: FC = () => {
           </Tooltip>
         </div>
 
-        <Divider className="mt-10" />
+        <Divider className="mt-8" />
 
         <div className="mt-10">
           <div className="flex items-center">
