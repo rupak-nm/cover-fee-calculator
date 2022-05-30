@@ -16,15 +16,7 @@ import {
 } from "@svg";
 import { classNames } from "@utils/functions";
 import { useClickOutside } from "@utils/hooks/useClickOutside";
-import {
-  ChangeEvent,
-  ElementType,
-  FC,
-  KeyboardEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ElementType, FC, useEffect, useRef, useState } from "react";
 import { DisplayProfiles } from "./DisplayProfiles";
 
 type Profile = { Icon: ElementType; name: string; value: string };
@@ -116,7 +108,10 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
 
   const divRef = useRef(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  useClickOutside(divRef, () => setListOpen(false));
+  useClickOutside(divRef, () => {
+    if (!inputVal) setSelected(initialSelected);
+    setListOpen(false);
+  });
 
   const dropdownList = profileList.filter(
     (p) => !value.map((s) => s.profile).includes(p.value)
@@ -151,7 +146,7 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
 
   const isValidInput = (val: string) => {
     const UrlRegex =
-      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+      /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)$/;
     return val.match(UrlRegex);
   };
 
@@ -177,21 +172,6 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
     _saved.splice(itemIndex, 1);
     setValue(_saved);
   };
-
-  const DisplayCard: FC<DisplayCardProps> = ({ Icon, text, onDelete }) => (
-    <div
-      className={`w-full outline-none ring-0 focus:ring-3/2 ring-prim-border focus:shadow-input text-left flex gap-x-2 text-text-gray bg-white px-4.5 pr-3.5 py-4 border border-border-gray rounded-lg`}
-    >
-      <Icon />
-      <span className="text-base font-poppins">{text}</span>
-      <button
-        onClick={() => onDelete()}
-        className="px-1 ml-auto bg-black bg-opacity-0 rounded hover:bg-opacity-10"
-      >
-        <XIcon className="w-2 h-2 text-black" />
-      </button>
-    </div>
-  );
 
   return (
     <div className={classNames(wrapperClass, "flex flex-col")}>
@@ -237,7 +217,7 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
                   value={inputVal}
                   onChange={(e) => handleInputChange(e)}
                   required
-                  type="url"
+                  type="text"
                 />
                 <button
                   className="px-4 text-sm leading-5 text-prim-border"
@@ -258,7 +238,7 @@ export const SocialProfileSelect: FC<SocialProfileSelectProps> = ({
                 <button className="ml-auto">
                   <DownArrow
                     className={classNames(
-                      "w-3 h-3 transform",
+                      "w-3 h-3 transform text-black",
                       listOpen ? "rotate-180" : "rotate-0"
                     )}
                   />
