@@ -12,6 +12,7 @@ interface MultiInputFieldProps {
   className?: string;
   formInputProps?: Object;
   maxFields?: number;
+  required?: boolean;
 }
 
 const MultiInputField: FC<MultiInputFieldProps> = ({
@@ -23,6 +24,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
   className = "",
   formInputProps = {},
   maxFields = Infinity,
+  required = false,
 }) => {
   const handleInputChange = (val: string, i: number) => {
     let arr = value;
@@ -71,6 +73,7 @@ const MultiInputField: FC<MultiInputFieldProps> = ({
               </div>
             )
           }
+          required={required}
         >
           <div
             className={classNames(

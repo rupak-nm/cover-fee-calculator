@@ -9,6 +9,7 @@ interface TagsInputProps {
   className?: string;
   placeholder?: string;
   helpText?: string;
+  required?: boolean;
 }
 
 export const TagsInput: FC<TagsInputProps> = ({
@@ -18,6 +19,7 @@ export const TagsInput: FC<TagsInputProps> = ({
   className = "",
   placeholder = "",
   helpText = "Enter a comma (,) after each tag.",
+  required = false,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [showCopiedIcon, setShowCopiedIcon] = useState(false);
@@ -77,8 +79,13 @@ export const TagsInput: FC<TagsInputProps> = ({
 
   return (
     <div>
-      <label className="text-sm font-semibold uppercase font-poppins text-prim-blue">
+      <label className="text-sm font-semibold tracking-wider uppercase font-poppins text-prim-blue">
         {label}
+        {required && (
+          <span className="text-base leading-none text-red-700 font-poppins">
+            *
+          </span>
+        )}
       </label>
       <div
         className={classNames(
