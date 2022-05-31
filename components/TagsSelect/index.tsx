@@ -155,7 +155,7 @@ export const TagsSelect: FC<TagsSelectProps> = ({
             <span className="sr-only">Open Dropdown</span>
             <DownArrow
               className={classNames(
-                "w-4 h-4 transition-all",
+                "w-3 h-3 transition-all",
                 open ? "rotate-180" : "rotate-0"
               )}
             />

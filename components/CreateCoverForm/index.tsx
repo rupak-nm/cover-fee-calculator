@@ -335,7 +335,7 @@ export const CreateCoverForm: FC = () => {
             onChange={(checked) =>
               handleInputChange("requiresWhitelist", checked)
             }
-            className="w-6 h-6"
+            className="w-4 h-4"
           />
           <Tooltip
             text="If you select this checkbox, only pre-whitelisted addresses will
