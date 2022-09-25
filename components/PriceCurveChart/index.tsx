@@ -150,8 +150,7 @@ const PriceCurveChart = () => {
       !state.reassuranceAmount ||
       !state.totalCommitment ||
       !state.floor ||
-      !state.ceiling ||
-      !state.provision
+      !state.ceiling
     ) {
       if (chartRef.current?.chart) {
         chartRef.current.chart.showLoading(

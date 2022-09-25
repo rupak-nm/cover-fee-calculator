@@ -13,6 +13,7 @@
     "@fontsource/sora": "4.5.5",
     "highcharts": "9.1.2",
     "highcharts-react-official": "3.0.0",
+    "moment": "^2.29.4",
     "next": "12.1.2",
     "react": "17.0.2",
     "react-currency-input-field": "3.6.0",

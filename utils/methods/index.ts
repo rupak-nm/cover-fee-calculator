@@ -1,3 +1,13 @@
+import moment from "moment";
+
+const COVERAGE_LAG = 1 * 86400;
+const MULTIPLIER = 10_000;
+const INCIDENT_SUPPORT_POOL_CAP_RATIO = MULTIPLIER;
+
+const truncate = (x: number, p: number) => {
+  return Math.trunc(x * Math.pow(10, p)) / Math.pow(10, p);
+};
+
 const formatPercent = (x: number) => {
   if (isNaN(x)) {
     return "";
@@ -87,23 +97,34 @@ const formatCurrency = (input: number, currency = "USD", token = false) => {
   };
 };
 
-const getCoverFee = (data: any) => {
-  // CONSTANTS
-  const MULTIPLIER = 10_000;
-  const INCIDENT_SUPPORT_POOL_CAP_RATIO = 2500;
+const getDaysCovered = (startTimestamp: any, duration: number) => {
+  const monthToAdd =
+    moment.unix(startTimestamp).utc(false).date() >= 25
+      ? duration
+      : duration - 1;
+  return moment
+    .unix(startTimestamp)
+    .utc(false)
+    .add(monthToAdd, "months")
+    .endOf("month")
+    .diff(moment.unix(startTimestamp), "days");
+};
 
+const getCoverFee = (data: any) => {
   data.supportPool =
-    ((data.reassuranceAmount + data.provision) *
-      INCIDENT_SUPPORT_POOL_CAP_RATIO) /
-    MULTIPLIER;
+    (data.reassuranceAmount * INCIDENT_SUPPORT_POOL_CAP_RATIO) / MULTIPLIER;
+
   data.totalAvailableLiquidity = data.inVault + data.supportPool;
 
   if (data.amount > data.totalAvailableLiquidity) {
     throw new Error("Balance insufficient");
   }
 
-  data.utilizationRatio =
-    (data.totalCommitment + data.amount) / data.totalAvailableLiquidity;
+  data.utilizationRatio = truncate(
+    (data.totalCommitment + data.amount) / data.totalAvailableLiquidity,
+    4
+  );
+
   let rate =
     data.utilizationRatio > data.floor ? data.utilizationRatio : data.floor;
 
@@ -115,7 +136,11 @@ const getCoverFee = (data: any) => {
 
   data.rate = rate;
 
-  data.projectedFee = (data.rate * data.amount * data.duration) / 12;
+  const days = getDaysCovered(moment().unix() + COVERAGE_LAG, data.duration);
+
+  console.log(data.amount);
+
+  data.projectedFee = (data.amount * data.rate * days) / 365;
 
   return data;
 };

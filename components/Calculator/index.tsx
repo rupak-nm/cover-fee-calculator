@@ -63,8 +63,8 @@ const Calculator = () => {
         : "",
       coverAmount: getPlainNumber(formData["coverAmount"]),
       duration: getPlainNumber(formData["coverDuration"]),
-      provision: "1000000",
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData]);
 
   const getStats: any = () => {
@@ -87,7 +87,6 @@ const Calculator = () => {
     if (
       !isKeyEmpty(data, [
         "reassuranceAmount",
-        "provision",
         "inVault",
         "coverAmount",
         "totalCommitment",
