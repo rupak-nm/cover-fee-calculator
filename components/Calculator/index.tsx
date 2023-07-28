@@ -12,6 +12,8 @@ import { formatPercent, getCoverFee } from "@utils/methods";
 import { useData } from "lib/chart/useData";
 import { useEffect, useState } from "react";
 
+const CURRENCY_SYMBOL = "USDC";
+
 const Calculator = () => {
   const options = [
     { name: "Select a Duration", value: "" },
@@ -144,7 +146,7 @@ const Calculator = () => {
         <h1 className="text-xl">Customize Liquidity</h1>
         <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
           <InputField
-            label="Amount in Valut"
+            label="Amount in Liquidity Pool"
             placeholder="$30,000,000"
             value={formData["vaultAmount"]}
             setValue={(val) => handleChange("vaultAmount", val)}
@@ -158,7 +160,7 @@ const Calculator = () => {
             prefix="$"
           />
           <InputField
-            label="Commitments"
+            label="Commitments (Active Protection)"
             placeholder="$1,000,000"
             value={formData["commitments"]}
             setValue={(val) => handleChange("commitments", val)}
@@ -215,7 +217,7 @@ const Calculator = () => {
         </h2>
         <h1 className="mt-2 text-2xl font-bold text-text-prim">
           {coverRate ? `${coverRate}` : <i>N/A</i>} /{" "}
-          {coverFee ? `${coverFee} DAI` : <i>N/A</i>}
+          {coverFee ? `${coverFee} ${CURRENCY_SYMBOL}` : <i>N/A</i>}
         </h1>
       </div>
     </div>

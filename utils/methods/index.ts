@@ -107,7 +107,7 @@ const getCoverFee = (data: any) => {
   let rate =
     data.utilizationRatio > data.floor ? data.utilizationRatio : data.floor;
 
-  rate = rate + (data.duration * 100) / MULTIPLIER;
+  rate = rate + data.duration * 100; // reference: https://github.com/neptune-mutual-blue/protocol/blob/develop/contracts/libraries/PolicyHelperV1.sol#L44
 
   if (rate > data.ceiling) {
     rate = data.ceiling;
