@@ -8,7 +8,7 @@ import {
   getPlainNumber,
   isKeyEmpty,
 } from "@utils/formatting";
-import { formatPercent, getCoverFee } from "@utils/methods";
+import { formatCurrency, formatPercent, getCoverFee, getTotalAvailableLiquidity } from "@utils/methods";
 import { useData } from "lib/chart/useData";
 import { useEffect, useState } from "react";
 
@@ -65,7 +65,6 @@ const Calculator = () => {
         : "",
       coverAmount: getPlainNumber(formData["coverAmount"]),
       duration: getPlainNumber(formData["coverDuration"]),
-      provision: "1000000",
     });
   }, [formData]);
 
@@ -74,8 +73,10 @@ const Calculator = () => {
 
     // availableLiquidity & utilizationRatio
     if (data.inVault && data.reassuranceAmount) {
-      availableLiquidity =
-        parseFloat(data.inVault) + parseFloat(data.reassuranceAmount) * 0.25;
+      availableLiquidity = getTotalAvailableLiquidity({
+        inVault: parseFloat(data.inVault),
+        reassuranceAmount: parseFloat(data.reassuranceAmount)
+      })
 
       if (data.totalCommitment) {
         utilizationRatio = formatPercent(
@@ -89,7 +90,6 @@ const Calculator = () => {
     if (
       !isKeyEmpty(data, [
         "reassuranceAmount",
-        "provision",
         "inVault",
         "coverAmount",
         "totalCommitment",
@@ -106,7 +106,7 @@ const Calculator = () => {
         });
 
         coverRate = formatPercent(_data.rate.toString());
-        coverFee = _data.projectedFee.toFixed(2);
+        coverFee = formatCurrency(_data.projectedFee, CURRENCY_SYMBOL, true).short;
       } catch (err) {
         // console.log({ err });
       }
@@ -216,8 +216,8 @@ const Calculator = () => {
           {"YOUR COVER RATE & FEE"}
         </h2>
         <h1 className="mt-2 text-2xl font-bold text-text-prim">
-          {coverRate ? `${coverRate}` : <i>N/A</i>} /{" "}
-          {coverFee ? `${coverFee} ${CURRENCY_SYMBOL}` : <i>N/A</i>}
+          {coverRate ? coverRate : <i>N/A</i>} /{" "}
+          {coverFee ? coverFee : <i>N/A</i>}
         </h1>
       </div>
     </div>

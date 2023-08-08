@@ -48,9 +48,11 @@ export const getLocaleNumber = (plainNumber, locale = "en") => {
 
 export const castToNumber = (obj = {}) => {
   const newObj = {};
-  Object.keys(obj).map((k) => {
-    newObj[k] = obj[k] !== "" ? parseFloat(obj[k]) : "";
-  });
+  for (const key in obj) {
+    const element = obj[key];
+    newObj[key] = element !== "" ? parseFloat(element) : "";
+  }
+
   return newObj;
 };
 

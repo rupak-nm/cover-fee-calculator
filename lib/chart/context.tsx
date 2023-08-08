@@ -7,7 +7,6 @@ export type dataType = {
   inVault: string;
   totalCommitment: string;
   reassuranceAmount: string;
-  provision: string;
   coverAmount: string;
   duration: string;
 };
@@ -18,7 +17,6 @@ const initialValue = {
   inVault: "30000000",
   totalCommitment: "1000000",
   reassuranceAmount: "1000000",
-  provision: "1000000",
   coverAmount: "10000",
   duration: "1",
 };
