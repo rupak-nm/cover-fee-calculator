@@ -2,17 +2,23 @@ import Divider from "@components/Divider";
 import InfoText from "@components/InfoText";
 import InputField from "@components/InputField";
 import Select from "@components/Select";
+import { REASSURANCE_TOKEN_SYMBOL } from "@config/constants";
 import {
   castToNumber,
   getLocaleNumber,
   getPlainNumber,
   isKeyEmpty,
 } from "@utils/formatting";
-import { formatCurrency, formatPercent, getCoverFee, getTotalAvailableLiquidity } from "@utils/methods";
+import {
+  formatCurrency,
+  formatPercent,
+  getCoverFee,
+  getTotalAvailableLiquidity,
+} from "@utils/methods";
 import { useData } from "lib/chart/useData";
 import { useEffect, useState } from "react";
 
-const CURRENCY_SYMBOL = "USDC";
+const CURRENCY_SYMBOL = REASSURANCE_TOKEN_SYMBOL;
 
 const Calculator = () => {
   const options = [
@@ -75,8 +81,8 @@ const Calculator = () => {
     if (data.inVault && data.reassuranceAmount) {
       availableLiquidity = getTotalAvailableLiquidity({
         inVault: parseFloat(data.inVault),
-        reassuranceAmount: parseFloat(data.reassuranceAmount)
-      })
+        reassuranceAmount: parseFloat(data.reassuranceAmount),
+      });
 
       if (data.totalCommitment) {
         utilizationRatio = formatPercent(
@@ -106,7 +112,11 @@ const Calculator = () => {
         });
 
         coverRate = formatPercent(_data.rate.toString());
-        coverFee = formatCurrency(_data.projectedFee, CURRENCY_SYMBOL, true).short;
+        coverFee = formatCurrency(
+          _data.projectedFee,
+          CURRENCY_SYMBOL,
+          true
+        ).short;
       } catch (err) {
         // console.log({ err });
       }

@@ -24,6 +24,7 @@ import { convertFromUnits } from "@utils/functions/bn";
 import { getParsedKey, toBytes32 } from "@utils/helpers/cover";
 import { payouts } from "mock/payouts";
 import { covers } from "mock/covers";
+import { REASSURANCE_TOKEN_SYMBOL } from "../../config/constants";
 
 const DetailsRenderer = ({ row }) => {
   return (
@@ -59,13 +60,19 @@ const AmountRenderer = ({ row }) => {
       <div className="flex items-center justify-end text-sm font-medium whitespace-nowrap font-poppins">
         <span
           title={`${
-            formatCurrency(convertFromUnits(row.amount).toString(), "DAI", true)
-              .long
+            formatCurrency(
+              convertFromUnits(row.amount).toString(),
+              REASSURANCE_TOKEN_SYMBOL,
+              true
+            ).long
           }`}
         >
           {
-            formatCurrency(convertFromUnits(row.amount).toString(), "DAI", true)
-              .short
+            formatCurrency(
+              convertFromUnits(row.amount).toString(),
+              REASSURANCE_TOKEN_SYMBOL,
+              true
+            ).short
           }
         </span>
       </div>

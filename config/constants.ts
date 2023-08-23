@@ -53,3 +53,5 @@ export const token = {
   liquidityTokenAddress: "0x76061C192fBBBF210d2dA25D4B8aaA34b798ccaB",
   NPMTokenAddress: "0x001Ffb65fF6E15902072C5133C016fD89cB56a7e",
 };
+
+export const REASSURANCE_TOKEN_SYMBOL = "USDC";

@@ -22,6 +22,7 @@ import { Tooltip } from "@components/common/Tooltip";
 import { SVGCheckbox } from "@components/Checkbox/SVGCheckbox";
 import useMediaQuery from "@utils/hooks/useMediaQuery";
 import { Saved, SocialProfileSelect } from "@components/SocialProfileSelect";
+import { REASSURANCE_TOKEN_SYMBOL } from "@config/constants";
 
 interface FormData {
   coverName: string;
@@ -126,7 +127,7 @@ export const CreateCoverForm: FC = () => {
       npmTokenSymbol,
       true
     ).short,
-    dai: formatCurrency(
+    usdc: formatCurrency(
       parseFloat(convertFromUnits(reTokenBalance).toString()),
       liquidityTokenSymbol,
       true
@@ -507,12 +508,12 @@ export const CreateCoverForm: FC = () => {
             placeholer="0.00"
             helpText={
               <span className="text-sm font-poppins">
-                Balance: {balance.dai}
-                {error.dai && (
+                Balance: {balance.usdc}
+                {error.usdc && (
                   <>
                     <br />
                     <span className="text-red-500 font-poppins">
-                      {error.dai}
+                      {error.usdc}
                     </span>
                   </>
                 )}
@@ -520,16 +521,16 @@ export const CreateCoverForm: FC = () => {
             }
             value={formData.reassuranceAmount}
             setValue={(val) => handleInputChange("reassuranceAmount", val)}
-            tokenName="DAI"
+            tokenName={REASSURANCE_TOKEN_SYMBOL}
             disabled={reApproving}
-            disabledBtn={isEmpty.re || reApproved || Boolean(error.dai)}
+            disabledBtn={isEmpty.re || reApproved || Boolean(error.usdc)}
             handleCLick={() => handleReTokenApprove()}
             className="mt-12"
             btnText={
               reApproved
                 ? "Approved"
                 : reApproving
-                ? "Approving DAI"
+                ? `Approving ${REASSURANCE_TOKEN_SYMBOL}`
                 : undefined
             }
             required
