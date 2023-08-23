@@ -26,21 +26,25 @@ interface HeaderProps {
 type NavlinkType = { label: string; href: string };
 
 export const navLinks: NavlinkType[] = [
+  // {
+  //   label: "Home",
+  //   href: "/",
+  // },
+  // {
+  //   label: "Whitelist",
+  //   href: "/whitelist",
+  // },
+  // {
+  //   label: "Payouts",
+  //   href: "/payouts",
+  // },
+  // {
+  //   label: "Calculator",
+  //   href: "/calculator",
+  // },
   {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "Whitelist",
-    href: "/whitelist",
-  },
-  {
-    label: "Payouts",
-    href: "/payouts",
-  },
-  {
-    label: "Calculator",
-    href: "/calculator",
+    label: "Cover Creator Form",
+    href: "/create",
   },
 ];
 
@@ -155,9 +159,9 @@ const Header: FC<HeaderProps> = ({
           </div>
         </div>
 
-        <div className="items-center hidden lg:flex">
+        {/* <div className="items-center hidden lg:flex">
           <Wallet />
-        </div>
+        </div> */}
 
         <div className="flex items-center lg:hidden">
           <button onClick={() => setIsModalOpen(true)}>
@@ -169,7 +173,7 @@ const Header: FC<HeaderProps> = ({
             onClose={() => setIsModalOpen(false)}
             navKey={navKey}
           >
-            <Wallet />
+            {/* <Wallet /> */}
           </NavModal>
         </div>
       </div>

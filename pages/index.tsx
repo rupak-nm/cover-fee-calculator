@@ -1,21 +1,24 @@
-import { CoverList } from "@components/CoverList";
+import Calculator from "@components/Calculator";
+import Chart from "@components/Chart";
 import Header from "@components/Header";
-import { NoCovers } from "@components/NoCovers";
-import { covers } from "mock/covers";
-// import { useFetchCovers } from "@utils/hooks/useFetchCovers";
 import { NextPage } from "next";
 
-const Home: NextPage = () => {
-  // const { data } = useFetchCovers();
-  const data = covers;
+const CalculatorPage: NextPage = () => {
   return (
     <div>
-      <Header title="Neptune Mutual - Create New Cover" />
-      <main>{data.length ? <CoverList covers={data} /> : <NoCovers />}</main>
+      <Header navKey="calculator" />
+      <main className="grid min-h-screen grid-cols-1 lg:grid-cols-7">
+        <div className="order-2 lg:order-1 lg:col-span-3">
+          <Calculator />
+        </div>
+        <div className="order-1 lg:order-2 lg:col-span-4">
+          <Chart />
+        </div>
+      </main>
 
       <footer></footer>
     </div>
   );
 };
 
-export default Home;
+export default CalculatorPage;
