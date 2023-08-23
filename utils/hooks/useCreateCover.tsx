@@ -21,6 +21,7 @@ import { useERC20Balance } from "./useERC20Balance";
 
 import { convertFromUnits } from "@utils/functions/bn";
 import { ICoverInfo } from "@neptunemutual/sdk/dist/types";
+import { REASSURANCE_TOKEN_SYMBOL } from "@config/constants";
 
 export const useCreateCover = ({
   reValue,
@@ -42,7 +43,7 @@ export const useCreateCover = ({
     prev?: string;
   }>({ curr: undefined, prev: undefined });
 
-  const [error, setError] = useState({ npm: "", dai: "" });
+  const [error, setError] = useState({ npm: "", usdc: "" });
 
   const [coverMinStake, setCoverMinStake] = useState<any>("0");
 
@@ -100,13 +101,13 @@ export const useCreateCover = ({
       ? "Balance less than minimum stake"
       : "";
 
-    const _daiError = isLessOrEqual(convertFromUnits(reTokenBalance), 0)
+    const _usdcError = isLessOrEqual(convertFromUnits(reTokenBalance), 0)
       ? "Balance not available"
       : isGreater(reValue, convertFromUnits(reTokenBalance).toString())
       ? "Amount greater than balance"
       : "";
 
-    setError({ npm: _npmError, dai: _daiError });
+    setError({ npm: _npmError, usdc: _usdcError });
   }, [npmValue, npmBalance, reTokenBalance, reValue, coverMinStake]);
 
   useEffect(() => {
@@ -126,7 +127,7 @@ export const useCreateCover = ({
     };
 
     const handleError = (err: any) => {
-      notifyError(err, "approve DAI");
+      notifyError(err, `approve ${REASSURANCE_TOKEN_SYMBOL}`);
     };
 
     const onTransactionResult = async (tx: any) => {
