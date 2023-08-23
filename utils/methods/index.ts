@@ -1,3 +1,21 @@
+import {
+  fromUnixTime,
+  getUnixTime,
+  differenceInDays,
+  endOfDay,
+  getDate,
+  addMonths,
+  endOfMonth,
+} from "date-fns";
+
+// CONSTANTS
+const DAYS = 24 * 60 * 60;
+const COVERAGE_LAG = 1 * DAYS;
+const MULTIPLIER = 10_000;
+const INCIDENT_SUPPORT_POOL_CAP_RATIO = 2500;
+
+const getBlockTimestamp = () => getUnixTime(new Date());
+
 const formatPercent = (x: number) => {
   if (isNaN(x)) {
     return "";
@@ -7,7 +25,7 @@ const formatPercent = (x: number) => {
 
   return new Intl.NumberFormat("en-US", {
     style: "percent",
-    maximumFractionDigits: percent < 1 ? 6 : 2,
+    maximumFractionDigits: percent < 1 ? 6 : 3,
   }).format(x);
 };
 
@@ -30,7 +48,7 @@ const asCurrency = (
     return `${sign}${number.toLocaleString("en-US")}${symbol} ${currency}`;
   }
 
-  let maximumFractionDigits = parseFloat(number.toString()) < 1 ? 8 : 2;
+  let maximumFractionDigits = parseFloat(number.toString()) < 1 ? 8 : 3;
 
   if (parseFloat(number.toString()) > 1000) {
     maximumFractionDigits = 0;
@@ -88,27 +106,55 @@ const formatCurrency = (input: number, currency = "USD", token = false) => {
   };
 };
 
+const getExpiryDate = (blockTimestamp: number, coverDuration: number) => {
+  const day = getDate(fromUnixTime(blockTimestamp));
+
+  let monthToAdd = coverDuration - 1;
+
+  if (day >= 25) {
+    // Add one month
+    monthToAdd += 1;
+  }
+
+  const date = addMonths(fromUnixTime(blockTimestamp), monthToAdd);
+
+  return endOfMonth(date);
+};
+
+const getTotalAvailableLiquidity = ({
+  inVault,
+  reassuranceAmount,
+}: {
+  reassuranceAmount: number;
+  inVault: number;
+}) => {
+  const reassuranceFund =
+    (reassuranceAmount * INCIDENT_SUPPORT_POOL_CAP_RATIO) / MULTIPLIER;
+
+  const totalAvailableLiquidity = inVault + reassuranceFund;
+  return totalAvailableLiquidity;
+};
+
 const getCoverFee = (data: any) => {
-  // CONSTANTS
-  const MULTIPLIER = 10_000;
-  const INCIDENT_SUPPORT_POOL_CAP_RATIO = 2500;
+  data.reassuranceFund =
+    (data.reassuranceAmount * INCIDENT_SUPPORT_POOL_CAP_RATIO) / MULTIPLIER;
 
-  data.supportPool =
-    ((data.reassuranceAmount + data.provision) *
-      INCIDENT_SUPPORT_POOL_CAP_RATIO) /
-    MULTIPLIER;
-  data.totalAvailableLiquidity = data.inVault + data.supportPool;
+  data.totalAvailableLiquidity = getTotalAvailableLiquidity({
+    inVault: data.inVault,
+    reassuranceAmount: data.reassuranceAmount,
+  });
 
-  if (data.amount > data.totalAvailableLiquidity) {
+  if (data.totalCommitment + data.amount > data.totalAvailableLiquidity) {
     throw new Error("Balance insufficient");
   }
 
   data.utilizationRatio =
     (data.totalCommitment + data.amount) / data.totalAvailableLiquidity;
+
   let rate =
     data.utilizationRatio > data.floor ? data.utilizationRatio : data.floor;
 
-  rate = rate + (data.duration * 100) / MULTIPLIER;
+  rate = (rate * MULTIPLIER + data.duration * 100) / MULTIPLIER;
 
   if (rate > data.ceiling) {
     rate = data.ceiling;
@@ -116,9 +162,43 @@ const getCoverFee = (data: any) => {
 
   data.rate = rate;
 
-  data.projectedFee = (data.rate * data.amount * data.duration) / 12;
+  const blockTimestamp = getBlockTimestamp();
+  const expiryDate = getExpiryDate(blockTimestamp, data.duration);
+  const effectiveFrom = endOfDay(fromUnixTime(blockTimestamp + COVERAGE_LAG));
+  const daysCovered = differenceInDays(expiryDate, effectiveFrom);
+
+  data.projectedFee = (data.rate * data.amount * daysCovered) / 365;
 
   return data;
 };
 
-export { formatPercent, formatCurrency, getCoverFee };
+const getRangeX = (inVault: number, reassuranceAmount: number) => {
+  const range = [
+    1, 5, 10, 15, 20, 50, 100, 150, 200, 500, 1000, 1500, 2000, 5000, 10_000,
+  ];
+  let max = getTotalAvailableLiquidity({ inVault, reassuranceAmount });
+
+  let current = 10_000;
+  let factor = 10_000;
+  let i = 1;
+  while (current < max) {
+    if (i % 100 == 0) {
+      factor = factor * 10;
+    }
+
+    current += factor;
+    range.push(current);
+
+    i++;
+  }
+
+  return range;
+};
+
+export {
+  formatPercent,
+  formatCurrency,
+  getCoverFee,
+  getTotalAvailableLiquidity,
+  getRangeX,
+};

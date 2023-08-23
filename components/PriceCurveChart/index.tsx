@@ -3,7 +3,12 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts, { Options } from "highcharts/highstock";
 
 import HighchartsExporting from "highcharts/modules/exporting";
-import { formatCurrency, formatPercent, getCoverFee } from "@utils/methods";
+import {
+  formatCurrency,
+  formatPercent,
+  getCoverFee,
+  getRangeX,
+} from "@utils/methods";
 import { useData } from "lib/chart/useData";
 import { castToNumber } from "@utils/formatting";
 
@@ -150,8 +155,7 @@ const PriceCurveChart = () => {
       !state.reassuranceAmount ||
       !state.totalCommitment ||
       !state.floor ||
-      !state.ceiling ||
-      !state.provision
+      !state.ceiling
     ) {
       if (chartRef.current?.chart) {
         chartRef.current.chart.showLoading(
@@ -164,13 +168,10 @@ const PriceCurveChart = () => {
       chartRef.current.chart.hideLoading();
     }
 
-    const amounts = [
-      1, 5, 10, 15, 20, 50, 100, 150, 200, 500, 1000, 1500, 2000, 5000, 10_000,
-      15_000, 20_000, 50_000, 100_000, 150_000, 200_000, 500_000, 1_000_000,
-      1_250_000, 1_500_000, 1_750_000, 2_000_000, 2_250_000, 2_500_000,
-      2_750_000, 3_000_000, 3_500_000, 4_000_000, 5_000_000, 10_000_000,
-    ];
-
+    const amounts = getRangeX(
+      parseFloat(state.inVault || "10_000"),
+      parseFloat(state.reassuranceAmount || "0")
+    );
     const c = castToNumber(state);
     const _data = [];
 
