@@ -35,7 +35,7 @@ const InputField: FC<InputFieldProps> = ({
 
   return (
     <div className={`flex flex-col font-poppins ${className}`}>
-      <label className="text-xs font-semibold uppercase text-text-gray">
+      <label className="text-xs font-semibold tracking-wider uppercase text-text-gray">
         {label}
       </label>
       <CurrencyInput
@@ -51,7 +51,7 @@ const InputField: FC<InputFieldProps> = ({
         decimalSeparator={decimal}
         groupSeparator={thousand}
         disableGroupSeparators={!numberFormat}
-        className="p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray focus:ring-2 focus:ring-gray-500 border-border-gray font-poppins"
+        className="p-4 mt-2 text-black bg-white border rounded-lg outline-none placeholder:text-text-gray focus:ring-3/2 focus:shadow-input ring-prim-border border-border-gray font-poppins"
         allowNegativeValue={allowNegative}
         {...inputProps}
       />

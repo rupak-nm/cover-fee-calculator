@@ -61,6 +61,8 @@ module.exports = {
         arrow: "url('/arrow.svg')",
       },
       padding: {
+        3.5: "14px",
+        "15px": "15px",
         4.5: "18px",
         15: "60px",
         25: "100px",

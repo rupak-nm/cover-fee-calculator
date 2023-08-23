@@ -3,7 +3,12 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts, { Options } from "highcharts/highstock";
 
 import HighchartsExporting from "highcharts/modules/exporting";
-import { formatCurrency, formatPercent, getCoverFee, getRangeX } from "@utils/methods";
+import {
+  formatCurrency,
+  formatPercent,
+  getCoverFee,
+  getRangeX,
+} from "@utils/methods";
 import { useData } from "lib/chart/useData";
 import { castToNumber } from "@utils/formatting";
 
@@ -164,9 +169,9 @@ const PriceCurveChart = () => {
     }
 
     const amounts = getRangeX(
-      parseFloat(state.inVault || '10_000'),
-      parseFloat(state.reassuranceAmount || '0')
-    )
+      parseFloat(state.inVault || "10_000"),
+      parseFloat(state.reassuranceAmount || "0")
+    );
     const c = castToNumber(state);
     const _data = [];
 
