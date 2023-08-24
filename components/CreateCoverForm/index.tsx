@@ -472,21 +472,21 @@ export const CreateCoverForm: FC = () => {
           <ApproveTokenInput
             label="Npm Stake"
             placeholer="0.00"
-            helpText={
-              <span className="text-sm font-poppins">
-                Balance: {balance.npm}
-                {error.npm && (
-                  <>
-                    <br />
-                    <span className="text-red-500 font-poppins">
-                      {error.npm}
-                    </span>
-                  </>
-                )}
-                <br />
-                Minimum Stake: {balance.minStake}
-              </span>
-            }
+            // helpText={
+            //   <span className="text-sm font-poppins">
+            //     Balance: {balance.npm}
+            //     {error.npm && (
+            //       <>
+            //         <br />
+            //         <span className="text-red-500 font-poppins">
+            //           {error.npm}
+            //         </span>
+            //       </>
+            //     )}
+            //     <br />
+            //     Minimum Stake: {balance.minStake}
+            //   </span>
+            // }
             value={formData.npmStake}
             setValue={(val) => handleInputChange("npmStake", val)}
             tokenName="NPM"
@@ -506,19 +506,19 @@ export const CreateCoverForm: FC = () => {
           <ApproveTokenInput
             label="Reassurance Amount"
             placeholer="0.00"
-            helpText={
-              <span className="text-sm font-poppins">
-                Balance: {balance.usdc}
-                {error.usdc && (
-                  <>
-                    <br />
-                    <span className="text-red-500 font-poppins">
-                      {error.usdc}
-                    </span>
-                  </>
-                )}
-              </span>
-            }
+            // helpText={
+            //   <span className="text-sm font-poppins">
+            //     Balance: {balance.usdc}
+            //     {error.usdc && (
+            //       <>
+            //         <br />
+            //         <span className="text-red-500 font-poppins">
+            //           {error.usdc}
+            //         </span>
+            //       </>
+            //     )}
+            //   </span>
+            // }
             value={formData.reassuranceAmount}
             setValue={(val) => handleInputChange("reassuranceAmount", val)}
             tokenName={REASSURANCE_TOKEN_SYMBOL}
@@ -538,7 +538,7 @@ export const CreateCoverForm: FC = () => {
         </div>
 
         <div className="mt-18">
-          <Checkbox
+          {/* <Checkbox
             id="test"
             checked={tosApproved}
             size="lg"
@@ -558,16 +558,15 @@ export const CreateCoverForm: FC = () => {
                 .
               </span>
             }
-          />
+          /> */}
         </div>
 
-        <RegularButton
+        {/* <RegularButton
           text={`Create ${formData.coverName || "Cover"}`}
           type="submit"
           className="w-full mt-8 py-btn-y px-btn-x sm:px-16 lg:px-btn-x sm:w-auto"
-          // disabled={submitDisabled}
-          disabled
-        />
+          disabled={submitDisabled}
+        /> */}
       </form>
     </div>
   );
