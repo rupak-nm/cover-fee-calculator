@@ -44,12 +44,12 @@ export const ApproveTokenInput: FC<ApproveTokenInputProps> = ({
         disabled={disabled}
         required={required}
       />
-      <RegularButton
+      {/* <RegularButton
         text={btnText ?? "Approve " + tokenName}
         className="w-full mt-6 py-btn-y px-btn-x sm:px-16 lg:px-btn-x sm:w-auto"
         onClick={(e) => handleCLick(e)}
         disabled={disabled || disabledBtn}
-      />
+      /> */}
     </div>
   );
 };
