@@ -16,99 +16,50 @@ const WEEK = 7 * DAY;
 const MONTH = 30 * DAY;
 const YEAR = 365 * DAY;
 
+/**
+ * @type {Array<{unit: Intl.RelativeTimeFormatUnit, divisor: number}>}
+ */
 const units = [
   {
-    max: 30 * SECOND,
-    divisor: 1,
-    past1: "just now",
-    pastN: "just now",
-    future1: "just now",
-    futureN: "just now",
-  },
-  {
-    max: MINUTE,
-    divisor: SECOND,
-    past1: "a second ago",
-    pastN: "# seconds ago",
-    future1: "in a second",
-    futureN: "in # seconds",
-  },
-  {
-    max: HOUR,
-    divisor: MINUTE,
-    past1: "a minute ago",
-    pastN: "# minutes ago",
-    future1: "in a minute",
-    futureN: "in # minutes",
-  },
-  {
-    max: DAY,
-    divisor: HOUR,
-    past1: "an hour ago",
-    pastN: "# hours ago",
-    future1: "in an hour",
-    futureN: "in # hours",
-  },
-  {
-    max: WEEK,
-    divisor: DAY,
-    past1: "yesterday",
-    pastN: "# days ago",
-    future1: "tomorrow",
-    futureN: "in # days",
-  },
-  {
-    max: 4 * WEEK,
-    divisor: WEEK,
-    past1: "last week",
-    pastN: "# weeks ago",
-    future1: "in a week",
-    futureN: "in # weeks",
-  },
-  {
-    max: YEAR,
-    divisor: MONTH,
-    past1: "last month",
-    pastN: "# months ago",
-    future1: "in a month",
-    futureN: "in # months",
-  },
-  {
-    max: 100 * YEAR,
+    unit: "year",
     divisor: YEAR,
-    past1: "last year",
-    pastN: "# years ago",
-    future1: "in a year",
-    futureN: "in # years",
   },
   {
-    max: 1000 * YEAR,
-    divisor: 100 * YEAR,
-    past1: "last century",
-    pastN: "# centuries ago",
-    future1: "in a century",
-    futureN: "in # centuries",
+    unit: "month",
+    divisor: MONTH,
   },
   {
-    max: Infinity,
-    divisor: 1000 * YEAR,
-    past1: "last millennium",
-    pastN: "# millennia ago",
-    future1: "in a millennium",
-    futureN: "in # millennia",
+    unit: "week",
+    divisor: WEEK,
+  },
+  {
+    unit: "day",
+    divisor: DAY,
+  },
+  {
+    unit: "hour",
+    divisor: HOUR,
+  },
+  {
+    unit: "minute",
+    divisor: MINUTE,
+  },
+  {
+    unit: "second",
+    divisor: SECOND,
   },
 ];
 
-export const fromNow = (date) => {
+export const fromNow = (date, locale = "en") => {
   if (!date) {
     return "";
   }
 
-  if (parseInt(date) === 0) {
-    return "";
+  if (typeof date === "string" && parseInt(date) === 0) {
+    return "Not available";
   }
 
-  if (!(date instanceof Date)) {
+  if (!(date instanceof Date) && ["string", "number"].includes(typeof date)) {
     date = DateLib.fromUnix(date);
   }
 
@@ -116,18 +67,21 @@ export const fromNow = (date) => {
     Date.now() - (typeof date === "object" ? date : new Date(date)).getTime();
   const diffAbs = Math.abs(diff);
 
-  for (const unit of units) {
-    if (diffAbs > unit.max) {
-      continue;
-    }
+  const matchedUnit = units.find((unit) => {
+    return diffAbs / unit.divisor >= 1;
+  });
 
-    const isFuture = diff < 0;
-    const x = Math.round(Math.abs(diff) / unit.divisor);
+  if (matchedUnit) {
+    const { divisor, unit } = matchedUnit;
+    let value = Math.round(diff / divisor);
+    value = value > 0 ? -1 * value : Math.abs(value);
 
-    if (x <= 1) {
-      return isFuture ? unit.future1 : unit.past1;
-    }
+    const rtf = new Intl.RelativeTimeFormat(locale, {
+      numeric: "auto",
+    });
 
-    return (isFuture ? unit.futureN : unit.pastN).replace("#", x);
+    return rtf.format(value, unit);
   }
+
+  return "just now";
 };
